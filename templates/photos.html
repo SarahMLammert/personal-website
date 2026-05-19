@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name = "viewport"
+            content="width=device-width, initial-scale=1.0" />
+        <title>Photos</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <h1 id="title">Photos</h1>
+        </div>
+        <div class="image-grid">
+            <img src="{{ url_for('static', filename='images/squirrel1.jpeg', ) }}">
+            <img src="{{ url_for('static', filename='images/squirrel2.jpeg', ) }}">
+            <img src="{{ url_for('static', filename='images/squirrel3.jpeg', ) }}">
+            <img src="{{ url_for('static', filename='images/squirrel4.jpeg', ) }}">
+            <img src="{{ url_for('static', filename='images/squirrel5.jpeg', ) }}">
+            <img src="{{ url_for('static', filename='images/squirrel6.jpeg', ) }}">
+            <img src="{{ url_for('static', filename='images/squirrel7.jpeg', ) }}">
+            <img src="{{ url_for('static', filename='images/squirrel8.jpeg', ) }}">
+            <img src="{{ url_for('static', filename='images/squirrel9.jpeg', ) }}">
+        </div>
+    </body>
+</html>

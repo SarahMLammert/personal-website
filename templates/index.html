@@ -5,15 +5,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sarah Lammert</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
-    <h1 id="title">Sarah Lammert</h1>
-
-    <p>
-        Computer Science graduate from Harvey Mudd College interested in how software and data can solve problems.
-    </p>
+    <div style="text-align: center;">
+        <h1 id="title">Sarah Lammert</h1>
+        <p>
+            Adaptable, curious, systems thinker actively seeking a position in a team-oriented organization that seeks to solve challenging problems using data and analytics.
+        </p>
+    </div>
 
     <ul>
         <li>
@@ -25,7 +26,7 @@
             </a>
         </li>
         <li>
-            <a href="https://www.sarahlammert.com/squirrelphotos" target="_blank">Squirrel Photos</a>
+            <a href="{{ url_for('photos') }}">Photos</a>
         </li>
     </ul>
 </body>
