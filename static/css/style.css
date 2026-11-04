@@ -37,9 +37,10 @@ body {
     margin: 0;
     font-family: var(--serif);
     font-weight: 500;
-    font-size: clamp(40px, 7vw, 76px);
+    font-size: clamp(38px, 6vw, 72px);
     line-height: 1.05;
     letter-spacing: .01em;
+    text-wrap: balance;
 }
 
 .rule {
@@ -721,6 +722,22 @@ body.lb-open { overflow: hidden; }
     right: 16px;
     font-size: 26px;
     z-index: 2;
+}
+
+/* on wider screens the caption sits on the counter in the middle of the ring */
+@media (min-width: 641px) {
+    .caption {
+        grid-area: stage;
+        position: relative;
+        z-index: 50;
+        align-self: center;
+        min-height: 0;
+        margin-top: -6px;
+        pointer-events: none;
+    }
+    .caption-cta { pointer-events: auto; }
+    .caption-sub { margin: 4px 0 14px; }
+    .dots { margin-top: 8px; }
 }
 
 /* ---------- Small screens ---------- */

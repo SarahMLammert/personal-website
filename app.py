@@ -39,6 +39,12 @@ def hub_cards():
     return cards
 
 
+# some browsers ask for /favicon.ico directly
+@app.route('/favicon.ico')
+def favicon():
+    return app.send_static_file('favicon.ico')
+
+
 @app.route('/')
 def home():
     return render_template('index.html', cards=hub_cards())
