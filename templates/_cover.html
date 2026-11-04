@@ -1,0 +1,8 @@
+{# A simple generated book cover: title and author on a colored board. #}
+{% macro cover(b, size='') %}
+<span class="bookcover{% if size %} bookcover--{{ size }}{% endif %}" style="--cover: {{ b.color }}" aria-hidden="true">
+    <span class="bookcover-title">{{ b.title }}</span>
+    <span class="bookcover-rule"></span>
+    <span class="bookcover-author">{{ b.author }}</span>
+</span>
+{% endmacro %}

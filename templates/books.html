@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Book Notes · Sarah May Hui Yu Lammert{% endblock %}
+{% block body_class %}theme-light{% endblock %}
+
+{% block content %}
+<main class="books-page">
+    <header class="page-head">
+        <h1 class="page-title">Book Notes</h1>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="page-sub">What I&rsquo;m reading, and what I took from it</p>
+    </header>
+
+    {% if groups %}
+    <div class="book-search">
+        <input type="search" id="bookSearch" placeholder="Find a book or author" aria-label="Find a book or author" autocomplete="off">
+        <span class="book-search-count" aria-live="polite"></span>
+    </div>
+    {% endif %}
+
+    {% for label, items in groups %}
+    <section class="shelf">
+        <h2 class="shelf-label">{{ label }} <span>{{ items|length }}</span></h2>
+        <ul class="bookcase">
+            {% for b in items %}
+            <li class="slot">
+                <a class="spine{% if b.has_notes %} spine--notes{% endif %}" data-search="{{ (b.title ~ ' ' ~ b.author)|lower }}"
+                   href="{{ url_for('book', slug=b.slug) }}"
+                   style="--cover: {{ b.color }}; --h: {{ b.spine_height }}px; --w: {{ b.spine_width }}px"
+                   title="{{ b.title }}{% if b.author %} by {{ b.author }}{% endif %}">
+                    <span class="spine-title">{{ b.title }}</span>
+                    {% if b.author %}<span class="spine-author">{{ b.author.split(',')[0].split(' ')[-1] }}</span>{% endif %}
+                    <span class="sr-only">{{ b.author }}{% if b.has_notes %}, has notes{% endif %}</span>
+                </a>
+            </li>
+            {% endfor %}
+            <li class="slot slot--end" aria-hidden="true"><span class="bookend"></span></li>
+        </ul>
+    </section>
+    {% else %}
+    <p class="empty">No book notes yet.</p>
+    {% endfor %}
+
+    <p class="shelf-hint">Books with a ribbon have notes. Pick one off the shelf.</p>
+</main>
+
+<script>
+    // filter the shelves as you type
+    (function () {
+        const input = document.getElementById('bookSearch');
+        if (!input) return;
+        const count = document.querySelector('.book-search-count');
+        const spines = Array.from(document.querySelectorAll('.spine'));
+        input.addEventListener('input', () => {
+            const q = input.value.trim().toLowerCase();
+            let shown = 0;
+            spines.forEach(s => {
+                const hit = !q || s.dataset.search.includes(q);
+                s.closest('.slot').hidden = !hit;
+                if (hit) shown++;
+            });
+            document.querySelectorAll('.shelf').forEach(sh => {
+                sh.hidden = !!q && !sh.querySelector('.slot:not([hidden]) .spine');
+            });
+            count.textContent = q ? `${shown} ${shown === 1 ? 'book' : 'books'}` : '';
+        });
+    })();
+</script>
+{% endblock %}

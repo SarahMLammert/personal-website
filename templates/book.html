@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% from "_cover.html" import cover %}
+
+{% block title %}{{ book.title }} · Book Notes{% endblock %}
+{% block body_class %}theme-light{% endblock %}
+
+{% macro outline(nodes) %}
+<ul class="outline">
+    {% for n in nodes %}
+    <li>{{ n.text }}{% if n.children %}{{ outline(n.children) }}{% endif %}</li>
+    {% endfor %}
+</ul>
+{% endmacro %}
+
+{% block content %}
+<main class="book-page">
+    <a class="crumb" href="{{ url_for('books') }}">&larr; All book notes</a>
+
+    <header class="book-head">
+        {{ cover(book, 'large') }}
+        <div>
+            <p class="book-status">{{ book.status }}</p>
+            <h1 class="book-page-title">{{ book.title }}</h1>
+            {% if book.author %}<p class="book-page-author">{{ book.author }}</p>{% endif %}
+        </div>
+    </header>
+
+    <article class="notes">
+        {% for n in book.notes %}
+            {% if n.heading %}
+            <section class="note-section">
+                <h2>{{ n.text }}</h2>
+                {% if n.children %}{{ outline(n.children) }}{% endif %}
+            </section>
+            {% else %}
+            <p class="note-line">{{ n.text }}</p>
+            {% if n.children %}{{ outline(n.children) }}{% endif %}
+            {% endif %}
+        {% else %}
+            <p class="empty">No notes yet.</p>
+        {% endfor %}
+    </article>
+</main>
+{% endblock %}

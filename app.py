@@ -1,7 +1,9 @@
 import re
 from pathlib import Path
 
-from flask import Flask, render_template, url_for
+from flask import Flask, abort, render_template, url_for
+
+from books import grouped, load_books
 
 app = Flask(__name__)
 
@@ -15,6 +17,8 @@ HUB_ITEMS = [
      "sushi": "toro", "plate": "red"},
     {"title": "Projects", "description": "Data and analytics work.", "endpoint": "projects",
      "sushi": "spicy", "plate": "blue"},
+    {"title": "Book Notes", "description": "Notes from what I\u2019m reading.", "endpoint": "books",
+     "sushi": "tempura", "plate": "yellow"},
     {"title": "Writing", "description": "Notes and posts.",
      "sushi": "unagi", "plate": "green"},
     {"title": "GitHub", "description": "Code and repositories.",
@@ -125,7 +129,32 @@ PROJECTS = [
         "image": "images/projects/atlas-map.jpg",
         "image_alt": "Map of the United States covered in colored dots, one for each college football player's hometown",
         "url": "https://sarahmlammert.github.io/college-sports-atlas/index.html",
+        "cta": "Explore the atlas",
         "code": "https://github.com/SarahMLammert/college-sports-atlas",
+    },
+    {
+        "title": "This Website",
+        "kicker": "Design and front end",
+        "summary": "A personal site served like a sushi bar.",
+        "story": [
+            {"label": "Personal page and squirrel photos",
+             "title": "Where do I start?",
+             "text": "First, I made a simple personal page and displayed my squirrel photos."},
+            {"label": "Sushi theme",
+             "title": "How do I make it fun?",
+             "text": "The sushi theme was a personal choice. I just wanted the site to be fun."},
+            {"label": "Bookshelf",
+             "title": "Where do my book notes go?",
+             "text": "I put the book notes I write in Obsidian on a bookshelf with room for a lot of books."},
+        ],
+        "features": ["Rotating sushi belt", "Spotlight on the front plate",
+                     "Photo gallery and viewer", "Bookshelf of book notes", "Project story flows"],
+        "tools": ["Python", "Flask", "Jinja", "JavaScript", "SVG", "CSS", "Obsidian", "Render"],
+        "image": "images/projects/website-home.jpg",
+        "image_alt": "The homepage: a round sushi conveyor belt on a dark counter, with the front plate in a spotlight",
+        "url": "/",
+        "cta": "Back to the counter",
+        "code": "https://github.com/SarahMLammert/personal-website",
     },
 ]
 
@@ -133,6 +162,20 @@ PROJECTS = [
 @app.route('/projects')
 def projects():
     return render_template('projects.html', projects=PROJECTS, github=GITHUB)
+
+
+# Book notes: every Markdown file in books/ (written in Obsidian) gets a page.
+@app.route('/books')
+def books():
+    return render_template('books.html', groups=grouped(load_books()))
+
+
+@app.route('/books/<slug>')
+def book(slug):
+    found = next((b for b in load_books() if b["slug"] == slug), None)
+    if not found:
+        abort(404)
+    return render_template('book.html', book=found)
 
 
 if __name__ == "__main__":
