@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Projects · Sarah Lammert{% endblock %}
+{% block body_class %}theme-light{% endblock %}
+
+{% block content %}
+<main class="projects-page">
+    <header class="page-head">
+        <h1 class="page-title">Projects</h1>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="page-sub">Data, maps and analysis</p>
+    </header>
+
+    {% for p in projects %}
+    <article class="project{% if loop.first %} project--featured{% endif %}">
+        <a class="project-shot" href="{{ p.url }}" target="_blank" rel="noopener" aria-label="Open {{ p.title }}">
+            <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.image_alt }}" loading="{{ 'eager' if loop.first else 'lazy' }}">
+            <span class="project-shot-cta">Explore &#8599;</span>
+        </a>
+
+        <div class="project-body">
+            <div class="project-main">
+                <p class="project-kicker">{{ p.kicker }}</p>
+                <h2 class="project-title">{{ p.title }}</h2>
+                <p class="project-summary">{{ p.summary }}</p>
+                {% if p.story %}
+                <h3 class="side-label flow-label">How it grew</h3>
+                <ol class="flow">
+                    {% for step in p.story %}
+                    <li class="flow-step{% if step.next %} flow-step--next{% endif %}" style="--i: {{ loop.index0 }}">
+                        <span class="flow-marker" aria-hidden="true">{{ '\u2192' if step.next else loop.index }}</span>
+                        <p class="flow-kicker">{% if step.next %}<span class="flow-badge">In progress</span> {% endif %}{{ step.label }}</p>
+                        <h4 class="flow-title">{{ step.title }}</h4>
+                        <p class="flow-text">{{ step.text }}</p>
+                    </li>
+                    {% endfor %}
+                </ol>
+                {% endif %}
+            </div>
+
+            <aside class="project-side">
+                <dl class="project-stats">
+                    {% for value, label in p.stats %}
+                    <div><dt>{{ value }}</dt><dd>{{ label }}</dd></div>
+                    {% endfor %}
+                </dl>
+
+                <h3 class="side-label">Inside</h3>
+                <ul class="chips">{% for f in p.features %}<li>{{ f }}</li>{% endfor %}</ul>
+
+                <h3 class="side-label">Built with</h3>
+                <p class="tools">{{ p.tools|join(' · ') }}</p>
+
+                <div class="project-links">
+                    <a class="btn btn--solid" href="{{ p.url }}" target="_blank" rel="noopener">Explore the atlas &#8599;</a>
+                    {% if p.code %}<a class="btn" href="{{ p.code }}" target="_blank" rel="noopener">View the code &#8599;</a>{% endif %}
+                </div>
+            </aside>
+        </div>
+    </article>
+    {% endfor %}
+
+    <p class="more-work">More of my work is on <a href="{{ github }}" target="_blank" rel="noopener">GitHub &#8599;</a></p>
+</main>
+
+<script>
+    // reveal the flow as it scrolls into view
+    (function () {
+        const flows = document.querySelectorAll('.flow');
+        if (!('IntersectionObserver' in window)) { flows.forEach(f => f.classList.add('in')); return; }
+        const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.1 });
+        flows.forEach(f => io.observe(f));
+    })();
+</script>
+{% endblock %}

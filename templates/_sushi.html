@@ -1,0 +1,143 @@
+{# Sushi drawings. defs() is included once per page; the gradients are shared. #}
+{% macro defs() %}
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-rice" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fbf8f1"/><stop offset="1" stop-color="#e3dac8"/>
+    </linearGradient>
+    <linearGradient id="g-salmon" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4a882"/><stop offset=".6" stop-color="#e8875e"/><stop offset="1" stop-color="#cf6a45"/>
+    </linearGradient>
+    <linearGradient id="g-tuna" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c9535b"/><stop offset=".6" stop-color="#a83a44"/><stop offset="1" stop-color="#842a33"/>
+    </linearGradient>
+    <linearGradient id="g-ebi" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f5b08a"/><stop offset="1" stop-color="#df7f52"/>
+    </linearGradient>
+    <linearGradient id="g-nori" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1a231e"/><stop offset=".35" stop-color="#2b3a32"/><stop offset="1" stop-color="#161d19"/>
+    </linearGradient>
+    <radialGradient id="g-roe" cx=".35" cy=".35" r=".7">
+      <stop offset="0" stop-color="#ffb070"/><stop offset=".55" stop-color="#e2692a"/><stop offset="1" stop-color="#b04a17"/>
+    </radialGradient>
+    <linearGradient id="g-toro" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4a19a"/><stop offset=".5" stop-color="#e5707a"/><stop offset="1" stop-color="#c84a57"/>
+    </linearGradient>
+    <radialGradient id="g-uni" cx=".4" cy=".35" r=".75">
+      <stop offset="0" stop-color="#ffc562"/><stop offset=".6" stop-color="#f09a2c"/><stop offset="1" stop-color="#cf7414"/>
+    </radialGradient>
+    <linearGradient id="g-unagi" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a8682f"/><stop offset=".55" stop-color="#7d4720"/><stop offset="1" stop-color="#5a3014"/>
+    </linearGradient>
+    <linearGradient id="g-spicy" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ee7a52"/><stop offset="1" stop-color="#cf4f2e"/>
+    </linearGradient>
+    <radialGradient id="g-glass" cx=".4" cy=".3" r=".8">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".28"/><stop offset="1" stop-color="#ffffff" stop-opacity=".07"/>
+    </radialGradient>
+    <linearGradient id="g-knob" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2efe8"/><stop offset="1" stop-color="#a7a39b"/>
+    </linearGradient>
+  </defs>
+</svg>
+{% endmacro %}
+
+{% macro rice(cy=56, rx=40, ry=14) %}
+  <ellipse cx="60" cy="{{ cy }}" rx="{{ rx }}" ry="{{ ry }}" fill="url(#g-rice)"/>
+  {% for x, y in [(30,2),(44,6),(58,3),(72,7),(86,2),(38,-4),(80,-3)] %}
+  <ellipse cx="{{ x }}" cy="{{ cy + y }}" rx="2" ry="1" fill="#ffffff" opacity=".7"/>
+  {% endfor %}
+{% endmacro %}
+
+{% macro sushi(kind) %}
+<svg class="sushi" viewBox="0 0 120 80" aria-hidden="true">
+{% if kind in ['salmon', 'tuna'] %}
+  {{ rice() }}
+  <path d="M16 50 Q30 24 60 25 Q92 23 104 48 Q60 60 16 50Z" fill="url(#g-{{ kind }})"/>
+  {% if kind == 'salmon' %}
+  <path d="M34 31 Q40 41 36 52 M53 27 Q59 39 55 55 M72 27 Q78 39 74 55 M90 34 Q94 42 92 50" stroke="#fde6d8" stroke-opacity=".8" stroke-width="2" fill="none" stroke-linecap="round"/>
+  {% endif %}
+  <path d="M30 34 Q50 26 76 28" stroke="#ffffff" stroke-opacity=".35" stroke-width="3" fill="none" stroke-linecap="round"/>
+{% elif kind == 'toro' %}
+  {# fatty tuna topped with uni and caviar #}
+  {{ rice() }}
+  <path d="M14 50 Q26 26 58 26 Q94 23 106 46 Q60 60 14 50Z" fill="url(#g-toro)"/>
+  <path d="M28 46 Q34 36 30 30 M46 50 Q54 38 48 28 M70 51 Q78 38 72 27 M90 47 Q96 38 92 31" stroke="#fff3f0" stroke-opacity=".45" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <path d="M24 38 Q44 29 66 29" stroke="#ffffff" stroke-opacity=".3" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M42 32 Q42 22 52 22 Q57 15 66 19 Q76 16 80 25 Q84 32 74 34 Q62 37 50 36 Q41 36 42 32Z" fill="url(#g-uni)"/>
+  {% for x, y in [(50,28),(58,24),(66,27),(74,26),(56,32),(70,31)] %}
+  <circle cx="{{ x }}" cy="{{ y }}" r="1.3" fill="#ffd894" opacity=".7"/>
+  {% endfor %}
+  {% for x, y in [(56,18),(61,15),(66,17),(59,20),(64,21),(69,20),(54,21),(62,18),(67,14)] %}
+  <circle cx="{{ x }}" cy="{{ y }}" r="2.6" fill="#1c201b"/>
+  <circle cx="{{ x - 0.8 }}" cy="{{ y - 0.9 }}" r=".7" fill="#9aa59a"/>
+  {% endfor %}
+{% elif kind == 'spicy' %}
+  {# two spicy tuna rolls, rice on the outside #}
+  {% for x in [38, 82] %}
+  <rect x="{{ x - 21 }}" y="36" width="42" height="32" rx="7" fill="url(#g-rice)"/>
+  {% for dx, dy in [(-14,46),(-6,54),(4,49),(12,58),(-11,62),(8,42),(15,50)] %}
+  <ellipse cx="{{ x + dx }}" cy="{{ dy }}" rx="2" ry="1.1" fill="#ffffff" opacity=".8"/>
+  {% endfor %}
+  <path d="M{{ x - 21 }} 40 Q{{ x }} 50 {{ x + 21 }} 40" stroke="#cfc4ad" stroke-opacity=".6" stroke-width="1.5" fill="none"/>
+  {% for dx, dy in [(-12,50),(-3,59),(10,53),(16,44),(-17,56)] %}
+  <circle cx="{{ x + dx }}" cy="{{ dy }}" r="1.3" fill="#ea6a35"/>
+  {% endfor %}
+  <ellipse cx="{{ x }}" cy="36" rx="21" ry="8" fill="#f6f1e6" stroke="#d9cfba" stroke-width="1"/>
+  <ellipse cx="{{ x }}" cy="36" rx="13" ry="5" fill="none" stroke="#1d2620" stroke-width="1.6"/>
+  <ellipse cx="{{ x - 1 }}" cy="36.3" rx="8" ry="3.4" fill="url(#g-spicy)"/>
+  <circle cx="{{ x - 3 }}" cy="35.5" r=".8" fill="#ffb08f"/><circle cx="{{ x + 2 }}" cy="37" r=".8" fill="#ffb08f"/>
+  <path d="M{{ x + 4 }} 33.6 Q{{ x + 9 }} 34.5 {{ x + 7 }} 37.5" stroke="#9cc06a" stroke-width="2" fill="none" stroke-linecap="round"/>
+  {% endfor %}
+{% elif kind == 'unagi' %}
+  {# grilled eel with a seaweed band and glaze #}
+  <ellipse cx="60" cy="62" rx="44" ry="9" fill="#6b3d17" opacity=".35"/>
+  {{ rice() }}
+  <path d="M14 50 Q26 25 58 26 Q94 24 106 47 Q60 60 14 50Z" fill="url(#g-unagi)"/>
+  <path d="M26 44 L32 36 M40 46 L46 34 M74 46 L80 33 M88 46 L94 37" stroke="#4a2410" stroke-opacity=".55" stroke-width="2" stroke-linecap="round"/>
+  <path d="M24 38 Q44 28 70 29" stroke="#ffe2b8" stroke-opacity=".45" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M52 26.5 L66 26 L67 58 L53 58Z" fill="url(#g-nori)"/>
+  {% for x, y in [(34,33),(42,30),(80,31),(88,35),(74,36)] %}
+  <ellipse cx="{{ x }}" cy="{{ y }}" rx="1.4" ry=".8" fill="#f4e6c6"/>
+  {% endfor %}
+{% elif kind == 'tempura' %}
+  <path d="M52 30 Q44 8 30 4 Q40 14 42 20 Q34 12 26 14 Q40 20 46 30Z" fill="#d8603a"/>
+  <path d="M46 30 Q42 18 36 12" stroke="#f5b08a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <rect x="30" y="34" width="60" height="38" rx="8" fill="url(#g-nori)"/>
+  <ellipse cx="60" cy="34" rx="30" ry="10" fill="url(#g-rice)"/>
+  <ellipse cx="58" cy="34" rx="13" ry="5" fill="#d9a65a"/>
+  <circle cx="70" cy="35" r="3.5" fill="#8fb07a"/>
+{% elif kind == 'maki' %}
+  {# two salmon-and-cucumber rolls standing on end #}
+  {% for x in [38, 82] %}
+  <rect x="{{ x - 21 }}" y="36" width="42" height="32" rx="6" fill="url(#g-nori)"/>
+  <ellipse cx="{{ x }}" cy="36" rx="21" ry="8" fill="#1d2620"/>
+  <ellipse cx="{{ x }}" cy="36" rx="17.5" ry="6.4" fill="url(#g-rice)"/>
+  <ellipse cx="{{ x - 1 }}" cy="36.5" rx="7" ry="3" fill="url(#g-salmon)"/>
+  <ellipse cx="{{ x + 6 }}" cy="35" rx="3" ry="1.6" fill="#8fb07a"/>
+  <path d="M{{ x - 17 }} 44 L{{ x - 17 }} 62" stroke="#ffffff" stroke-opacity=".12" stroke-width="3" stroke-linecap="round"/>
+  {% endfor %}
+{% elif kind == 'ebi' %}
+  {{ rice(58, 40, 13) }}
+  <path d="M12 48 Q40 24 90 30 L108 19 L104 34 L112 46 L92 42 Q50 56 12 48Z" fill="url(#g-ebi)"/>
+  <path d="M90 30 L108 19 L104 34 L112 46 L92 42Z" fill="#c8502f"/>
+  <path d="M31 36 Q35 44 31 50 M48 31 Q52 40 48 50 M65 29 Q69 38 65 48 M80 30 Q83 37 80 44" stroke="#fff4ea" stroke-opacity=".85" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+{% elif kind == 'ikura' %}
+  <rect x="22" y="32" width="76" height="34" rx="9" fill="url(#g-nori)"/>
+  {% for x, y in [(34,30),(48,26),(62,29),(76,25),(88,30),(41,36),(56,35),(70,34),(83,36)] %}
+  <circle cx="{{ x }}" cy="{{ y }}" r="6.5" fill="url(#g-roe)"/>
+  <circle cx="{{ x - 2 }}" cy="{{ y - 2 }}" r="1.6" fill="#fff3e2" opacity=".9"/>
+  {% endfor %}
+{% endif %}
+</svg>
+{% endmacro %}
+
+{% macro cover() %}
+<svg class="cover" viewBox="0 0 120 80" aria-hidden="true">
+  <path d="M14 66 Q14 14 60 12 Q106 14 106 66Z" fill="url(#g-glass)" stroke="#ffffff" stroke-opacity=".4" stroke-width="1.2"/>
+  <path d="M28 40 Q34 24 50 19" stroke="#ffffff" stroke-opacity=".6" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M88 52 Q92 42 90 34" stroke="#ffffff" stroke-opacity=".2" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <ellipse cx="60" cy="66" rx="46" ry="3" fill="#ffffff" opacity=".18"/>
+  <ellipse cx="60" cy="11" rx="7" ry="4" fill="url(#g-knob)"/>
+</svg>
+{% endmacro %}

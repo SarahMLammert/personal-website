@@ -1,34 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% from "_sushi.html" import sushi, cover, defs %}
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sarah Lammert</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
+{% block content %}
+{{ defs() }}
+<main class="home">
+    <header class="masthead">
+        <h1 class="name">Sarah Lammert</h1>
+        <span class="rule" aria-hidden="true"></span>
+    </header>
 
-<body>
-    <div style="text-align: center;">
-        <h1 id="title">Sarah Lammert</h1>
-        <p>
-            Adaptable, curious, systems thinker actively seeking a position in a team-oriented organization that seeks to solve challenging problems using data and analytics.
-        </p>
-    </div>
+    <section class="carousel" data-ring aria-roledescription="carousel" aria-label="Sections">
+        <button class="nav nav--prev" type="button" aria-label="Previous">&#8249;</button>
 
-    <ul>
-        <li>
-            <a href="https://github.com/SarahMLammert" target="_blank">GitHub</a>
-        </li>
-        <li>
-            <a href="https://www.linkedin.com/in/sarahmlammert/" target="_blank">
-                LinkedIn
-            </a>
-        </li>
-        <li>
-            <a href="{{ url_for('photos') }}">Photos</a>
-        </li>
-    </ul>
-</body>
+        <div class="stage" tabindex="0">
+            <svg class="belt" aria-hidden="true">
+                <defs>
+                    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="#40301f"/>
+                        <stop offset="1" stop-color="#271b12"/>
+                    </linearGradient>
+                    <linearGradient id="side" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="#2a2c30"/>
+                        <stop offset="1" stop-color="#18191b"/>
+                    </linearGradient>
+                </defs>
+                <path class="belt-side" />
+                <path class="belt-top" />
+                <path class="belt-slats" />
+                <path class="belt-rail" />
+                <path class="counter" />
+            </svg>
+            <div class="spot-pool" aria-hidden="true"></div>
+            <div class="spot-beam" aria-hidden="true"></div>
 
-</html>
+            {% for card in cards %}
+            {% set tag = 'a' if card.href else 'div' %}
+            <{{ tag }} class="plate plate--{{ card.plate or 'red' }}{% if not card.href %} plate--soon{% endif %}"
+                {% if card.href %}href="{{ card.href }}"{% if card.external %} target="_blank" rel="noopener"{% endif %}{% endif %}
+                data-title="{{ card.title }}"
+                data-sub="{{ card.description }}"
+                data-href="{{ card.href or '' }}"
+                data-external="{{ 'true' if card.external else '' }}"
+                aria-label="{{ card.title }}{% if not card.href %} (coming soon){% endif %}">
+                <span class="plate-base"></span>
+                {{ sushi(card.sushi or 'salmon') }}
+                {{ cover() }}
+            </{{ tag }}>
+            {% endfor %}
+        </div>
+
+        <button class="nav nav--next" type="button" aria-label="Next">&#8250;</button>
+
+        <div class="caption" aria-live="polite">
+            <h2 class="caption-title"></h2>
+            <p class="caption-sub"></p>
+            <a class="caption-cta" href="#"></a>
+        </div>
+
+        <div class="dots">
+            {% for card in cards %}
+            <button type="button" class="dot" aria-label="Show {{ card.title }}"></button>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+
+<script src="{{ url_for('static', filename='js/ring.js') }}" defer></script>
+{% endblock %}

@@ -1,27 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta
-            name = "viewport"
-            content="width=device-width, initial-scale=1.0" />
-        <title>Photos</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    </head>
-    <body>
-        <div style="text-align: center;">
-            <h1 id="title">Photos</h1>
-        </div>
-        <div class="image-grid">
-            <img src="{{ url_for('static', filename='images/squirrel1.jpeg', ) }}">
-            <img src="{{ url_for('static', filename='images/squirrel2.jpeg', ) }}">
-            <img src="{{ url_for('static', filename='images/squirrel3.jpeg', ) }}">
-            <img src="{{ url_for('static', filename='images/squirrel4.jpeg', ) }}">
-            <img src="{{ url_for('static', filename='images/squirrel5.jpeg', ) }}">
-            <img src="{{ url_for('static', filename='images/squirrel6.jpeg', ) }}">
-            <img src="{{ url_for('static', filename='images/squirrel7.jpeg', ) }}">
-            <img src="{{ url_for('static', filename='images/squirrel8.jpeg', ) }}">
-            <img src="{{ url_for('static', filename='images/squirrel9.jpeg', ) }}">
-        </div>
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Photos · Sarah Lammert{% endblock %}
+
+{% block body_class %}theme-light{% endblock %}
+
+{% block content %}
+<main class="gallery-page">
+    <header class="page-head">
+        <h1 class="page-title">Photos</h1>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="page-sub">Squirrels, mainly</p>
+    </header>
+
+    <ul class="gallery">
+        {% for p in photos %}
+        <li class="shot" style="--i: {{ loop.index0 }}">
+            <a href="{{ p.full }}" data-index="{{ loop.index0 }}" data-caption="{{ p.caption }}">
+                <img src="{{ p.thumb }}" alt="{{ p.caption or 'Squirrel photo ' ~ loop.index }}" loading="lazy" decoding="async">
+            </a>
+            {% if p.caption %}<p class="shot-caption">{{ p.caption }}</p>{% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</main>
+
+<div class="lightbox" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lb-close" type="button" aria-label="Close">&times;</button>
+    <button class="lb-nav lb-prev" type="button" aria-label="Previous photo">&#8249;</button>
+    <figure class="lb-figure">
+        <img class="lb-img" alt="">
+        <figcaption class="lb-caption"><span class="lb-text"></span><span class="lb-count"></span></figcaption>
+    </figure>
+    <button class="lb-nav lb-next" type="button" aria-label="Next photo">&#8250;</button>
+</div>
+
+<script src="{{ url_for('static', filename='js/lightbox.js') }}" defer></script>
+{% endblock %}
