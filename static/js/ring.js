@@ -1,13 +1,13 @@
-// A 3D ring of sections that turns to bring one to the front.
+// The homepage sushi belt: a ring of plates that turns to bring one into the spotlight.
 (function () {
     const root = document.querySelector('[data-ring]');
     if (!root) return;
 
     const AUTO_EVERY = 4000;    // ms between automatic turns (0 = off)
     const stage = root.querySelector('.stage');
-    const cards = Array.from(stage.querySelectorAll('.plate'));
+    const plates = Array.from(stage.querySelectorAll('.plate'));
     const dots = Array.from(root.querySelectorAll('.dot'));
-    const n = cards.length;
+    const n = plates.length;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const caption = {
@@ -17,7 +17,7 @@
         cta: root.querySelector('.caption-cta'),
     };
 
-    let angle = 0;      // where the ring is now (in "cards")
+    let angle = 0;      // where the ring is now (in plates)
     let target = 0;     // where it is heading
     let front = -1;
     let hovering = false, focused = false, dragging = null;
@@ -76,7 +76,7 @@
 
     function render() {
         const { cx, cy, rx, ry } = size;
-        cards.forEach((plate, i) => {
+        plates.forEach((plate, i) => {
             const d = wrap(i - angle);
             const phi = (d / n) * Math.PI * 2;
             const c = Math.cos(phi), s = Math.sin(phi);
@@ -104,22 +104,22 @@
             void stage.offsetWidth;
             stage.classList.add('spot-swap');
         }
-        cards.forEach((c, i) => {
-            c.classList.toggle('is-front', i === f);
-            c.tabIndex = i === f ? 0 : -1;
+        plates.forEach((p, i) => {
+            p.classList.toggle('is-front', i === f);
+            p.tabIndex = i === f ? 0 : -1;
         });
         dots.forEach((d, i) => d.setAttribute('aria-current', i === f ? 'true' : 'false'));
 
-        const card = cards[f];
+        const plate = plates[f];
         caption.box.classList.remove('show');
         void caption.box.offsetWidth;                         // restart fade
-        caption.title.textContent = card.dataset.title;
-        caption.sub.textContent = card.dataset.sub;
-        if (card.dataset.href) {
-            caption.cta.textContent = card.dataset.external ? 'Visit ↗' : 'Open →';
-            caption.cta.href = card.dataset.href;
-            caption.cta.target = card.dataset.external ? '_blank' : '';
-            caption.cta.rel = card.dataset.external ? 'noopener' : '';
+        caption.title.textContent = plate.dataset.title;
+        caption.sub.textContent = plate.dataset.sub;
+        if (plate.dataset.href) {
+            caption.cta.textContent = plate.dataset.external ? 'Visit ↗' : 'Open →';
+            caption.cta.href = plate.dataset.href;
+            caption.cta.target = plate.dataset.external ? '_blank' : '';
+            caption.cta.rel = plate.dataset.external ? 'noopener' : '';
             caption.cta.classList.remove('is-soon');
             caption.cta.removeAttribute('aria-disabled');
         } else {
@@ -161,10 +161,10 @@
         if (e.key === 'ArrowLeft') { go(-1); e.preventDefault(); }
     });
 
-    cards.forEach((card, i) => {
-        card.addEventListener('click', e => {
+    plates.forEach((plate, i) => {
+        plate.addEventListener('click', e => {
             if (stage.dataset.dragged) { e.preventDefault(); return; }
-            if (i !== front) { e.preventDefault(); goTo(i); }    // side card: bring it round
+            if (i !== front) { e.preventDefault(); goTo(i); }    // side plate: bring it round
         });
     });
 

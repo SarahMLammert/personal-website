@@ -1,7 +1,7 @@
 /* ---------- Palette ---------- */
 :root {
     --bg: #131416;
-    --cream: #f3ead9;
+    --text: #f3ead9;
     --muted: #a59d8f;
     --gold: #c8a46a;
     --serif: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
@@ -14,7 +14,7 @@ body {
     margin: 0;
     min-height: 100vh;
     font-family: var(--sans);
-    color: var(--cream);
+    color: var(--text);
     background: radial-gradient(ellipse 80% 60% at 50% 45%, #25272c 0%, var(--bg) 70%);
     background-color: var(--bg);
     overflow-x: clip;
@@ -195,7 +195,7 @@ body {
 .sushi { filter: saturate(.92) drop-shadow(0 3px 2px rgba(0,0,0,.22)); }
 
 .plate.is-front .plate-base {
-    box-shadow: 0 7px 0 -1px #bdb4a4, 0 14px 18px rgba(0,0,0,.5), 0 0 0 2px rgba(200,164,106,.0), 0 0 40px 6px rgba(200,164,106,.35);
+    box-shadow: 0 7px 0 -1px #bdb4a4, 0 14px 18px rgba(0,0,0,.5), 0 0 40px 6px rgba(200,164,106,.35);
 }
 .plate.is-front:hover .sushi,
 .plate.is-front:focus-visible .sushi { transform: translateX(-50%) translateY(-8px) rotate(-4deg); }
@@ -313,14 +313,14 @@ body {
 }
 .site-nav a:hover { border-color: var(--gold); }
 
-/* ---------- Light theme (Photos page) ---------- */
+/* ---------- Light theme (Photos, Projects, Book Notes) ---------- */
 body.theme-light {
     --bg: #f5f0e7;
-    --cream: #2a2520;          /* text */
+    --text: #2a2520;
     --muted: #7c7367;
     --gold: #a07a3f;
     background: #f5f0e7;
-    color: var(--cream);
+    color: var(--text);
 }
 
 /* ---------- Photos page ---------- */
@@ -492,6 +492,10 @@ body.theme-light {
 .flow-step {
     position: relative;
     padding: 0 0 30px 56px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .6s ease, transform .6s ease;
+    transition-delay: calc(var(--i) * 70ms);
 }
 
 /* connecting line, with an arrowhead into the next step */
@@ -576,7 +580,6 @@ body.theme-light {
 }
 
 /* the flow fills in as it scrolls into view */
-.flow-step { opacity: 0; transform: translateY(10px); transition: opacity .6s ease, transform .6s ease; transition-delay: calc(var(--i) * 70ms); }
 .flow.in .flow-step { opacity: 1; transform: none; }
 
 .project-stats {
@@ -628,13 +631,13 @@ body.theme-light {
     font-size: 11px;
     letter-spacing: .2em;
     text-transform: uppercase;
-    color: var(--cream);
+    color: var(--text);
     text-decoration: none;
     border: 1px solid rgba(42,37,32,.35);
     border-radius: 999px;
     transition: background .2s, border-color .2s, color .2s;
 }
-.btn:hover, .btn:focus-visible { border-color: var(--cream); outline: none; }
+.btn:hover, .btn:focus-visible { border-color: var(--text); outline: none; }
 .btn--solid { color: #fff; background: #2a2520; border-color: #2a2520; }
 .btn--solid:hover, .btn--solid:focus-visible { background: var(--gold); border-color: var(--gold); }
 
@@ -647,7 +650,7 @@ body.theme-light {
     font-size: 20px;
     color: var(--muted);
 }
-.more-work a { color: var(--cream); text-decoration-color: var(--gold); text-underline-offset: 4px; }
+.more-work a { color: var(--text); text-decoration-color: var(--gold); text-underline-offset: 4px; }
 .more-work a:hover { color: var(--gold); }
 
 /* ---------- Book notes ---------- */
@@ -680,7 +683,7 @@ body.theme-light {
     padding: 11px 18px;
     font: inherit;
     font-size: 15px;
-    color: var(--cream);
+    color: var(--text);
     background: #fbf8f2;
     border: 1px solid rgba(60,45,25,.18);
     border-radius: 999px;
@@ -955,7 +958,7 @@ body.lb-open { overflow: hidden; }
     margin-top: 16px;
     min-height: 22px;
 }
-.lb-text { font-family: var(--serif); font-style: italic; font-size: 19px; color: var(--cream); }
+.lb-text { font-family: var(--serif); font-style: italic; font-size: 19px; color: var(--text); }
 .lb-count { font-size: 11px; letter-spacing: .24em; color: var(--gold); }
 
 .lb-nav, .lb-close {

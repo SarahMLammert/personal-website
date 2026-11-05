@@ -12,6 +12,8 @@ import sys
 from pathlib import Path
 from urllib.parse import urlparse
 
+from flask import render_template
+
 from app import app
 from books import load_books
 
@@ -51,7 +53,6 @@ def main():
 
     # the "not found" page GitHub Pages shows for unknown addresses
     with app.test_request_context("/404"):
-        from flask import render_template
         (BUILD / "404.html").write_text(render_template("404.html"), encoding="utf-8")
 
     # static files: skip full-size photo originals, the site only uses the resized copies

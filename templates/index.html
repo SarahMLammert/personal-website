@@ -33,17 +33,17 @@
             <div class="spot-pool" aria-hidden="true"></div>
             <div class="spot-beam" aria-hidden="true"></div>
 
-            {% for card in cards %}
-            {% set tag = 'a' if card.href else 'div' %}
-            <{{ tag }} class="plate plate--{{ card.plate or 'red' }}{% if not card.href %} plate--soon{% endif %}"
-                {% if card.href %}href="{{ card.href }}"{% if card.external %} target="_blank" rel="noopener"{% endif %}{% endif %}
-                data-title="{{ card.title }}"
-                data-sub="{{ card.description }}"
-                data-href="{{ card.href or '' }}"
-                data-external="{{ 'true' if card.external else '' }}"
-                aria-label="{{ card.title }}{% if not card.href %} (coming soon){% endif %}">
+            {% for plate in plates %}
+            {% set tag = 'a' if plate.href else 'div' %}
+            <{{ tag }} class="plate plate--{{ plate.plate or 'red' }}{% if not plate.href %} plate--soon{% endif %}"
+                {% if plate.href %}href="{{ plate.href }}"{% if plate.external %} target="_blank" rel="noopener"{% endif %}{% endif %}
+                data-title="{{ plate.title }}"
+                data-sub="{{ plate.description }}"
+                data-href="{{ plate.href or '' }}"
+                data-external="{{ 'true' if plate.external else '' }}"
+                aria-label="{{ plate.title }}{% if not plate.href %} (coming soon){% endif %}">
                 <span class="plate-base"></span>
-                {{ sushi(card.sushi or 'salmon') }}
+                {{ sushi(plate.sushi or 'salmon') }}
                 {{ cover() }}
             </{{ tag }}>
             {% endfor %}
@@ -58,8 +58,8 @@
         </div>
 
         <div class="dots">
-            {% for card in cards %}
-            <button type="button" class="dot" aria-label="Show {{ card.title }}"></button>
+            {% for plate in plates %}
+            <button type="button" class="dot" aria-label="Show {{ plate.title }}"></button>
             {% endfor %}
         </div>
     </section>
