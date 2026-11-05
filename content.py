@@ -102,7 +102,7 @@ PROJECTS = [
     {
         "title": "This Website",
         "kicker": "Design and front end",
-        "summary": "A personal site served like a sushi bar.",
+        "summary": "A personal site run by squirrels at a sushi bar.",
         "story": [
             {"label": "Personal page and squirrel photos",
              "title": "Where do I start?",
@@ -114,11 +114,11 @@ PROJECTS = [
              "title": "Where do my book notes go?",
              "text": "I put the book notes I write in Obsidian on a bookshelf with room for a lot of books."},
         ],
-        "features": ["Rotating sushi belt", "Spotlight on the front plate",
+        "features": ["Squirrel sushi bar illustration", "Plates on a moving belt",
                      "Photo gallery and viewer", "Bookshelf of book notes", "Project story flows"],
         "tools": ["Python", "Flask", "Jinja", "JavaScript", "SVG", "CSS", "Obsidian", "GitHub Pages"],
         "image": "images/projects/website-home.jpg",
-        "image_alt": "The homepage: a round sushi conveyor belt on a dark counter, with the front plate in a spotlight",
+        "image_alt": "The homepage: an illustrated sushi bar where squirrels sit around a conveyor belt of plates",
         "url": "/",
         "cta": "Back to the counter",
         "code": "https://github.com/SarahMLammert/personal-website",

@@ -1,6 +1,6 @@
 # personal-website
 
-Sarah May Hui Yu Lammert's personal site: a sushi conveyor belt homepage, photos, projects and book notes.
+Sarah May Hui Yu Lammert's personal site: an illustrated squirrel sushi bar homepage, photos, projects and book notes.
 
 It's a small Flask app that gets built into plain HTML files and published on GitHub Pages
 every time `main` is pushed (`.github/workflows/deploy.yml`).
@@ -17,7 +17,8 @@ automatically: upload it under Settings → General → Social preview.
 | Photos | `static/images/photos/originals/`, then run `python make_photos.py` |
 | Page layouts | `templates/` |
 | Look and feel | `static/css/style.css` |
-| The belt and the photo viewer | `static/js/ring.js`, `static/js/lightbox.js` |
+| The homepage scene and belt | `templates/_scene.html`, `templates/_squirrels.html`, `static/js/belt.js` |
+| The photo viewer | `static/js/lightbox.js` |
 
 ## Book notes
 

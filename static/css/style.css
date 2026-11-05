@@ -1,9 +1,9 @@
 /* ---------- Palette ---------- */
 :root {
-    --bg: #131416;
-    --text: #f3ead9;
-    --muted: #a59d8f;
-    --gold: #c8a46a;
+    --bg: #f5f0e7;
+    --text: #2a2520;
+    --muted: #7c7367;
+    --gold: #a07a3f;
     --serif: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
     --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -15,33 +15,135 @@ body {
     min-height: 100vh;
     font-family: var(--sans);
     color: var(--text);
-    background: radial-gradient(ellipse 80% 60% at 50% 45%, #25272c 0%, var(--bg) 70%);
-    background-color: var(--bg);
+    background: var(--bg);
     overflow-x: clip;
 }
 
-/* ---------- Home ---------- */
+/* ---------- Home: the sushi bar print ---------- */
 .home {
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: clamp(8px, 2vh, 24px);
-    padding: clamp(28px, 5vh, 56px) 16px clamp(28px, 5vh, 56px);
+    padding: clamp(24px, 5vh, 56px) 16px;
+    background:
+        radial-gradient(ellipse at 50% 40%, #f3ede3, #e6ddcf 80%);
 }
 
-.masthead { text-align: center; }
+.print {
+    position: relative;
+    width: min(1240px, 100%);
+    margin: 0;
+    padding: clamp(12px, 2vw, 26px) clamp(12px, 2vw, 26px) 0;
+    background: #fffdf8;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(60,45,25,.12), 0 30px 60px -30px rgba(60,45,25,.45);
+}
 
-.name {
+.tack {
+    position: absolute;
+    top: clamp(2px, .8vw, 10px);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fff, #c9c2b6 60%, #8f877b);
+    box-shadow: 0 2px 3px rgba(0,0,0,.25);
+}
+.tack--left { left: clamp(2px, .8vw, 10px); }
+.tack--right { right: clamp(2px, .8vw, 10px); }
+
+.print-art {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+    background: #f6e8d1;
+}
+
+.scene { display: block; width: 100%; height: auto; }
+
+.print-caption {
+    padding: clamp(14px, 2.4vw, 26px) 12px clamp(18px, 2.8vw, 30px);
+    text-align: center;
+}
+
+.print-title {
     margin: 0;
     font-family: var(--serif);
     font-weight: 500;
-    font-size: clamp(38px, 6vw, 72px);
-    line-height: 1.05;
-    letter-spacing: .01em;
+    font-size: clamp(22px, 3vw, 34px);
+    letter-spacing: .14em;
+    text-transform: uppercase;
     text-wrap: balance;
 }
+
+.print-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 22px;
+    margin-top: 12px;
+}
+.print-nav a {
+    font-size: 11.5px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color .2s, border-color .2s;
+}
+.print-nav a:hover, .print-nav a:focus-visible { color: var(--text); border-color: var(--gold); outline: none; }
+
+/* plates on the belt */
+.belt-plate { cursor: pointer; outline: none; }
+.belt-plate--acorn, .belt-plate--soon { cursor: default; }
+.plate-hit { fill: transparent; }
+.plate-art { transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+.belt-plate.is-held .plate-art { transform: translateY(-12px) scale(1.08); }
+.belt-plate:focus-visible .plate-hit { stroke: var(--gold); stroke-width: 3; stroke-dasharray: 6 5; }
+/* before the script runs, plates have nowhere to go */
+.print-art:not(.is-live) .plates { display: none; }
+
+.plate-tag {
+    position: absolute;
+    transform: translate(-50%, calc(-100% - 10px));
+    padding: 8px 14px 9px;
+    text-align: center;
+    white-space: nowrap;
+    background: #fffaf0;
+    border: 1px solid rgba(160,122,63,.45);
+    border-radius: 6px;
+    box-shadow: 0 10px 20px -10px rgba(60,45,25,.5);
+    pointer-events: none;
+    z-index: 5;
+}
+.plate-tag::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    width: 10px;
+    height: 10px;
+    background: #fffaf0;
+    border-right: 1px solid rgba(160,122,63,.45);
+    border-bottom: 1px solid rgba(160,122,63,.45);
+    transform: translateX(-50%) rotate(45deg);
+}
+.plate-tag strong { display: block; font-family: var(--serif); font-size: 20px; font-weight: 600; }
+.plate-tag span { display: block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+/* little bits of life in the scene */
+.noren { animation: sway 5s ease-in-out infinite; }
+.lantern { animation: sway 7s ease-in-out infinite; }
+@keyframes sway { 0%, 100% { transform: rotate(-1.2deg); } 50% { transform: rotate(1.2deg); } }
+.steam { animation: steam 3.2s ease-in-out infinite; }
+@keyframes steam { 0% { opacity: 0; transform: translateY(6px); } 40% { opacity: .75; } 100% { opacity: 0; transform: translateY(-10px); } }
+.chef .sq-eyes, .muncher .sq-eyes { animation: blink 5s infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes blink { 0%, 94%, 100% { transform: scaleY(1); } 97% { transform: scaleY(.1); } }
+.muncher > .sq { animation: munch 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes munch { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.012, .985); } }
+.diner--reach .sq-reach { animation: reach 3.4s ease-in-out infinite; transform-box: fill-box; transform-origin: 80% 90%; }
+@keyframes reach { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(6deg); } }
 
 .rule {
     display: block;
@@ -50,250 +152,6 @@ body {
     margin: 18px auto 0;
     background: var(--gold);
 }
-
-/* ---------- Ring ---------- */
-.carousel {
-    position: relative;
-    width: 100%;
-    max-width: 1100px;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    grid-template-areas:
-        "prev stage next"
-        "cap  cap   cap"
-        "dots dots  dots";
-    align-items: center;
-}
-
-.stage {
-    grid-area: stage;
-    position: relative;
-    height: clamp(360px, 56vh, 480px);
-    outline: none;
-    touch-action: pan-y;
-    user-select: none;
-    cursor: grab;
-}
-
-.stage:active { cursor: grabbing; }
-
-/* ---------- The belt ---------- */
-.belt {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-}
-
-.belt-side   { fill: url(#side); filter: drop-shadow(0 26px 30px rgba(0,0,0,.6)); }
-.belt-top    { fill: #3a3d42; fill-rule: evenodd; }
-.belt-slats  { stroke: #2b2e32; stroke-width: 2; fill: none; }
-.belt-rail   { stroke: #6f747b; stroke-width: 1.5; fill: none; opacity: .7; }
-.counter     { fill: url(#wood); stroke: rgba(200,164,106,.35); stroke-width: 1; }
-
-/* ---------- Spotlight on the front plate ---------- */
-.spot-pool,
-.spot-beam {
-    position: absolute;
-    pointer-events: none;
-    mix-blend-mode: screen;
-}
-
-/* warm pool of light on the belt */
-.spot-pool {
-    left: var(--spot-x);
-    top: var(--spot-y);
-    width: calc(var(--spot-w) * 1.5);
-    height: calc(var(--spot-w) * .6);
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    background: radial-gradient(closest-side, rgba(255,226,170,.55), rgba(255,214,150,.18) 55%, rgba(255,214,150,0));
-    z-index: 99;                         /* above the belt, under the plates */
-}
-
-/* beam coming down from above */
-.spot-beam {
-    left: var(--spot-x);
-    top: -40px;
-    width: calc(var(--spot-w) * 1.5);
-    height: calc(var(--spot-y) + 40px + var(--spot-w) * .25);
-    transform: translateX(-50%);
-    clip-path: polygon(46% 0, 54% 0, 92% 100%, 8% 100%);
-    background: linear-gradient(to bottom, rgba(255,230,180,0) 0%, rgba(255,230,180,.03) 35%, rgba(255,226,170,.11) 100%);
-    -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
-    filter: blur(14px);
-    z-index: 40;                         /* over the belt, under the caption and plates */
-}
-
-.spot-swap .spot-pool,
-.spot-swap .spot-beam { animation: spot-flicker .7s ease-out; }
-
-@keyframes spot-flicker {
-    0%   { opacity: .35; }
-    25%  { opacity: .9; }
-    40%  { opacity: .55; }
-    100% { opacity: 1; }
-}
-
-/* ---------- Plates ---------- */
-.plate {
-    --rim: #b8473a;
-    --pw: 150px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: var(--pw);
-    height: calc(var(--pw) * .8);
-    transform-origin: 50% 78%;
-    color: inherit;
-    will-change: transform, filter;
-    -webkit-user-drag: none;
-    outline: none;
-    pointer-events: none;          /* only the plate and sushi themselves are clickable */
-}
-.plate > * { pointer-events: auto; }
-
-/* the plate lies flat on the belt, so it's an oval */
-.plate-base {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 44%;
-    border-radius: 50%;
-    background:
-        radial-gradient(ellipse 60% 55% at 40% 35%, rgba(255,255,255,.9), rgba(255,255,255,0) 70%),
-        radial-gradient(ellipse closest-side, #f5f1e9 0 70%, #ddd5c6 76%, var(--rim) 78% 91%, #ece6da 92.5%, #cfc7b8 100%);
-    box-shadow: 0 7px 0 -1px #bdb4a4, 0 14px 18px rgba(0,0,0,.5);
-    transition: box-shadow .4s;
-}
-
-/* sushi sits upright on top */
-.plate .sushi,
-.plate .cover {
-    position: absolute;
-    left: 50%;
-    bottom: 14%;
-    width: 66%;
-    transform: translateX(-50%);
-    transition: transform .5s cubic-bezier(.2,.8,.2,1);
-}
-.plate .cover {
-    width: 76%;
-    bottom: 13%;
-    transition: transform .6s cubic-bezier(.2,.8,.2,1), opacity .45s ease;
-}
-
-/* every plate is covered until it reaches the spotlight */
-.plate.is-front .cover {
-    transform: translateX(-50%) translateY(-55%) rotate(-8deg);
-    opacity: 0;
-    pointer-events: none;
-}
-.sushi { filter: saturate(.92) drop-shadow(0 3px 2px rgba(0,0,0,.22)); }
-
-.plate.is-front .plate-base {
-    box-shadow: 0 7px 0 -1px #bdb4a4, 0 14px 18px rgba(0,0,0,.5), 0 0 40px 6px rgba(200,164,106,.35);
-}
-.plate.is-front:hover .sushi,
-.plate.is-front:focus-visible .sushi { transform: translateX(-50%) translateY(-8px) rotate(-4deg); }
-.plate:focus-visible .plate-base { outline: 2px solid var(--gold); outline-offset: 6px; }
-
-.plate--red    { --rim: #b8473a; }
-.plate--blue   { --rim: #3e5a8a; }
-.plate--yellow { --rim: #c8a46a; }
-.plate--green  { --rim: #4f7a62; }
-.plate--black  { --rim: #1b1b1b; }
-.plate--pink   { --rim: #c98a8f; }
-
-/* before the script runs, show plates in a simple row */
-.carousel:not(.is-live) .stage { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 24px; }
-.carousel:not(.is-live) .plate { position: relative; }
-.carousel:not(.is-live) .belt { display: none; }
-
-/* arrows */
-.nav {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: 1px solid rgba(200,164,106,.35);
-    background: transparent;
-    color: var(--gold);
-    font-size: 28px;
-    line-height: 1;
-    cursor: pointer;
-    transition: background .2s, border-color .2s;
-    position: relative;
-    z-index: 200;
-}
-.nav--prev { grid-area: prev; }
-.nav--next { grid-area: next; }
-.nav:hover, .nav:focus-visible { background: rgba(200,164,106,.12); border-color: var(--gold); outline: none; }
-
-/* caption under the ring */
-.caption {
-    grid-area: cap;
-    text-align: center;
-    min-height: 130px;
-    opacity: 0;
-    transform: translateY(6px);
-}
-.caption.show { animation: rise .5s ease forwards; }
-@keyframes rise { to { opacity: 1; transform: none; } }
-
-.caption-title {
-    margin: 0;
-    font-family: var(--serif);
-    font-weight: 500;
-    font-size: clamp(30px, 4vw, 40px);
-}
-
-.caption-sub {
-    margin: 6px 0 16px;
-    color: var(--muted);
-}
-
-.caption-cta {
-    display: inline-block;
-    padding: 9px 22px;
-    font-size: 12px;
-    letter-spacing: .22em;
-    text-transform: uppercase;
-    color: var(--bg);
-    background: var(--gold);
-    border-radius: 999px;
-    text-decoration: none;
-    transition: filter .2s;
-}
-.caption-cta:hover { filter: brightness(1.1); }
-.caption-cta.is-soon {
-    color: var(--gold);
-    background: transparent;
-    border: 1px solid rgba(200,164,106,.4);
-    cursor: default;
-}
-
-/* dots */
-.dots {
-    grid-area: dots;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 22px;
-}
-.dot {
-    width: 8px;
-    height: 8px;
-    padding: 0;
-    border: 0;
-    border-radius: 50%;
-    background: rgba(243,234,217,.25);
-    cursor: pointer;
-    transition: background .3s, transform .3s;
-}
-.dot[aria-current="true"] { background: var(--gold); transform: scale(1.35); }
 
 /* ---------- Inner pages ---------- */
 .site-nav {
@@ -312,16 +170,6 @@ body {
     transition: border-color .2s;
 }
 .site-nav a:hover { border-color: var(--gold); }
-
-/* ---------- Light theme (Photos, Projects, Book Notes) ---------- */
-body.theme-light {
-    --bg: #f5f0e7;
-    --text: #2a2520;
-    --muted: #7c7367;
-    --gold: #a07a3f;
-    background: #f5f0e7;
-    color: var(--text);
-}
 
 /* ---------- Photos page ---------- */
 .gallery-page {
@@ -985,36 +833,8 @@ body.lb-open { overflow: hidden; }
     z-index: 2;
 }
 
-/* on wider screens the caption sits on the counter in the middle of the ring */
-@media (min-width: 641px) {
-    .caption {
-        grid-area: stage;
-        position: relative;
-        z-index: 50;
-        align-self: center;
-        min-height: 0;
-        margin-top: -6px;
-        pointer-events: none;
-    }
-    .caption-cta { pointer-events: auto; }
-    .caption-sub { margin: 4px 0 14px; }
-    .dots { margin-top: 8px; }
-}
-
 /* ---------- Small screens ---------- */
 @media (max-width: 640px) {
-    .carousel {
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas:
-            "stage stage"
-            "cap   cap"
-            "prev  next"
-            "dots  dots";
-    }
-    .stage { height: 300px; }
-    .plate { --pw: 92px; }
-    .nav--prev { justify-self: end; margin-right: 12px; }
-    .nav--next { justify-self: start; margin-left: 12px; }
     .gallery { columns: 2; column-gap: 10px; }
     .project-body { grid-template-columns: 1fr; gap: 28px; margin-top: 28px; }
     .project-side { position: static; }
@@ -1029,8 +849,7 @@ body.lb-open { overflow: hidden; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .noren, .lantern, .steam, .sq-eyes, .muncher > .sq, .sq-reach { animation: none !important; }
     .flow-step { opacity: 1; transform: none; transition: none; }
     .shot { opacity: 1; transform: none; transition: none; }
-    .spot-swap .spot-pool, .spot-swap .spot-beam { animation: none; }
-    .caption.show { animation: none; opacity: 1; transform: none; }
 }

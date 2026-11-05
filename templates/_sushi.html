@@ -32,12 +32,6 @@
     <linearGradient id="g-spicy" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#ee7a52"/><stop offset="1" stop-color="#cf4f2e"/>
     </linearGradient>
-    <radialGradient id="g-glass" cx=".4" cy=".3" r=".8">
-      <stop offset="0" stop-color="#ffffff" stop-opacity=".28"/><stop offset="1" stop-color="#ffffff" stop-opacity=".07"/>
-    </radialGradient>
-    <linearGradient id="g-knob" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#f2efe8"/><stop offset="1" stop-color="#a7a39b"/>
-    </linearGradient>
   </defs>
 </svg>
 {% endmacro %}
@@ -49,8 +43,8 @@
   {% endfor %}
 {% endmacro %}
 
-{% macro sushi(kind) %}
-<svg class="sushi" viewBox="0 0 120 80" aria-hidden="true">
+{% macro sushi(kind, x=0, y=0, w=120, h=80) %}
+<svg class="sushi" viewBox="0 0 120 80" x="{{ x }}" y="{{ y }}" width="{{ w }}" height="{{ h }}" aria-hidden="true">
 {% if kind in ['salmon', 'tuna'] %}
   {{ rice() }}
   <path d="M16 50 Q30 24 60 25 Q92 23 104 48 Q60 60 16 50Z" fill="url(#g-{{ kind }})"/>
@@ -122,6 +116,12 @@
   <path d="M12 48 Q40 24 90 30 L108 19 L104 34 L112 46 L92 42 Q50 56 12 48Z" fill="url(#g-ebi)"/>
   <path d="M90 30 L108 19 L104 34 L112 46 L92 42Z" fill="#c8502f"/>
   <path d="M31 36 Q35 44 31 50 M48 31 Q52 40 48 50 M65 29 Q69 38 65 48 M80 30 Q83 37 80 44" stroke="#fff4ea" stroke-opacity=".85" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+{% elif kind == 'acorn' %}
+  <ellipse cx="60" cy="50" rx="22" ry="24" fill="#c98a4b" stroke="#9a6232" stroke-width="2.5"/>
+  <path d="M 50 36 C 48 50 50 62 56 70" stroke="#e2b07a" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 34 36 C 34 22 46 16 60 16 C 74 16 86 22 86 36 C 76 42 44 42 34 36 Z" fill="#7d5636" stroke="#5e3f26" stroke-width="2.5"/>
+  <path d="M 42 28 l 6 6 M 52 24 l 6 6 M 62 24 l 6 6 M 72 26 l 6 6" stroke="#5e3f26" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 60 16 C 60 10 64 6 68 6" stroke="#5e3f26" stroke-width="4" fill="none" stroke-linecap="round"/>
 {% elif kind == 'ikura' %}
   <rect x="22" y="32" width="76" height="34" rx="9" fill="url(#g-nori)"/>
   {% for x, y in [(34,30),(48,26),(62,29),(76,25),(88,30),(41,36),(56,35),(70,34),(83,36)] %}
@@ -132,12 +132,3 @@
 </svg>
 {% endmacro %}
 
-{% macro cover() %}
-<svg class="cover" viewBox="0 0 120 80" aria-hidden="true">
-  <path d="M14 66 Q14 14 60 12 Q106 14 106 66Z" fill="url(#g-glass)" stroke="#ffffff" stroke-opacity=".4" stroke-width="1.2"/>
-  <path d="M28 40 Q34 24 50 19" stroke="#ffffff" stroke-opacity=".6" stroke-width="3" fill="none" stroke-linecap="round"/>
-  <path d="M88 52 Q92 42 90 34" stroke="#ffffff" stroke-opacity=".2" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <ellipse cx="60" cy="66" rx="46" ry="3" fill="#ffffff" opacity=".18"/>
-  <ellipse cx="60" cy="11" rx="7" ry="4" fill="url(#g-knob)"/>
-</svg>
-{% endmacro %}

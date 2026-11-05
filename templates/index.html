@@ -1,69 +1,27 @@
 {% extends "base.html" %}
-{% from "_sushi.html" import sushi, cover, defs %}
+{% from "_sushi.html" import defs %}
+{% from "_scene.html" import scene %}
 
 {% block content %}
 {{ defs() }}
 <main class="home">
-    <header class="masthead">
-        <h1 class="name">Sarah May Hui Yu Lammert</h1>
-        <span class="rule" aria-hidden="true"></span>
-    </header>
-
-    <section class="carousel" data-ring aria-roledescription="carousel" aria-label="Sections">
-        <button class="nav nav--prev" type="button" aria-label="Previous">&#8249;</button>
-
-        <div class="stage" tabindex="0">
-            <svg class="belt" aria-hidden="true">
-                <defs>
-                    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0" stop-color="#40301f"/>
-                        <stop offset="1" stop-color="#271b12"/>
-                    </linearGradient>
-                    <linearGradient id="side" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0" stop-color="#2a2c30"/>
-                        <stop offset="1" stop-color="#18191b"/>
-                    </linearGradient>
-                </defs>
-                <path class="belt-side" />
-                <path class="belt-top" />
-                <path class="belt-slats" />
-                <path class="belt-rail" />
-                <path class="counter" />
-            </svg>
-            <div class="spot-pool" aria-hidden="true"></div>
-            <div class="spot-beam" aria-hidden="true"></div>
-
-            {% for plate in plates %}
-            {% set tag = 'a' if plate.href else 'div' %}
-            <{{ tag }} class="plate plate--{{ plate.plate or 'red' }}{% if not plate.href %} plate--soon{% endif %}"
-                {% if plate.href %}href="{{ plate.href }}"{% if plate.external %} target="_blank" rel="noopener"{% endif %}{% endif %}
-                data-title="{{ plate.title }}"
-                data-sub="{{ plate.description }}"
-                data-href="{{ plate.href or '' }}"
-                data-external="{{ 'true' if plate.external else '' }}"
-                aria-label="{{ plate.title }}{% if not plate.href %} (coming soon){% endif %}">
-                <span class="plate-base"></span>
-                {{ sushi(plate.sushi or 'salmon') }}
-                {{ cover() }}
-            </{{ tag }}>
-            {% endfor %}
+    <figure class="print">
+        <span class="tack tack--left" aria-hidden="true"></span>
+        <span class="tack tack--right" aria-hidden="true"></span>
+        <div class="print-art" data-belt>
+            {{ scene(plates) }}
+            <div class="plate-tag" hidden><strong></strong><span></span></div>
         </div>
-
-        <button class="nav nav--next" type="button" aria-label="Next">&#8250;</button>
-
-        <div class="caption" aria-live="polite">
-            <h2 class="caption-title"></h2>
-            <p class="caption-sub"></p>
-            <a class="caption-cta" href="#"></a>
-        </div>
-
-        <div class="dots">
-            {% for plate in plates %}
-            <button type="button" class="dot" aria-label="Show {{ plate.title }}"></button>
-            {% endfor %}
-        </div>
-    </section>
+        <figcaption class="print-caption">
+            <h1 class="print-title">Sarah May Hui Yu Lammert</h1>
+            <nav class="print-nav" aria-label="Sections">
+                {% for p in plates if p.href %}
+                <a href="{{ p.href }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}>{{ p.title }}</a>
+                {% endfor %}
+            </nav>
+        </figcaption>
+    </figure>
 </main>
 
-<script src="{{ url_for('static', filename='js/ring.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/belt.js') }}" defer></script>
 {% endblock %}
