@@ -2,6 +2,7 @@
 {% from "_cover.html" import cover %}
 
 {% block title %}{{ book.title }} · Book Notes{% endblock %}
+{% block description %}Sarah’s notes on {{ book.title }}{% if book.author %} by {{ book.author }}{% endif %}.{% endblock %}
 {% block body_class %}theme-light{% endblock %}
 
 {% macro outline(nodes) %}

@@ -5,6 +5,9 @@ Sarah May Hui Yu Lammert's personal site: a sushi conveyor belt homepage, photos
 It's a small Flask app that gets built into plain HTML files and published on GitHub Pages
 every time `main` is pushed (`.github/workflows/deploy.yml`).
 
+`.github/social-preview.png` is the image for the repo's link preview. GitHub doesn't pick it up
+automatically: upload it under Settings → General → Social preview.
+
 ## Where things live
 
 | To change | Edit |

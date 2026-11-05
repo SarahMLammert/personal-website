@@ -5,10 +5,16 @@ from pathlib import Path
 from flask import Flask, abort, render_template, url_for
 
 from books import grouped, load_books
-from content import GITHUB, PHOTO_CAPTIONS, PLATES, PROJECTS
+from content import GITHUB, PHOTO_CAPTIONS, PLATES, PROJECTS, SITE_URL
 
 app = Flask(__name__)
 PHOTO_DIR = Path(app.static_folder) / "images" / "photos"
+
+
+@app.context_processor
+def site_info():
+    """Every page knows the site's address (for link previews)."""
+    return {"site_url": SITE_URL}
 
 
 def belt_plates():

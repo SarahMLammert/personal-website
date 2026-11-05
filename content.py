@@ -4,6 +4,9 @@ Book notes come from the Markdown files in books/, and photos from
 static/images/photos/ (see make_photos.py), so those aren't listed here.
 """
 
+# The site's public address, used for link previews on social media.
+SITE_URL = "https://www.sarahlammert.com"
+
 # ---------------------------------------------------------------------------
 # Plates on the homepage sushi belt, in order. For each one, give:
 #   "endpoint": a page on this site (the name of its function in app.py), or
