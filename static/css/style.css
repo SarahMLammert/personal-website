@@ -902,6 +902,12 @@ body.theme-light {
 
 .empty { color: var(--muted); font-family: var(--serif); font-style: italic; font-size: 20px; }
 
+/* ---------- Not found ---------- */
+.not-found { max-width: 640px; margin: 8vh auto 0; padding: 0 20px 80px; text-align: center; }
+.not-found .page-sub { margin: 0 0 12px; }
+.not-found .page-title { font-size: clamp(36px, 6vw, 56px); }
+.not-found-text { margin: 22px 0 28px; font-size: 17px; color: var(--muted); }
+
 /* ---------- Lightbox ---------- */
 body.lb-open { overflow: hidden; }
 
