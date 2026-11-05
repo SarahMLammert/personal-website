@@ -14,7 +14,7 @@ from urllib.parse import urlparse
 
 from flask import render_template
 
-from app import app
+from app import app, project_list
 from books import load_books
 
 ROOT = Path(__file__).parent
@@ -25,6 +25,8 @@ def pages():
     yield "/"
     yield "/photos"
     yield "/projects"
+    for p in project_list():
+        yield f"/projects/{p['slug']}"
     yield "/books"
     for b in load_books():
         yield f"/books/{b['slug']}"

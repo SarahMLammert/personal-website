@@ -11,68 +11,23 @@
         <p class="page-sub">Data, maps and analysis</p>
     </header>
 
-    {% for p in projects %}
-    <article class="project{% if loop.first %} project--featured{% endif %}">
-        {% set external = p.url.startswith('http') %}
-        <a class="project-shot" href="{{ p.url }}"{% if external %} target="_blank" rel="noopener"{% endif %} aria-label="Open {{ p.title }}">
-            <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.image_alt }}" loading="{{ 'eager' if loop.first else 'lazy' }}">
-            <span class="project-shot-cta">{{ 'Explore' if external else 'Open' }}{% if external %} &#8599;{% endif %}</span>
-        </a>
-
-        <div class="project-body">
-            <div class="project-main">
+    <ul class="project-list">
+        {% for p in projects %}
+        <li class="project-row">
+            <a class="project-thumb" href="{{ url_for('project', slug=p.slug) }}" tabindex="-1" aria-hidden="true">
+                <img src="{{ url_for('static', filename=p.image) }}" alt="" loading="{{ 'eager' if loop.first else 'lazy' }}">
+            </a>
+            <div class="project-info">
                 <p class="project-kicker">{{ p.kicker }}</p>
-                <h2 class="project-title">{{ p.title }}</h2>
-                <p class="project-summary">{{ p.summary }}</p>
-                {% if p.story %}
-                <h3 class="side-label flow-label">How it grew</h3>
-                <ol class="flow">
-                    {% for step in p.story %}
-                    <li class="flow-step{% if step.next %} flow-step--next{% endif %}" style="--i: {{ loop.index0 }}">
-                        <span class="flow-marker" aria-hidden="true">{{ '\u2192' if step.next else loop.index }}</span>
-                        <p class="flow-kicker">{% if step.next %}<span class="flow-badge">In progress</span> {% endif %}{{ step.label }}</p>
-                        <h4 class="flow-title">{{ step.title }}</h4>
-                        <p class="flow-text">{{ step.text }}</p>
-                    </li>
-                    {% endfor %}
-                </ol>
-                {% endif %}
-            </div>
-
-            <aside class="project-side">
-                {% if p.stats %}
-                <dl class="project-stats">
-                    {% for value, label in p.stats %}
-                    <div><dt>{{ value }}</dt><dd>{{ label }}</dd></div>
-                    {% endfor %}
-                </dl>
-                {% endif %}
-
-                <h3 class="side-label">Inside</h3>
-                <ul class="chips">{% for f in p.features %}<li>{{ f }}</li>{% endfor %}</ul>
-
-                <h3 class="side-label">Built with</h3>
+                <h2 class="project-row-title"><a href="{{ url_for('project', slug=p.slug) }}">{{ p.title }}</a></h2>
+                <p class="project-row-summary">{{ p.summary }}</p>
                 <p class="tools">{{ p.tools|join(' · ') }}</p>
-
-                <div class="project-links">
-                    <a class="btn btn--solid" href="{{ p.url }}"{% if external %} target="_blank" rel="noopener"{% endif %}>{{ p.cta }}{% if external %} &#8599;{% endif %}</a>
-                    {% if p.code %}<a class="btn" href="{{ p.code }}" target="_blank" rel="noopener">View the code &#8599;</a>{% endif %}
-                </div>
-            </aside>
-        </div>
-    </article>
-    {% endfor %}
+            </div>
+            <a class="btn project-row-btn" href="{{ url_for('project', slug=p.slug) }}" aria-label="How {{ p.title }} grew">How it grew &rarr;</a>
+        </li>
+        {% endfor %}
+    </ul>
 
     <p class="more-work">More of my work is on <a href="{{ github }}" target="_blank" rel="noopener">GitHub &#8599;</a></p>
 </main>
-
-<script>
-    // reveal the flow as it scrolls into view
-    (function () {
-        const flows = document.querySelectorAll('.flow');
-        if (!('IntersectionObserver' in window)) { flows.forEach(f => f.classList.add('in')); return; }
-        const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.1 });
-        flows.forEach(f => io.observe(f));
-    })();
-</script>
 {% endblock %}

@@ -41,12 +41,39 @@ PHOTO_CAPTIONS = {
 
 
 # ---------------------------------------------------------------------------
-# Projects page. Each project's "story" is its flow of questions; a step with
+# Projects page, in order. Each project's "story" is its flow of questions; a step with
 # "next": True shows as "In progress".
 # ---------------------------------------------------------------------------
 GITHUB = "https://github.com/SarahMLammert"
 
 PROJECTS = [
+    {
+        "title": "This Website",
+        "kicker": "Design and front end",
+        "summary": "A personal site run by squirrels at a sushi bar.",
+        "story": [
+            {"label": "Personal page and squirrel photos",
+             "title": "Where do I start?",
+             "text": "First, I made a simple personal page and displayed my squirrel photos."},
+            {"label": "Sushi theme",
+             "title": "How do I make it fun?",
+             "text": "The sushi theme was a personal choice. I just wanted the site to be fun."},
+            {"label": "Bookshelf",
+             "title": "Where do my book notes go?",
+             "text": "I put the book notes I write in Obsidian on a bookshelf with room for a lot of books."},
+            {"label": "Squirrel sushi bar",
+             "title": "What if the squirrels ran the sushi bar?",
+             "text": "I turned the homepage into an illustrated sushi bar, with squirrels like the ones in my photos sitting around the conveyor belt in little work outfits."},
+        ],
+        "features": ["Squirrel sushi bar illustration", "Plates on a moving belt",
+                     "Photo gallery and viewer", "Bookshelf of book notes", "Project story flows"],
+        "tools": ["Python", "Flask", "Jinja", "JavaScript", "SVG", "CSS", "Obsidian", "GitHub Pages"],
+        "image": "images/projects/website-home.jpg",
+        "image_alt": "The homepage: an illustrated sushi bar where squirrels sit around a conveyor belt of plates",
+        "url": "/",
+        "cta": "Back to the counter",
+        "code": "https://github.com/SarahMLammert/personal-website",
+    },
     {
         "title": "College Sports Atlas",
         "kicker": "Interactive data maps",
@@ -98,29 +125,5 @@ PROJECTS = [
         "url": "https://sarahmlammert.github.io/college-sports-atlas/index.html",
         "cta": "Explore the atlas",
         "code": "https://github.com/SarahMLammert/college-sports-atlas",
-    },
-    {
-        "title": "This Website",
-        "kicker": "Design and front end",
-        "summary": "A personal site run by squirrels at a sushi bar.",
-        "story": [
-            {"label": "Personal page and squirrel photos",
-             "title": "Where do I start?",
-             "text": "First, I made a simple personal page and displayed my squirrel photos."},
-            {"label": "Sushi theme",
-             "title": "How do I make it fun?",
-             "text": "The sushi theme was a personal choice. I just wanted the site to be fun."},
-            {"label": "Bookshelf",
-             "title": "Where do my book notes go?",
-             "text": "I put the book notes I write in Obsidian on a bookshelf with room for a lot of books."},
-        ],
-        "features": ["Squirrel sushi bar illustration", "Plates on a moving belt",
-                     "Photo gallery and viewer", "Bookshelf of book notes", "Project story flows"],
-        "tools": ["Python", "Flask", "Jinja", "JavaScript", "SVG", "CSS", "Obsidian", "GitHub Pages"],
-        "image": "images/projects/website-home.jpg",
-        "image_alt": "The homepage: an illustrated sushi bar where squirrels sit around a conveyor belt of plates",
-        "url": "/",
-        "cta": "Back to the counter",
-        "code": "https://github.com/SarahMLammert/personal-website",
     },
 ]

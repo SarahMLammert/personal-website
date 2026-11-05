@@ -4,7 +4,7 @@ from pathlib import Path
 
 from flask import Flask, abort, render_template, url_for
 
-from books import grouped, load_books
+from books import grouped, load_books, slugify
 from content import GITHUB, PHOTO_CAPTIONS, PLATES, PROJECTS, SITE_URL
 
 app = Flask(__name__)
@@ -49,9 +49,22 @@ def photos():
     return render_template("photos.html", photos=items)
 
 
+def project_list():
+    """PROJECTS from content.py, each with its own page address."""
+    return [dict(p, slug=slugify(p["title"]), external=p["url"].startswith("http")) for p in PROJECTS]
+
+
 @app.route("/projects")
 def projects():
-    return render_template("projects.html", projects=PROJECTS, github=GITHUB)
+    return render_template("projects.html", projects=project_list(), github=GITHUB)
+
+
+@app.route("/projects/<slug>")
+def project(slug):
+    found = next((p for p in project_list() if p["slug"] == slug), None)
+    if not found:
+        abort(404)
+    return render_template("project.html", p=found)
 
 
 @app.route("/books")
