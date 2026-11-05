@@ -53,17 +53,24 @@ PROJECTS = [
         "summary": "A personal site run by squirrels at a sushi bar.",
         "story": [
             {"label": "Personal page and squirrel photos",
-             "title": "Where do I start?",
-             "text": "First, I made a simple personal page and displayed my squirrel photos."},
+             "title": "Start with what I like",
+             "text": "The site began as a place to show off my squirrel photos, because squirrels are "
+                     "awesome! A simple page with a few links and a gallery was all it needed to be at first."},
             {"label": "Sushi theme",
-             "title": "How do I make it fun?",
-             "text": "The sushi theme was a personal choice. I just wanted the site to be fun."},
+             "title": "A spinning idea, served on a conveyor belt",
+             "text": "I wanted the homepage to spin, and the first thing that came to mind was conveyor "
+                     "belt sushi, like at Kura. Every section of the site became a plate riding around the "
+                     "belt, so you pick what you want as it goes by."},
             {"label": "Bookshelf",
-             "title": "Where do my book notes go?",
-             "text": "I put the book notes I write in Obsidian on a bookshelf with room for a lot of books."},
+             "title": "A tiny bookshelf for my notes",
+             "text": "I write my book notes in Obsidian and wanted them on the site. I thought of those "
+                     "little make-it-yourself miniature bookshelves, so each book sits on the shelf as its "
+                     "own spine, with room for a lot more."},
             {"label": "Squirrel sushi bar",
-             "title": "What if the squirrels ran the sushi bar?",
-             "text": "I turned the homepage into an illustrated sushi bar, with squirrels like the ones in my photos sitting around the conveyor belt in little work outfits."},
+             "title": "Make it feel like the art on my wall",
+             "text": "I have Pok\u00e9mon art prints of little scenes, like a barbecue and bath time in the "
+                     "sink, and I wanted my homepage to feel like one of them. So the sushi bar became an "
+                     "illustrated scene, with squirrels like the ones in my photos sitting around the belt."},
         ],
         "features": ["Squirrel sushi bar illustration", "Plates on a moving belt",
                      "Photo gallery and viewer", "Bookshelf of book notes", "Project story flows"],

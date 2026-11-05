@@ -25,14 +25,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: clamp(24px, 5vh, 56px) 16px;
+    padding: clamp(14px, 3vh, 40px) 16px;
     background:
         radial-gradient(ellipse at 50% 40%, #f3ede3, #e6ddcf 80%);
 }
 
 .print {
     position: relative;
-    width: min(1240px, 100%);
+    /* as wide as fits, but never taller than the window: the scene is 16:10, plus room for the caption */
+    width: min(1240px, 100%, calc((100vh - 230px) * 1.6 + 40px));
+    width: min(1240px, 100%, calc((100svh - 230px) * 1.6 + 40px));
     margin: 0;
     padding: clamp(12px, 2vw, 26px) clamp(12px, 2vw, 26px) 0;
     background: #fffdf8;
