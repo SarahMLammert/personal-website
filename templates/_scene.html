@@ -66,36 +66,69 @@
               {% endfor %}
 {% endmacro %}
 
-{# a little bookcase; big=True is the zoomed-in copy, where the Book Notes book can slide out #}
+{# a tall bookcase standing on the floor; origin at its foot. big=True is the zoomed-in copy,
+   where the Book Notes book (third shelf) slides out #}
 {% macro bookcase_art(big=False) %}
-  {% set WOOD = '#d6a468' %}{% set WOOD_D = '#a8743f' %}
-  <rect x="-37" y="-82" width="74" height="6" rx="2" fill="{{ WOOD }}" stroke="{{ WOOD_D }}" stroke-width="1.5"/>
-  <rect class="zoom-from" x="-34" y="-77" width="68" height="77" rx="2" fill="{{ WOOD_D }}"/>
-  <rect x="-29" y="-73" width="58" height="68" fill="#4a3324"/>
-  {# top shelf #}
-  {% for x, w, h, col in [(-28, 7, 26, '#c8473a'), (-21, 6, 22, '#4a6fa5'), (-15, 8, 29, '#5a8f6e'), (-7, 6, 24, '#e3b04b'), (10, 6, 25, '#8f3b2b'), (16, 6, 21, '#3f6f7e'), (22, 6, 27, '#c98a4b')] %}
-  <rect x="{{ x }}" y="{{ -41 - h }}" width="{{ w }}" height="{{ h }}" rx="1" fill="{{ col }}"/>
-  <rect x="{{ x }}" y="{{ -41 - h + 4 }}" width="{{ w }}" height="1.6" fill="#fff" opacity=".35"/>
-  {% endfor %}
-  {# the Book Notes book: cream with gold bands #}
+  {% set WOOD = '#d6a468' %}{% set WOOD_D = '#a8743f' %}{% set WOOD_DD = '#7e5530' %}
+  <ellipse cx="0" cy="2" rx="66" ry="7" fill="#000" opacity=".25"/>
+  <rect class="zoom-from" x="-57" y="-716" width="114" height="716" rx="2" fill="{{ WOOD_D }}"/>
+  <rect x="-62" y="-730" width="124" height="16" rx="3" fill="{{ WOOD }}" stroke="{{ WOOD_D }}" stroke-width="2"/>
+  <rect x="-50" y="-706" width="100" height="682" fill="#3f2b1f"/>
+  <rect x="-48" y="-684" width="12" height="88" rx="1.5" fill="#4a6fa5"/><rect x="-48" y="-676" width="12" height="3" fill="#fff" opacity=".3"/><rect x="-48" y="-610" width="12" height="2" fill="#000" opacity=".15"/>
+  <rect x="-35" y="-676" width="10" height="80" rx="1.5" fill="#c8473a"/><rect x="-35" y="-668" width="10" height="3" fill="#fff" opacity=".3"/><rect x="-35" y="-610" width="10" height="2" fill="#000" opacity=".15"/>
+  <rect x="-24" y="-690" width="14" height="94" rx="1.5" fill="#5a8f6e"/><rect x="-24" y="-682" width="14" height="3" fill="#fff" opacity=".3"/><rect x="-24" y="-610" width="14" height="2" fill="#000" opacity=".15"/>
+  <rect x="-9" y="-672" width="9" height="76" rx="1.5" fill="#e3b04b"/><rect x="-9" y="-664" width="9" height="3" fill="#fff" opacity=".3"/><rect x="-9" y="-610" width="9" height="2" fill="#000" opacity=".15"/>
+  <rect x="1" y="-686" width="12" height="90" rx="1.5" fill="#7a5c8f"/><rect x="1" y="-678" width="12" height="3" fill="#fff" opacity=".3"/><rect x="1" y="-610" width="12" height="2" fill="#000" opacity=".15"/>
+  <rect x="14" y="-680" width="11" height="84" rx="1.5" fill="#c98a4b"/><rect x="14" y="-672" width="11" height="3" fill="#fff" opacity=".3"/><rect x="14" y="-610" width="11" height="2" fill="#000" opacity=".15"/>
+  <path d="M 30 -608 L 46 -608 L 44 -596 L 32 -596 Z" fill="#e0705a"/><path d="M 38 -608 C 34 -622 28 -626 26 -630 M 38 -608 C 40 -624 46 -628 50 -626 M 38 -608 V -632" stroke="#6f9f63" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <rect x="-50" y="-596" width="100" height="4" fill="{{ WOOD_D }}"/>
+  <rect x="-48" y="-574" width="10" height="92" rx="1.5" fill="#8f3b2b"/><rect x="-48" y="-566" width="10" height="3" fill="#fff" opacity=".3"/><rect x="-48" y="-496" width="10" height="2" fill="#000" opacity=".15"/>
+  <rect x="-37" y="-568" width="13" height="86" rx="1.5" fill="#3f6f7e"/><rect x="-37" y="-560" width="13" height="3" fill="#fff" opacity=".3"/><rect x="-37" y="-496" width="13" height="2" fill="#000" opacity=".15"/>
+  <rect x="-23" y="-578" width="9" height="96" rx="1.5" fill="#c8a46a"/><rect x="-23" y="-570" width="9" height="3" fill="#fff" opacity=".3"/><rect x="-23" y="-496" width="9" height="2" fill="#000" opacity=".15"/>
+  <rect x="-13" y="-562" width="12" height="80" rx="1.5" fill="#e0705a"/><rect x="-13" y="-554" width="12" height="3" fill="#fff" opacity=".3"/><rect x="-13" y="-496" width="12" height="2" fill="#000" opacity=".15"/>
+  <rect x="0" y="-572" width="10" height="90" rx="1.5" fill="#5f978d"/><rect x="0" y="-564" width="10" height="3" fill="#fff" opacity=".3"/><rect x="0" y="-496" width="10" height="2" fill="#000" opacity=".15"/>
+  <rect x="11" y="-566" width="14" height="84" rx="1.5" fill="#4a6fa5"/><rect x="11" y="-558" width="14" height="3" fill="#fff" opacity=".3"/><rect x="11" y="-496" width="14" height="2" fill="#000" opacity=".15"/>
+  <rect x="26" y="-576" width="11" height="94" rx="1.5" fill="#c8473a"/><rect x="26" y="-568" width="11" height="3" fill="#fff" opacity=".3"/><rect x="26" y="-496" width="11" height="2" fill="#000" opacity=".15"/>
+  <rect x="38" y="-560" width="12" height="78" rx="1.5" fill="#e3b04b"/><rect x="38" y="-552" width="12" height="3" fill="#fff" opacity=".3"/><rect x="38" y="-496" width="12" height="2" fill="#000" opacity=".15"/>
+  <rect x="-50" y="-482" width="100" height="4" fill="{{ WOOD_D }}"/>
+  <rect x="-48" y="-452" width="11" height="84" rx="1.5" fill="#5a8f6e"/><rect x="-48" y="-444" width="11" height="3" fill="#fff" opacity=".3"/><rect x="-48" y="-382" width="11" height="2" fill="#000" opacity=".15"/>
+  <rect x="-36" y="-460" width="12" height="92" rx="1.5" fill="#c98a4b"/><rect x="-36" y="-452" width="12" height="3" fill="#fff" opacity=".3"/><rect x="-36" y="-382" width="12" height="2" fill="#000" opacity=".15"/>
+  <rect x="-23" y="-446" width="10" height="78" rx="1.5" fill="#4a6fa5"/><rect x="-23" y="-438" width="10" height="3" fill="#fff" opacity=".3"/><rect x="-23" y="-382" width="10" height="2" fill="#000" opacity=".15"/>
+  <rect x="-12" y="-456" width="13" height="88" rx="1.5" fill="#8f3b2b"/><rect x="-12" y="-448" width="13" height="3" fill="#fff" opacity=".3"/><rect x="-12" y="-382" width="13" height="2" fill="#000" opacity=".15"/>
   <g class="{{ 'zoom-book' if big else 'notes-book' }}">
-    <rect x="0" y="-71" width="9" height="30" rx="1" fill="#f3e7d3" stroke="#c8a46a" stroke-width=".8"/>
-    <rect x="0" y="-67" width="9" height="2" fill="#c8a46a"/>
-    <rect x="0" y="-47" width="9" height="2" fill="#c8a46a"/>
-    <path d="M 2.5 -61 V -51 M 6.5 -60 V -53" stroke="#7c7367" stroke-width=".9" stroke-linecap="round"/>
+    <rect x="2" y="-466" width="16" height="98" rx="1.5" fill="#f3e7d3" stroke="#c8a46a" stroke-width="1.2"/>
+    <rect x="2" y="-456" width="16" height="4" fill="#c8a46a"/><rect x="2" y="-386" width="16" height="4" fill="#c8a46a"/>
+    <path d="M 7 -442 V -402 M 13 -438 V -412" stroke="#7c7367" stroke-width="1.6" stroke-linecap="round"/>
   </g>
-  <rect x="-29" y="-41" width="58" height="4" fill="{{ WOOD_D }}"/>
-  {# bottom shelf: a few upright, a few in a pile, an acorn on top #}
-  {% for x, w, h, col in [(-28, 6, 28, '#4a6fa5'), (-22, 8, 25, '#e0705a'), (-14, 6, 30, '#c8a46a'), (-8, 7, 27, '#5f978d')] %}
-  <rect x="{{ x }}" y="{{ -5 - h }}" width="{{ w }}" height="{{ h }}" rx="1" fill="{{ col }}"/>
-  <rect x="{{ x }}" y="{{ -5 - h + 4 }}" width="{{ w }}" height="1.6" fill="#fff" opacity=".35"/>
-  {% endfor %}
-  <rect x="2" y="-11" width="25" height="6" rx="1" fill="#8f3b2b"/>
-  <rect x="4" y="-17" width="21" height="6" rx="1" fill="#e3b04b"/>
-  <rect x="3" y="-23" width="23" height="6" rx="1" fill="#4a6fa5"/>
-  <ellipse cx="15" cy="-27" rx="3.6" ry="4" fill="#c98a4b"/>
-  <path d="M 11 -29 C 11.5 -33 18.5 -33 19 -29 Z" fill="#7d5636"/>
-  <rect x="-34" y="-5" width="68" height="5" fill="{{ WOOD_D }}"/>
+  <rect x="19" y="-454" width="10" height="86" rx="1.5" fill="#7a5c8f"/><rect x="19" y="-446" width="10" height="3" fill="#fff" opacity=".3"/><rect x="19" y="-382" width="10" height="2" fill="#000" opacity=".15"/>
+  <rect x="30" y="-448" width="12" height="80" rx="1.5" fill="#e3b04b"/><rect x="30" y="-440" width="12" height="3" fill="#fff" opacity=".3"/><rect x="30" y="-382" width="12" height="2" fill="#000" opacity=".15"/>
+  <rect x="-50" y="-368" width="100" height="4" fill="{{ WOOD_D }}"/>
+  <rect x="1" y="-344" width="12" height="90" rx="1.5" fill="#3f6f7e"/><rect x="1" y="-336" width="12" height="3" fill="#fff" opacity=".3"/><rect x="1" y="-268" width="12" height="2" fill="#000" opacity=".15"/>
+  <rect x="14" y="-338" width="10" height="84" rx="1.5" fill="#c8473a"/><rect x="14" y="-330" width="10" height="3" fill="#fff" opacity=".3"/><rect x="14" y="-268" width="10" height="2" fill="#000" opacity=".15"/>
+  <rect x="25" y="-348" width="13" height="94" rx="1.5" fill="#c8a46a"/><rect x="25" y="-340" width="13" height="3" fill="#fff" opacity=".3"/><rect x="25" y="-268" width="13" height="2" fill="#000" opacity=".15"/>
+  <rect x="39" y="-334" width="11" height="80" rx="1.5" fill="#5f978d"/><rect x="39" y="-326" width="11" height="3" fill="#fff" opacity=".3"/><rect x="39" y="-268" width="11" height="2" fill="#000" opacity=".15"/>
+  <rect x="-48" y="-266" width="48" height="12" rx="1.5" fill="#8f3b2b"/>
+  <rect x="-45" y="-278" width="42" height="12" rx="1.5" fill="#e3b04b"/>
+  <rect x="-47" y="-290" width="46" height="12" rx="1.5" fill="#4a6fa5"/>
+  <rect x="-43" y="-302" width="38" height="12" rx="1.5" fill="#5a8f6e"/>
+  <ellipse cx="-24" cy="-310" rx="7" ry="8" fill="#c98a4b"/><path d="M -32 -314 C -31 -322 -17 -322 -16 -314 Z" fill="#7d5636"/>
+  <rect x="-50" y="-254" width="100" height="4" fill="{{ WOOD_D }}"/>
+  <rect x="-48" y="-236" width="14" height="96" rx="1.5" fill="#e0705a"/><rect x="-48" y="-228" width="14" height="3" fill="#fff" opacity=".3"/><rect x="-48" y="-154" width="14" height="2" fill="#000" opacity=".15"/>
+  <rect x="-33" y="-228" width="10" height="88" rx="1.5" fill="#4a6fa5"/><rect x="-33" y="-220" width="10" height="3" fill="#fff" opacity=".3"/><rect x="-33" y="-154" width="10" height="2" fill="#000" opacity=".15"/>
+  <rect x="-22" y="-232" width="12" height="92" rx="1.5" fill="#5a8f6e"/><rect x="-22" y="-224" width="12" height="3" fill="#fff" opacity=".3"/><rect x="-22" y="-154" width="12" height="2" fill="#000" opacity=".15"/>
+  <rect x="-9" y="-222" width="11" height="82" rx="1.5" fill="#8f3b2b"/><rect x="-9" y="-214" width="11" height="3" fill="#fff" opacity=".3"/><rect x="-9" y="-154" width="11" height="2" fill="#000" opacity=".15"/>
+  <rect x="3" y="-230" width="13" height="90" rx="1.5" fill="#e3b04b"/><rect x="3" y="-222" width="13" height="3" fill="#fff" opacity=".3"/><rect x="3" y="-154" width="13" height="2" fill="#000" opacity=".15"/>
+  <rect x="17" y="-226" width="10" height="86" rx="1.5" fill="#7a5c8f"/><rect x="17" y="-218" width="10" height="3" fill="#fff" opacity=".3"/><rect x="17" y="-154" width="10" height="2" fill="#000" opacity=".15"/>
+  <rect x="28" y="-234" width="12" height="94" rx="1.5" fill="#c98a4b"/><rect x="28" y="-226" width="12" height="3" fill="#fff" opacity=".3"/><rect x="28" y="-154" width="12" height="2" fill="#000" opacity=".15"/>
+  <rect x="-50" y="-140" width="100" height="4" fill="{{ WOOD_D }}"/>
+  <rect x="-48" y="-126" width="16" height="100" rx="1.5" fill="#3f6f7e"/><rect x="-48" y="-118" width="16" height="3" fill="#fff" opacity=".3"/><rect x="-48" y="-40" width="16" height="2" fill="#000" opacity=".15"/>
+  <rect x="-31" y="-122" width="15" height="96" rx="1.5" fill="#8f3b2b"/><rect x="-31" y="-114" width="15" height="3" fill="#fff" opacity=".3"/><rect x="-31" y="-40" width="15" height="2" fill="#000" opacity=".15"/>
+  <rect x="-15" y="-130" width="17" height="104" rx="1.5" fill="#c8a46a"/><rect x="-15" y="-122" width="17" height="3" fill="#fff" opacity=".3"/><rect x="-15" y="-40" width="17" height="2" fill="#000" opacity=".15"/>
+  <rect x="3" y="-118" width="14" height="92" rx="1.5" fill="#4a6fa5"/><rect x="3" y="-110" width="14" height="3" fill="#fff" opacity=".3"/><rect x="3" y="-40" width="14" height="2" fill="#000" opacity=".15"/>
+  <rect x="18" y="-40" width="30" height="14" rx="1.5" fill="#5f978d"/>
+  <rect x="20" y="-54" width="26" height="14" rx="1.5" fill="#e0705a"/>
+  <rect x="-57" y="-26" width="114" height="26" fill="{{ WOOD_DD }}"/>
+  <rect x="-57" y="-716" width="114" height="716" rx="2" fill="none" stroke="{{ WOOD_DD }}" stroke-width="2"/>
 {% endmacro %}
 
 {# three framed photos (left, middle, right); centred on the middle frame.
@@ -107,14 +140,14 @@
     <circle cx="-72" cy="-56" r="2" fill="#c8a46a"/>
     <rect x="-96" y="-34" width="48" height="64" rx="2" fill="#5b3a26" stroke="#3a2418" stroke-width="1.5"/>
     <rect x="-91" y="-29" width="38" height="54" fill="#f4ead8"/>
-    <image href="{{ images[0] }}" x="-88" y="-26" width="32" height="48" preserveAspectRatio="xMidYMid slice"/>
+    <image class="wall-img" data-slot="0" href="{{ images[0] }}" x="-88" y="-26" width="32" height="48" preserveAspectRatio="xMidYMid slice"/>
   </g>
   <g class="{{ 'zoom-side zoom-side--right' if big else '' }}">
     <line x1="72" y1="-60" x2="62" y2="-38" stroke="#c8a46a" stroke-width="1.2"/><line x1="72" y1="-60" x2="82" y2="-38" stroke="#c8a46a" stroke-width="1.2"/>
     <circle cx="72" cy="-60" r="2" fill="#c8a46a"/>
     <rect x="48" y="-38" width="48" height="64" rx="2" fill="#5b3a26" stroke="#3a2418" stroke-width="1.5"/>
     <rect x="53" y="-33" width="38" height="54" fill="#f4ead8"/>
-    <image href="{{ images[2] }}" x="56" y="-30" width="32" height="48" preserveAspectRatio="xMidYMid slice"/>
+    <image class="wall-img" data-slot="2" href="{{ images[2] }}" x="56" y="-30" width="32" height="48" preserveAspectRatio="xMidYMid slice"/>
   </g>
   <g class="{{ 'zoom-photo' if big else 'wall-photo' }}">
     {# a little brass picture light #}
@@ -122,7 +155,7 @@
     <path d="M -3 -55 V -51 M 3 -55 V -51" stroke="#a07a3f" stroke-width="2"/>
     <rect class="zoom-from" x="-38" y="-50" width="76" height="100" rx="2" fill="#c8a46a" stroke="#8a6a3a" stroke-width="2"/>
     <rect x="-32" y="-44" width="64" height="88" fill="#f4ead8"/>
-    <image href="{{ images[1] }}" x="-27" y="-38" width="54" height="76" preserveAspectRatio="xMidYMid slice"/>
+    <image class="wall-img" data-slot="1" href="{{ images[1] }}" x="-27" y="-38" width="54" height="76" preserveAspectRatio="xMidYMid slice"/>
     <path d="M -38 -50 L 38 -50 L 26 -20 L -26 -20 Z" fill="#fff6d8" opacity=".12"/>
   </g>
 {% endmacro %}
@@ -256,17 +289,6 @@
       </a>
     </g>
     {% endif %}
-    {% if bookcase %}
-    {# after hours, a little bookcase stands where the globe was #}
-    <g class="night-only">
-      <a class="scene-link bookcase" href="{{ bookcase.href }}" data-zoom="books"
-         data-title="{{ bookcase.title }}" data-sub="{{ bookcase.description }}"
-         aria-label="{{ bookcase.title }}" transform="translate(288 358)">
-        <g class="pick-art books-art">{{ bookcase_art() }}</g>
-        <rect class="plate-hit" x="-40" y="-88" width="80" height="90" rx="8"/>
-      </a>
-    </g>
-    {% endif %}
   </g>
 
   {{ lantern(470) }}
@@ -293,7 +315,7 @@
   <g class="night-only">
     <a class="scene-link photo-wall" href="{{ photo_wall.href }}" data-zoom="photos"
        data-title="{{ photo_wall.title }}" data-sub="{{ photo_wall.description }}"
-       aria-label="{{ photo_wall.title }}" transform="translate(496 272) scale(1.05)">
+       aria-label="{{ photo_wall.title }}" data-photos="{{ photo_wall.all|join(' ') }}" transform="translate(496 272) scale(1.05)">
       <g class="pick-art photos-art">{{ photo_wall_art(photo_wall.images) }}</g>
       <rect class="plate-hit" x="-100" y="-64" width="200" height="118" rx="8"/>
     </a>
@@ -529,6 +551,17 @@
   <g class="dancer night-only" transform="translate(74 762) scale(.8)"><g class="dance" style="animation-delay: -.2s">{{ sq.front(kind='ground', outfit='gown', look='happy', tailside=-1) }}</g></g>
 
   {# ---- the front row, on stools, with their backs to us ---- #}
+  {% if bookcase %}
+  {# after hours, a tall bookcase stands on the right #}
+  <g class="night-only">
+    <a class="scene-link bookcase" href="{{ bookcase.href }}" data-zoom="books"
+       data-title="{{ bookcase.title }}" data-sub="{{ bookcase.description }}"
+       aria-label="{{ bookcase.title }}" transform="translate(1532 978)">
+      <g class="pick-art books-art">{{ bookcase_art() }}</g>
+      <rect class="plate-hit" x="-62" y="-734" width="124" height="740" rx="8"/>
+    </a>
+  </g>
+  {% endif %}
   {% for x, cushion in [(330, '#c8473a'), (610, '#4a6fa5'), (890, '#d9a441'), (1170, '#5a8f6e'), (1440, '#c8473a')] %}{{ stool(x, 906, 0.9, cushion) }}{% endfor %}
   <g class="day-only">
   <g class="diner diner--reach" transform="translate(330 908) scale(.86)">{{ sq.back(kind='gray', reach=true, tailside=1, outfit='firefighter', tailshape='curl') }}</g>

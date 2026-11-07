@@ -51,13 +51,14 @@ DAY_EXTRAS = [
 GLOBE = {"title": "College Sports Atlas", "description": "Where college athletes come from",
          "url": "https://sarahmlammert.github.io/college-sports-atlas/index.html"}
 
-# The little bookcase on the windowsill (after hours only) links to Book Notes.
+# The tall bookcase on the right (after hours only) links to Book Notes.
 # Clicking it zooms into the bookcase, pulls the Book Notes book off the shelf, dives into it, then opens the page.
 BOOKCASE = {"title": "Book Notes", "description": "Notes from what I\u2019m reading.", "endpoint": "books"}
 
 # After hours, framed photos hang on the wall where the sushi menu is by day; they link to Photos.
+# Every few seconds one frame fades to another photo, cycling through everything in thumb/.
 # Clicking them zooms into the wall, the middle frame comes forward, we dive into the photo, then the page opens.
-# "photos" = file names in static/images/photos/thumb/, in order: left, middle, right.
+# "photos" = the ones to start with (file names in static/images/photos/thumb/), in order: left, middle, right.
 PHOTO_WALL = {"title": "Photos", "description": "Squirrels, mainly.", "endpoint": "photos",
               "photos": ["squirrel2.jpg", "squirrel1.jpg", "squirrel3.jpg"]}
 

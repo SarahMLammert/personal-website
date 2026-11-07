@@ -135,6 +135,26 @@
         print.addEventListener('transitionend', e => { if (e.target === print) next(); }, { once: true });
         setTimeout(next, 1300);                                            // in case the transition never reports back
     }
+    // ---- the framed photos, after hours: every few seconds one frame fades to another photo ----
+    const wall = svg.querySelector('.scene-link.photo-wall');
+    if (wall && wall.dataset.photos && !reduceMotion.matches) {
+        const all = wall.dataset.photos.split(' ');
+        const slots = [1, 0, 2];                               // middle, left, right, middle, ...
+        const shown = [0, 1, 2].map(i => wall.querySelector(`.wall-img[data-slot="${i}"]`).getAttribute('href'));
+        let turn = 0, pointer = Math.max(...shown.map(h => all.indexOf(h)));
+        all.forEach(src => { const im = new Image(); im.src = src; });   // so the fades never show a blank frame
+        setInterval(() => {
+            if (!isNight() || zooming || document.hidden) return;
+            const slot = slots[turn++ % slots.length];
+            do { pointer = (pointer + 1) % all.length; } while (shown.includes(all[pointer]) && all.length > 3);
+            shown[slot] = all[pointer];
+            // the zoomed-in copy follows along, so the dive lands on the photo you clicked
+            const imgs = document.querySelectorAll(`.photo-wall .wall-img[data-slot="${slot}"], .zoom-world[data-for="photos"] .wall-img[data-slot="${slot}"]`);
+            imgs.forEach(im => im.classList.add('is-fading'));
+            setTimeout(() => imgs.forEach(im => { im.setAttribute('href', shown[slot]); im.classList.remove('is-fading'); }), 600);
+        }, 3200);
+    }
+
     // coming back with the browser's Back button: put the room back as it was
     window.addEventListener('pageshow', () => {
         zooming = false;

@@ -43,7 +43,10 @@ def home():
                            bookcase=dict(BOOKCASE, href=url_for(BOOKCASE["endpoint"])),
                            photo_wall=dict(PHOTO_WALL, href=url_for(PHOTO_WALL["endpoint"]),
                                            images=[url_for("static", filename=f"images/photos/thumb/{n}")
-                                                   for n in PHOTO_WALL["photos"]]))
+                                                   for n in PHOTO_WALL["photos"]],
+                                           all=[url_for("static", filename=f"images/photos/thumb/{n}")
+                                                for n in sorted((p.name for p in (PHOTO_DIR / "thumb").glob("*.jpg")),
+                                                                key=natural_key)]))
 
 
 @app.route("/photos")
