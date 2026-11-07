@@ -30,6 +30,8 @@ PLATES = [
     # night
     {"side": "night", "title": "Photos", "description": "Squirrels, mainly.", "endpoint": "photos",
      "drink": "taro"},
+    # Book Notes is also the bookcase on the windowsill (BOOKCASE). This drink is temporary:
+    # take it off the bar once more drinks are added.
     {"side": "night", "title": "Book Notes", "description": "Notes from what I\u2019m reading.", "endpoint": "books",
      "drink": "matcha"},
     {"side": "night", "title": "Writing", "description": "Notes and posts.",
@@ -43,10 +45,13 @@ DAY_EXTRAS = [
     {"title": "Unagi", "description": "Just a snack", "sushi": "unagi", "plate": "green"},
 ]
 # The little globe on the windowsill (day only) links to the map project.
-# Clicking it zooms into the globe, then into the map (zoom_image), then opens the atlas.
+# Clicking it zooms into the globe, spins it to the Americas, then opens the atlas.
 GLOBE = {"title": "College Sports Atlas", "description": "Where college athletes come from",
-         "url": "https://sarahmlammert.github.io/college-sports-atlas/index.html",
-         "zoom_image": "images/projects/atlas-map.jpg"}
+         "url": "https://sarahmlammert.github.io/college-sports-atlas/index.html"}
+
+# The little bookcase on the windowsill (after hours only) links to Book Notes.
+# Clicking it zooms into the bookcase, pulls the Book Notes book off the shelf, dives into it, then opens the page.
+BOOKCASE = {"title": "Book Notes", "description": "Notes from what I\u2019m reading.", "endpoint": "books"}
 
 NIGHT_EXTRAS = [
     {"title": "Acorn sour", "description": "House special", "drink": "brownsugar"},

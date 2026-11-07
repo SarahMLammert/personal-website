@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% from "_sushi.html" import defs %}
-{% from "_scene.html" import scene, globe_land %}
+{% from "_scene.html" import scene, globe_land, bookcase_art %}
 
 {% block content %}
 <script>
@@ -16,36 +16,34 @@
         <span class="tack tack--left" aria-hidden="true"></span>
         <span class="tack tack--right" aria-hidden="true"></span>
         <div class="print-art" data-belt>
-            {{ scene(day, night, day_extras, night_extras, globe) }}
+            {{ scene(day, night, day_extras, night_extras, globe, bookcase) }}
             <div class="plate-tag" hidden><strong></strong><span></span></div>
         </div>
         <figcaption class="print-caption">
             <h1 class="print-title">Sarah May Hui Yu Lammert</h1>
-            <nav class="print-nav print-nav--day" aria-label="Sections">
-                {% for p in day if p.href %}
-                <a href="{{ p.href }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}>{{ p.title }}</a>
-                {% endfor %}
-            </nav>
-            <nav class="print-nav print-nav--night" aria-label="After-hours sections">
-                {% for p in night if p.href %}
-                <a href="{{ p.href }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}>{{ p.title }}</a>
-                {% endfor %}
-            </nav>
+            <p class="print-hint print-hint--day">Click on the plates on the conveyor belt</p>
+            <p class="print-hint print-hint--night">Click on the drinks at the bar</p>
         </figcaption>
     </figure>
 </main>
 
 {% if globe %}
 {# worlds inside worlds: clicking the globe zooms into it, then into the map, then opens the atlas #}
-<div class="zoom-world" data-for="globe" aria-hidden="true">
-    <svg class="zoom-globe" viewBox="-32 -78 64 64">
+<div class="zoom-world" data-for="globe" data-fit="0.78125" aria-hidden="true">
+    <svg class="zoom-art zoom-globe" viewBox="-32 -78 64 64">
         <defs><clipPath id="zoom-globe-clip"><circle cx="0" cy="-46" r="25"/></clipPath></defs>
         <circle cx="0" cy="-46" r="25" fill="#7fb8c9"/>
         <g clip-path="url(#zoom-globe-clip)"><g class="zoom-land">{{ globe_land() }}</g></g>
         <circle cx="0" cy="-46" r="25" fill="none" stroke="#3f6f7e" stroke-width="1"/>
         <path d="M -14 -60 A 18 18 0 0 1 -2 -66" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".5"/>
     </svg>
-    <img class="zoom-map" src="{{ url_for('static', filename=globe.zoom_image) }}" alt="" loading="lazy" decoding="async">
+</div>
+{% endif %}
+
+{% if bookcase %}
+{# and after hours, clicking the bookcase zooms into it, pulls out the Book Notes book and dives in #}
+<div class="zoom-world zoom-world--night" data-for="books" data-fit="0.7727" aria-hidden="true">
+    <svg class="zoom-art zoom-bookcase" viewBox="-44 -83 88 88">{{ bookcase_art(big=True) }}</svg>
 </div>
 {% endif %}
 

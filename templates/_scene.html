@@ -66,6 +66,38 @@
               {% endfor %}
 {% endmacro %}
 
+{# a little bookcase; big=True is the zoomed-in copy, where the Book Notes book can slide out #}
+{% macro bookcase_art(big=False) %}
+  {% set WOOD = '#d6a468' %}{% set WOOD_D = '#a8743f' %}
+  <rect x="-37" y="-82" width="74" height="6" rx="2" fill="{{ WOOD }}" stroke="{{ WOOD_D }}" stroke-width="1.5"/>
+  <rect class="zoom-from" x="-34" y="-77" width="68" height="77" rx="2" fill="{{ WOOD_D }}"/>
+  <rect x="-29" y="-73" width="58" height="68" fill="#4a3324"/>
+  {# top shelf #}
+  {% for x, w, h, col in [(-28, 7, 26, '#c8473a'), (-21, 6, 22, '#4a6fa5'), (-15, 8, 29, '#5a8f6e'), (-7, 6, 24, '#e3b04b'), (10, 6, 25, '#8f3b2b'), (16, 6, 21, '#3f6f7e'), (22, 6, 27, '#c98a4b')] %}
+  <rect x="{{ x }}" y="{{ -41 - h }}" width="{{ w }}" height="{{ h }}" rx="1" fill="{{ col }}"/>
+  <rect x="{{ x }}" y="{{ -41 - h + 4 }}" width="{{ w }}" height="1.6" fill="#fff" opacity=".35"/>
+  {% endfor %}
+  {# the Book Notes book: cream with gold bands #}
+  <g class="{{ 'zoom-book' if big else 'notes-book' }}">
+    <rect x="0" y="-71" width="9" height="30" rx="1" fill="#f3e7d3" stroke="#c8a46a" stroke-width=".8"/>
+    <rect x="0" y="-67" width="9" height="2" fill="#c8a46a"/>
+    <rect x="0" y="-47" width="9" height="2" fill="#c8a46a"/>
+    <path d="M 2.5 -61 V -51 M 6.5 -60 V -53" stroke="#7c7367" stroke-width=".9" stroke-linecap="round"/>
+  </g>
+  <rect x="-29" y="-41" width="58" height="4" fill="{{ WOOD_D }}"/>
+  {# bottom shelf: a few upright, a few in a pile, an acorn on top #}
+  {% for x, w, h, col in [(-28, 6, 28, '#4a6fa5'), (-22, 8, 25, '#e0705a'), (-14, 6, 30, '#c8a46a'), (-8, 7, 27, '#5f978d')] %}
+  <rect x="{{ x }}" y="{{ -5 - h }}" width="{{ w }}" height="{{ h }}" rx="1" fill="{{ col }}"/>
+  <rect x="{{ x }}" y="{{ -5 - h + 4 }}" width="{{ w }}" height="1.6" fill="#fff" opacity=".35"/>
+  {% endfor %}
+  <rect x="2" y="-11" width="25" height="6" rx="1" fill="#8f3b2b"/>
+  <rect x="4" y="-17" width="21" height="6" rx="1" fill="#e3b04b"/>
+  <rect x="3" y="-23" width="23" height="6" rx="1" fill="#4a6fa5"/>
+  <ellipse cx="15" cy="-27" rx="3.6" ry="4" fill="#c98a4b"/>
+  <path d="M 11 -29 C 11.5 -33 18.5 -33 19 -29 Z" fill="#7d5636"/>
+  <rect x="-34" y="-5" width="68" height="5" fill="{{ WOOD_D }}"/>
+{% endmacro %}
+
 {% macro lantern(x) %}
 <g class="lantern" style="transform-origin: {{ x }}px 0px">
   <circle cx="{{ x }}" cy="112" r="92" fill="url(#glow)"/>
@@ -99,7 +131,7 @@
 </g>
 {% endmacro %}
 
-{% macro scene(day, night, day_extras=[], night_extras=[], globe=None) %}
+{% macro scene(day, night, day_extras=[], night_extras=[], globe=None, bookcase=None) %}
 <svg class="scene" viewBox="0 0 1600 1000" role="img" aria-labelledby="scene-title">
   <title id="scene-title">Squirrels at a sushi bar. By day, plates on the conveyor belt lead to the professional side of the site; after hours, drinks on the bar lead to the personal side.</title>
   <defs>
@@ -182,7 +214,7 @@
           <path d="M -6 -6 L -3 -18 L 3 -18 L 6 -6 Z" fill="#a8743f"/>
           <path d="M -28 -40 A 30 30 0 0 0 26 -22" stroke="#c8a46a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
           <clipPath id="globe-clip"><circle cx="0" cy="-46" r="25"/></clipPath>
-          <circle class="globe-ball" cx="0" cy="-46" r="25" fill="#7fb8c9"/>
+          <circle class="globe-ball zoom-from" cx="0" cy="-46" r="25" fill="#7fb8c9"/>
           <g clip-path="url(#globe-clip)">
             <g class="globe-land">
               {{ globe_land() }}
@@ -192,6 +224,17 @@
           <path d="M -14 -60 A 18 18 0 0 1 -2 -66" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".6"/>
         </g>
         <ellipse class="plate-hit" cx="0" cy="-38" rx="34" ry="40"/>
+      </a>
+    </g>
+    {% endif %}
+    {% if bookcase %}
+    {# after hours, a little bookcase stands where the globe was #}
+    <g class="night-only">
+      <a class="scene-link bookcase" href="{{ bookcase.href }}" data-zoom="books"
+         data-title="{{ bookcase.title }}" data-sub="{{ bookcase.description }}"
+         aria-label="{{ bookcase.title }}" transform="translate(288 358)">
+        <g class="pick-art books-art">{{ bookcase_art() }}</g>
+        <rect class="plate-hit" x="-40" y="-88" width="80" height="90" rx="8"/>
       </a>
     </g>
     {% endif %}
@@ -385,7 +428,7 @@
 
   {# the plates themselves; belt.js moves each one into one of the groups above #}
   <g id="plates" class="plates day-only">
-    {% for p in plates %}
+    {% for p in day %}
     {% if p.href %}
     <a class="belt-plate" href="{{ p.href }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}
        data-title="{{ p.title }}" data-sub="{{ p.description }}"{% if p.external %} data-external="1"{% endif %}

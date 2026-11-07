@@ -93,11 +93,12 @@
     });
 
     // ---- worlds inside worlds --------------------------------------------
-    // Clicking the globe zooms the room into it, spins the globe to the Americas,
-    // dives into the map, and then opens the page.
-    const world = document.querySelector('.zoom-world[data-for="globe"]');
+    // Clicking the globe (day) or the bookcase (after hours) zooms the room into it, and the big copy
+    // takes over: the globe spins to the Americas / the Book Notes book slides out, then we dive in and open the page.
+    const worlds = Array.from(document.querySelectorAll('.zoom-world'));
     function zoomInto(el) {
         const href = el.getAttribute('href');
+        const world = document.querySelector(`.zoom-world[data-for="${el.dataset.zoom}"]`);
         if (!world || reduceMotion.matches) { window.location.href = href; return; }
         if (zooming) return;
         zooming = true;
@@ -108,18 +109,17 @@
         el.classList.add('is-held');
         const print = root.closest('.print');
         const box = print.getBoundingClientRect();
-        const r = el.querySelector('.globe-ball').getBoundingClientRect();
+        const r = el.querySelector('.zoom-from').getBoundingClientRect();
         const gx = r.left + r.width / 2, gy = r.top + r.height / 2;
         void art.offsetWidth;
         art.style.transition = '';
-        const target = world.querySelector('.zoom-globe').getBoundingClientRect();   // where the big globe will be
-        const big = target.width * 50 / 64;
+        const target = world.querySelector('.zoom-art').getBoundingClientRect();     // where the big copy will be
+        const big = target.width * parseFloat(world.dataset.fit);                 // its .zoom-from part, on screen
         const scale = big / r.width;
         print.style.transformOrigin = `${gx - box.left}px ${gy - box.top}px`;
         print.style.setProperty('--zoom', `translate(${target.left + target.width / 2 - gx}px, ${target.top + target.height / 2 - gy}px) scale(${scale})`);
         document.documentElement.classList.add('is-zooming');
         root.classList.add('is-zooming');
-        world.querySelector('.zoom-map').loading = 'eager';
         // once the room has finished zooming in, the big globe takes over
         let started = false;
         const next = () => {
@@ -127,10 +127,9 @@
             started = true;
             [
                 [0, () => world.classList.add('is-on')],                   // the globe fills the screen
-                [300, () => world.classList.add('is-turning')],            // it spins round to the Americas
-                [1700, () => world.classList.add('is-diving')],            // and we dive into the map
-                [2250, () => world.classList.add('is-map')],
-                [3050, () => { window.location.href = href; }],
+                [300, () => world.classList.add('is-turning')],            // the globe spins / the book slides out
+                [1700, () => world.classList.add('is-diving')],            // and we dive in
+                [2600, () => { window.location.href = href; }],
             ].forEach(([ms, fn]) => setTimeout(fn, ms));
         };
         print.addEventListener('transitionend', e => { if (e.target === print) next(); }, { once: true });
@@ -146,7 +145,7 @@
         const print = root.closest('.print');
         print.style.transformOrigin = '';
         print.style.removeProperty('--zoom');
-        if (world) world.classList.remove('is-on', 'is-turning', 'is-diving', 'is-map');
+        worlds.forEach(w => w.classList.remove('is-on', 'is-turning', 'is-diving'));
     });
     picks.forEach(p => {
         if (!p.dataset.zoom) return;
