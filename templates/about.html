@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% import "_squirrels.html" as sq %}
+
+{% block title %}About · Sarah May Hui Yu Lammert{% endblock %}
+{% block description %}About Sarah May Hui Yu Lammert.{% endblock %}
+
+{% block content %}
+<main class="about-page">
+    <header class="page-head">
+        <h1 class="page-title">{{ about.title }}</h1>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="page-sub">{{ about.sub }}</p>
+    </header>
+
+    <div class="about">
+        {# the chef from the homepage, behind the counter #}
+        <svg class="about-chef" viewBox="-175 -248 330 282" aria-hidden="true">
+            <ellipse cx="0" cy="0" rx="130" ry="18" fill="#e6d8c2"/>
+            {% call sq.front(kind='fox', outfit='chef', tailside=-1) %}{% endcall %}
+            <rect x="-150" y="-6" width="290" height="36" rx="8" fill="#a8743f"/>
+            <rect x="-150" y="-6" width="290" height="10" rx="5" fill="#d6a468"/>
+        </svg>
+
+        <div class="about-text">
+            <p class="about-hello">{{ about.hello }}</p>
+            {% for para in about.paragraphs %}<p>{{ para }}</p>{% endfor %}
+            <p class="about-links">
+                {% for l in links %}
+                <a class="btn" href="{{ l.href }}"{% if l.external %} target="_blank" rel="noopener"{% endif %}>{{ l.title }}{% if l.external %} &nearr;{% endif %}</a>
+                {% endfor %}
+            </p>
+        </div>
+    </div>
+</main>
+{% endblock %}

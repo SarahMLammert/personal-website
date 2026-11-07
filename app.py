@@ -5,7 +5,8 @@ from pathlib import Path
 from flask import Flask, abort, render_template, url_for
 
 from books import grouped, load_books, slugify
-from content import BOOKCASE, DAY_EXTRAS, PHOTO_WALL, GITHUB, GLOBE, NIGHT_EXTRAS, PHOTO_CAPTIONS, PLATES, PROJECTS, SITE_URL
+from content import (ABOUT, BOOKCASE, DAY_EXTRAS, GITHUB, GLOBE, NIGHT_EXTRAS, PHOTO_CAPTIONS, PHOTO_WALL, PLATES,
+                     PROJECTS, SITE_URL)
 
 app = Flask(__name__)
 PHOTO_DIR = Path(app.static_folder) / "images" / "photos"
@@ -33,6 +34,22 @@ def natural_key(name):
     return [int(t) if t.isdigit() else t for t in re.split(r"(\d+)", name)]
 
 
+def photo_names():
+    """Every photo, in order (the files make_photos.py wrote)."""
+    return sorted((p.name for p in (PHOTO_DIR / "web").glob("*.jpg")), key=natural_key)
+
+
+def photo_url(name, size="thumb"):
+    return url_for("static", filename=f"images/photos/{size}/{name}")
+
+
+def photo_wall():
+    """PHOTO_WALL with its link, the three photos it starts with, and every photo it rotates through."""
+    return dict(PHOTO_WALL, href=url_for(PHOTO_WALL["endpoint"]),
+                images=[photo_url(n) for n in PHOTO_WALL["photos"]],
+                all=[photo_url(n) for n in photo_names()])
+
+
 @app.route("/")
 def home():
     plates = belt_plates()
@@ -41,22 +58,23 @@ def home():
                            night=[p for p in plates if p.get("side") == "night"],
                            day_extras=DAY_EXTRAS, night_extras=NIGHT_EXTRAS, globe=GLOBE,
                            bookcase=dict(BOOKCASE, href=url_for(BOOKCASE["endpoint"])),
-                           photo_wall=dict(PHOTO_WALL, href=url_for(PHOTO_WALL["endpoint"]),
-                                           images=[url_for("static", filename=f"images/photos/thumb/{n}")
-                                                   for n in PHOTO_WALL["photos"]],
-                                           all=[url_for("static", filename=f"images/photos/thumb/{n}")
-                                                for n in sorted((p.name for p in (PHOTO_DIR / "thumb").glob("*.jpg")),
-                                                                key=natural_key)]))
+                           photo_wall=photo_wall())
+
+
+@app.route("/about")
+def about():
+    links = [dict(l, href=url_for(l["endpoint"]) if "endpoint" in l else l["url"], external="url" in l)
+             for l in ABOUT["links"]]
+    return render_template("about.html", about=ABOUT, links=links)
 
 
 @app.route("/photos")
 def photos():
-    names = sorted((p.name for p in (PHOTO_DIR / "web").glob("*.jpg")), key=natural_key)
     items = [{
-        "thumb": url_for("static", filename=f"images/photos/thumb/{n}"),
-        "full": url_for("static", filename=f"images/photos/web/{n}"),
+        "thumb": photo_url(n),
+        "full": photo_url(n, "web"),
         "caption": PHOTO_CAPTIONS.get(n, ""),
-    } for n in names]
+    } for n in photo_names()]
     return render_template("photos.html", photos=items)
 
 

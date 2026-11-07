@@ -12,6 +12,10 @@
 </ul>
 {% endmacro %}
 
+{# after hours: this page is styled like the bar at night (see "After-hours rooms" in style.css) #}
+{% block body_class %}night-room{% endblock %}
+{% block theme_color %}#1d1a30{% endblock %}
+
 {% block content %}
 <main class="book-page">
     <a class="crumb" href="{{ url_for('books') }}">&larr; All book notes</a>

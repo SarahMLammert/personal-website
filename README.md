@@ -12,13 +12,25 @@ automatically: upload it under Settings → General → Social preview.
 
 | To change | Edit |
 |---|---|
-| Plates on the homepage belt, project write-ups, photo captions | `content.py` |
+| Plates on the belt, drinks on the bar, the globe / framed photos / bookcase, project write-ups, photo captions | `content.py` |
 | Book notes | Markdown files in `books/` (written in Obsidian) |
 | Photos | `static/images/photos/originals/`, then run `python make_photos.py` |
 | Page layouts | `templates/` |
 | Look and feel | `static/css/style.css` |
 | The homepage scene and belt | `templates/_scene.html`, `templates/_squirrels.html`, `static/js/belt.js` |
+| The zoom into the globe, photos or bookcase | big copies in `templates/index.html`, `zoomInto()` in `static/js/belt.js`, "worlds inside worlds" in `style.css` |
 | The photo viewer | `static/js/lightbox.js` |
+
+## The homepage
+
+By day it's a sushi bar: plates ride the conveyor belt (Projects, GitHub, LinkedIn) and a globe on the
+windowsill opens the College Sports Atlas. Click the sun and it turns into an after-hours bar: drinks on
+the bar, framed photos on the wall (they slowly cycle through every photo) and a tall bookcase. Click the
+moon to go back.
+
+Clicking the globe, the photos or the bookcase zooms into it before the page opens. To add another one:
+draw it in `_scene.html` as a `.scene-link` with `data-zoom="name"` and a `.zoom-from` part, add a big
+copy in `index.html` as `.zoom-world[data-for="name"]`, and style its stages in `style.css`.
 
 ## Book notes
 

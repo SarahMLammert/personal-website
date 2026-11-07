@@ -23,6 +23,7 @@ BUILD = ROOT / "build"
 
 def pages():
     yield "/"
+    yield "/about"
     yield "/photos"
     yield "/projects"
     for p in project_list():

@@ -93,8 +93,9 @@
     });
 
     // ---- worlds inside worlds --------------------------------------------
-    // Clicking the globe (day) or the bookcase (after hours) zooms the room into it, and the big copy
-    // takes over: the globe spins to the Americas / the Book Notes book slides out, then we dive in and open the page.
+    // Clicking the globe (day), or the framed photos or bookcase (after hours), zooms the room into it.
+    // Then its big copy (.zoom-world) takes over: the globe spins to the Americas / the middle photo comes
+    // forward / the Book Notes book slides out, and we dive in and open the page.
     const worlds = Array.from(document.querySelectorAll('.zoom-world'));
     function zoomInto(el) {
         const href = el.getAttribute('href');
@@ -102,8 +103,8 @@
         if (!world || reduceMotion.matches) { window.location.href = href; return; }
         if (zooming) return;
         zooming = true;
-        tag.hidden = true;                       // keep the globe 'picked up' so it doesn't shrink mid-zoom
-        // measure the globe in its final 'picked up' pose, not halfway through growing into it
+        tag.hidden = true;                       // keep the object 'picked up' so it doesn't shrink mid-zoom
+        // measure it in its final 'picked up' pose, not halfway through growing into it
         const art = el.querySelector('.pick-art');
         art.style.transition = 'none';
         el.classList.add('is-held');
@@ -120,14 +121,14 @@
         print.style.setProperty('--zoom', `translate(${target.left + target.width / 2 - gx}px, ${target.top + target.height / 2 - gy}px) scale(${scale})`);
         document.documentElement.classList.add('is-zooming');
         root.classList.add('is-zooming');
-        // once the room has finished zooming in, the big globe takes over
+        // once the room has finished zooming in, the big copy takes over
         let started = false;
         const next = () => {
             if (started) return;
             started = true;
             [
-                [0, () => world.classList.add('is-on')],                   // the globe fills the screen
-                [300, () => world.classList.add('is-turning')],            // the globe spins / the book slides out
+                [0, () => world.classList.add('is-on')],                   // the big copy fills the screen
+                [300, () => world.classList.add('is-turning')],            // spin / come forward / slide out
                 [1700, () => world.classList.add('is-diving')],            // and we dive in
                 [2600, () => { window.location.href = href; }],
             ].forEach(([ms, fn]) => setTimeout(fn, ms));
@@ -135,26 +136,6 @@
         print.addEventListener('transitionend', e => { if (e.target === print) next(); }, { once: true });
         setTimeout(next, 1300);                                            // in case the transition never reports back
     }
-    // ---- the framed photos, after hours: every few seconds one frame fades to another photo ----
-    const wall = svg.querySelector('.scene-link.photo-wall');
-    if (wall && wall.dataset.photos && !reduceMotion.matches) {
-        const all = wall.dataset.photos.split(' ');
-        const slots = [1, 0, 2];                               // middle, left, right, middle, ...
-        const shown = [0, 1, 2].map(i => wall.querySelector(`.wall-img[data-slot="${i}"]`).getAttribute('href'));
-        let turn = 0, pointer = Math.max(...shown.map(h => all.indexOf(h)));
-        all.forEach(src => { const im = new Image(); im.src = src; });   // so the fades never show a blank frame
-        setInterval(() => {
-            if (!isNight() || zooming || document.hidden) return;
-            const slot = slots[turn++ % slots.length];
-            do { pointer = (pointer + 1) % all.length; } while (shown.includes(all[pointer]) && all.length > 3);
-            shown[slot] = all[pointer];
-            // the zoomed-in copy follows along, so the dive lands on the photo you clicked
-            const imgs = document.querySelectorAll(`.photo-wall .wall-img[data-slot="${slot}"], .zoom-world[data-for="photos"] .wall-img[data-slot="${slot}"]`);
-            imgs.forEach(im => im.classList.add('is-fading'));
-            setTimeout(() => imgs.forEach(im => { im.setAttribute('href', shown[slot]); im.classList.remove('is-fading'); }), 600);
-        }, 3200);
-    }
-
     // coming back with the browser's Back button: put the room back as it was
     window.addEventListener('pageshow', () => {
         zooming = false;
@@ -175,6 +156,27 @@
             zoomInto(p);
         });
     });
+
+    // ---- the framed photos (after hours) ---------------------------------
+    // Every few seconds one frame fades to the next photo, so the wall slowly cycles through all of them.
+    const wall = svg.querySelector('.photo-wall');
+    if (wall && wall.dataset.photos && !reduceMotion.matches) {
+        const all = wall.dataset.photos.split(' ');
+        const slots = [1, 0, 2];                               // middle, left, right, middle, ...
+        const shown = [0, 1, 2].map(i => wall.querySelector(`.wall-img[data-slot="${i}"]`).getAttribute('href'));
+        let turn = 0, pointer = Math.max(...shown.map(h => all.indexOf(h)));
+        all.forEach(src => { const im = new Image(); im.src = src; });   // so the fades never show a blank frame
+        setInterval(() => {
+            if (!isNight() || zooming || document.hidden) return;
+            const slot = slots[turn++ % slots.length];
+            do { pointer = (pointer + 1) % all.length; } while (shown.includes(all[pointer]) && all.length > 3);
+            shown[slot] = all[pointer];
+            // the zoomed-in copy follows along, so the dive lands on the photo you clicked
+            const imgs = document.querySelectorAll(`.photo-wall .wall-img[data-slot="${slot}"], .zoom-world[data-for="photos"] .wall-img[data-slot="${slot}"]`);
+            imgs.forEach(im => im.classList.add('is-fading'));
+            setTimeout(() => imgs.forEach(im => { im.setAttribute('href', shown[slot]); im.classList.remove('is-fading'); }), 600);
+        }, 3200);
+    }
 
     // on phones the label itself is a button: tapping it opens the item's page
     tag.addEventListener('click', () => {

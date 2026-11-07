@@ -28,7 +28,11 @@
 </main>
 
 {% if globe %}
-{# worlds inside worlds: clicking the globe zooms into it, then into the map, then opens the atlas #}
+{# Worlds inside worlds: each clickable object in the scene has a big copy here that takes over once the
+   room has zoomed into it (see zoomInto() in belt.js). data-fit = width of the object's .zoom-from part
+   divided by the width of the big copy's viewBox, so the room lands exactly on it. #}
+
+{# the globe spins to the Americas and we dive in #}
 <div class="zoom-world" data-for="globe" data-fit="0.78125" aria-hidden="true">
     <svg class="zoom-art zoom-globe" viewBox="-32 -78 64 64">
         <defs><clipPath id="zoom-globe-clip"><circle cx="0" cy="-46" r="25"/></clipPath></defs>
@@ -41,14 +45,14 @@
 {% endif %}
 
 {% if photo_wall %}
-{# after hours, clicking the photos zooms into the wall, brings the middle photo forward and dives in #}
+{# after hours: the middle photo comes forward and we dive into it #}
 <div class="zoom-world zoom-world--night" data-for="photos" data-fit="0.3455" aria-hidden="true">
     <svg class="zoom-art zoom-photos" viewBox="-110 -80 220 160">{{ photo_wall_art(photo_wall.images, big=True) }}</svg>
 </div>
 {% endif %}
 
 {% if bookcase %}
-{# and after hours, clicking the bookcase zooms into it, pulls out the Book Notes book and dives in #}
+{# after hours: the Book Notes book slides off the shelf and we dive into it #}
 <div class="zoom-world zoom-world--night" data-for="books" data-fit="0.8143" aria-hidden="true">
     <svg class="zoom-art zoom-bookcase" viewBox="-70 -745 140 760">{{ bookcase_art(big=True) }}</svg>
 </div>

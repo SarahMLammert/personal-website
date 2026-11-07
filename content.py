@@ -46,25 +46,46 @@ DAY_EXTRAS = [
     {"title": "Toro", "description": "Just a snack", "sushi": "toro", "plate": "red"},
     {"title": "Unagi", "description": "Just a snack", "sushi": "unagi", "plate": "green"},
 ]
-# The little globe on the windowsill (day only) links to the map project.
-# Clicking it zooms into the globe, spins it to the Americas, then opens the atlas.
-GLOBE = {"title": "College Sports Atlas", "description": "Where college athletes come from",
-         "url": "https://sarahmlammert.github.io/college-sports-atlas/index.html"}
-
-# The tall bookcase on the right (after hours only) links to Book Notes.
-# Clicking it zooms into the bookcase, pulls the Book Notes book off the shelf, dives into it, then opens the page.
-BOOKCASE = {"title": "Book Notes", "description": "Notes from what I\u2019m reading.", "endpoint": "books"}
-
-# After hours, framed photos hang on the wall where the sushi menu is by day; they link to Photos.
-# Every few seconds one frame fades to another photo, cycling through everything in thumb/.
-# Clicking them zooms into the wall, the middle frame comes forward, we dive into the photo, then the page opens.
-# "photos" = the ones to start with (file names in static/images/photos/thumb/), in order: left, middle, right.
-PHOTO_WALL = {"title": "Photos", "description": "Squirrels, mainly.", "endpoint": "photos",
-              "photos": ["squirrel2.jpg", "squirrel1.jpg", "squirrel3.jpg"]}
-
 NIGHT_EXTRAS = [
     {"title": "Acorn sour", "description": "House special", "drink": "brownsugar"},
 ]
+
+# Things in the scene that open a page. Clicking one zooms the room into it ("worlds inside worlds").
+# Day: the little globe on the windowsill. It spins to the Americas, then opens the atlas.
+GLOBE = {"title": "College Sports Atlas", "description": "Where college athletes come from",
+         "url": "https://sarahmlammert.github.io/college-sports-atlas/index.html"}
+
+# After hours: the tall bookcase on the right. The Book Notes book slides off the shelf, then Book Notes opens.
+BOOKCASE = {"title": "Book Notes", "description": "Notes from what I\u2019m reading.", "endpoint": "books"}
+
+# After hours: framed photos on the wall, where the sushi menu hangs by day. The middle one comes forward,
+# then Photos opens. Every few seconds one frame fades to the next photo, cycling through all of them.
+# "photos" = the three to start with (left, middle, right), by file name in static/images/photos/web/.
+PHOTO_WALL = {"title": "Photos", "description": "Squirrels, mainly.", "endpoint": "photos",
+              "photos": ["squirrel2.jpg", "squirrel1.jpg", "squirrel3.jpg"]}
+
+# ---------------------------------------------------------------------------
+# About page: the chef in the middle of the belt opens it.
+# DRAFT, written from what's already on the site. Rewrite it in your own words!
+# ---------------------------------------------------------------------------
+ABOUT = {
+    "title": "About",
+    "sub": "Meet the chef",
+    "hello": "Hi, I\u2019m Sarah.",
+    "paragraphs": [
+        "I work with data: maps, analysis, and building things people enjoy exploring. My favorite so far is "
+        "the College Sports Atlas, which started as a project at work mapping where Ivy League football "
+        "players come from and grew into a map of every Division I college.",
+        "Outside of work you\u2019ll find me taking far too many photos of squirrels, ordering boba, eating "
+        "conveyor belt sushi, and writing book notes in Obsidian. This site is a little of all of that.",
+    ],
+    "links": [
+        {"title": "Projects", "endpoint": "projects"},
+        {"title": "GitHub", "url": "https://github.com/SarahMLammert"},
+        {"title": "LinkedIn", "url": "https://www.linkedin.com/in/sarahmlammert/"},
+    ],
+}
+
 
 # ---------------------------------------------------------------------------
 # Captions for photos, by file name (optional).

@@ -3,6 +3,10 @@
 {% block title %}Book Notes · Sarah May Hui Yu Lammert{% endblock %}
 {% block description %}Sarah May Hui Yu Lammert’s book notes: what she’s reading, and what she took from it.{% endblock %}
 
+{# after hours: this page is styled like the bar at night (see "After-hours rooms" in style.css) #}
+{% block body_class %}night-room books-room{% endblock %}
+{% block theme_color %}#1d1a30{% endblock %}
+
 {% block content %}
 <main class="books-page">
     <header class="page-head">
@@ -18,6 +22,7 @@
     </div>
     {% endif %}
 
+    {% if groups %}<div class="cabinet">{% endif %}
     {% for label, items in groups %}
     <section class="shelf">
         <h2 class="shelf-label">{{ label }} <span>{{ items|length }}</span></h2>
@@ -40,6 +45,7 @@
     {% else %}
     <p class="empty">No book notes yet.</p>
     {% endfor %}
+    {% if groups %}</div>{% endif %}
 
     <p class="shelf-hint">Books with a ribbon have notes. Pick one off the shelf.</p>
 </main>

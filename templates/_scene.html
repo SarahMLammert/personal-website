@@ -135,14 +135,14 @@
    big=True is the zoomed-in copy, where the side frames slide away and the middle one comes forward #}
 {% macro photo_wall_art(images, big=False) %}
   <ellipse cx="0" cy="-18" rx="62" ry="56" fill="#ffe9b0" opacity=".09"/>
-  <g class="{{ 'zoom-side zoom-side--left' if big else '' }}">
+  <g{% if big %} class="zoom-side zoom-side--left"{% endif %}>
     <line x1="-72" y1="-56" x2="-82" y2="-34" stroke="#c8a46a" stroke-width="1.2"/><line x1="-72" y1="-56" x2="-62" y2="-34" stroke="#c8a46a" stroke-width="1.2"/>
     <circle cx="-72" cy="-56" r="2" fill="#c8a46a"/>
     <rect x="-96" y="-34" width="48" height="64" rx="2" fill="#5b3a26" stroke="#3a2418" stroke-width="1.5"/>
     <rect x="-91" y="-29" width="38" height="54" fill="#f4ead8"/>
     <image class="wall-img" data-slot="0" href="{{ images[0] }}" x="-88" y="-26" width="32" height="48" preserveAspectRatio="xMidYMid slice"/>
   </g>
-  <g class="{{ 'zoom-side zoom-side--right' if big else '' }}">
+  <g{% if big %} class="zoom-side zoom-side--right"{% endif %}>
     <line x1="72" y1="-60" x2="62" y2="-38" stroke="#c8a46a" stroke-width="1.2"/><line x1="72" y1="-60" x2="82" y2="-38" stroke="#c8a46a" stroke-width="1.2"/>
     <circle cx="72" cy="-60" r="2" fill="#c8a46a"/>
     <rect x="48" y="-38" width="48" height="64" rx="2" fill="#5b3a26" stroke="#3a2418" stroke-width="1.5"/>
@@ -290,6 +290,18 @@
     </g>
     {% endif %}
   </g>
+
+  {% if bookcase %}
+  {# after hours, a tall bookcase stands against the back wall on the right (behind the lantern and the diners) #}
+  <g class="night-only">
+    <a class="scene-link scene-bookcase" href="{{ bookcase.href }}" data-zoom="books"
+       data-title="{{ bookcase.title }}" data-sub="{{ bookcase.description }}"
+       aria-label="{{ bookcase.title }}" transform="translate(1546 626) scale(.62)">
+      <g class="pick-art books-art">{{ bookcase_art() }}</g>
+      <rect class="plate-hit" x="-62" y="-734" width="124" height="740" rx="8"/>
+    </a>
+  </g>
+  {% endif %}
 
   {{ lantern(470) }}
   {{ lantern(1520) }}
@@ -445,8 +457,11 @@
   {# plates that are behind the chef right now #}
   <g class="day-only" id="plates-back"></g>
 
-  {# the chef #}
-  <g class="chef day-only" transform="translate(800 652) scale(1.12)">
+  {# the chef: click him for the About page #}
+  <g class="day-only">
+  <a class="scene-link chef-link" href="{{ url_for('about') }}" data-title="About" data-sub="Meet the chef"
+     aria-label="About">
+  <g class="chef pick-art chef-art" transform="translate(800 652) scale(1.12)">
     {% call sq.front(kind='fox', outfit='chef', tailside=-1) %}
       <g class="chef-roll">
         <rect x="-26" y="-100" width="52" height="22" rx="10" fill="#1f2a22"/>
@@ -454,6 +469,9 @@
         <ellipse cx="-25" cy="-88" rx="10" ry="8" fill="#d7894f" stroke="#4f4038" stroke-width="3"/><ellipse cx="25" cy="-88" rx="10" ry="8" fill="#d7894f" stroke="#5e4c3f" stroke-width="3"/>
       </g>
     {% endcall %}
+  </g>
+  <rect class="plate-hit" x="720" y="400" width="160" height="190" rx="20"/>
+  </a>
   </g>
   <g class="bartender night-only" transform="translate(800 652) scale(1.12)">
     <g class="sway">
@@ -551,17 +569,6 @@
   <g class="dancer night-only" transform="translate(74 762) scale(.8)"><g class="dance" style="animation-delay: -.2s">{{ sq.front(kind='ground', outfit='gown', look='happy', tailside=-1) }}</g></g>
 
   {# ---- the front row, on stools, with their backs to us ---- #}
-  {% if bookcase %}
-  {# after hours, a tall bookcase stands on the right #}
-  <g class="night-only">
-    <a class="scene-link bookcase" href="{{ bookcase.href }}" data-zoom="books"
-       data-title="{{ bookcase.title }}" data-sub="{{ bookcase.description }}"
-       aria-label="{{ bookcase.title }}" transform="translate(1532 978)">
-      <g class="pick-art books-art">{{ bookcase_art() }}</g>
-      <rect class="plate-hit" x="-62" y="-734" width="124" height="740" rx="8"/>
-    </a>
-  </g>
-  {% endif %}
   {% for x, cushion in [(330, '#c8473a'), (610, '#4a6fa5'), (890, '#d9a441'), (1170, '#5a8f6e'), (1440, '#c8473a')] %}{{ stool(x, 906, 0.9, cushion) }}{% endfor %}
   <g class="day-only">
   <g class="diner diner--reach" transform="translate(330 908) scale(.86)">{{ sq.back(kind='gray', reach=true, tailside=1, outfit='firefighter', tailshape='curl') }}</g>
