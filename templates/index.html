@@ -1,27 +1,53 @@
 {% extends "base.html" %}
 {% from "_sushi.html" import defs %}
-{% from "_scene.html" import scene %}
+{% from "_scene.html" import scene, globe_land %}
 
 {% block content %}
+<script>
+    // start in after-hours mode if that's where the visitor left off (or the link says so)
+    try {
+        if (location.hash === '#after-hours' || (location.hash !== '#daytime' && localStorage.getItem('mode') === 'night'))
+            document.documentElement.classList.add('is-night');
+    } catch (e) {}
+</script>
 {{ defs() }}
 <main class="home">
     <figure class="print">
         <span class="tack tack--left" aria-hidden="true"></span>
         <span class="tack tack--right" aria-hidden="true"></span>
         <div class="print-art" data-belt>
-            {{ scene(plates) }}
+            {{ scene(day, night, day_extras, night_extras, globe) }}
             <div class="plate-tag" hidden><strong></strong><span></span></div>
         </div>
         <figcaption class="print-caption">
             <h1 class="print-title">Sarah May Hui Yu Lammert</h1>
-            <nav class="print-nav" aria-label="Sections">
-                {% for p in plates if p.href %}
+            <nav class="print-nav print-nav--day" aria-label="Sections">
+                {% for p in day if p.href %}
+                <a href="{{ p.href }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}>{{ p.title }}</a>
+                {% endfor %}
+            </nav>
+            <nav class="print-nav print-nav--night" aria-label="After-hours sections">
+                {% for p in night if p.href %}
                 <a href="{{ p.href }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}>{{ p.title }}</a>
                 {% endfor %}
             </nav>
         </figcaption>
     </figure>
 </main>
+
+{% if globe %}
+{# worlds inside worlds: clicking the globe zooms into it, then into the map, then opens the atlas #}
+<div class="zoom-world" data-for="globe" aria-hidden="true">
+    <svg class="zoom-globe" viewBox="-32 -78 64 64">
+        <defs><clipPath id="zoom-globe-clip"><circle cx="0" cy="-46" r="25"/></clipPath></defs>
+        <circle cx="0" cy="-46" r="25" fill="#7fb8c9"/>
+        <g clip-path="url(#zoom-globe-clip)"><g class="zoom-land">{{ globe_land() }}</g></g>
+        <circle cx="0" cy="-46" r="25" fill="none" stroke="#3f6f7e" stroke-width="1"/>
+        <path d="M -14 -60 A 18 18 0 0 1 -2 -66" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".5"/>
+    </svg>
+    <img class="zoom-map" src="{{ url_for('static', filename=globe.zoom_image) }}" alt="" loading="lazy" decoding="async">
+</div>
+{% endif %}
 
 <script src="{{ url_for('static', filename='js/belt.js') }}" defer></script>
 {% endblock %}

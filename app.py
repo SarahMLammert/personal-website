@@ -5,7 +5,7 @@ from pathlib import Path
 from flask import Flask, abort, render_template, url_for
 
 from books import grouped, load_books, slugify
-from content import GITHUB, PHOTO_CAPTIONS, PLATES, PROJECTS, SITE_URL
+from content import DAY_EXTRAS, GITHUB, GLOBE, NIGHT_EXTRAS, PHOTO_CAPTIONS, PLATES, PROJECTS, SITE_URL
 
 app = Flask(__name__)
 PHOTO_DIR = Path(app.static_folder) / "images" / "photos"
@@ -35,7 +35,11 @@ def natural_key(name):
 
 @app.route("/")
 def home():
-    return render_template("index.html", plates=belt_plates())
+    plates = belt_plates()
+    return render_template("index.html",
+                           day=[p for p in plates if p.get("side", "day") == "day"],
+                           night=[p for p in plates if p.get("side") == "night"],
+                           day_extras=DAY_EXTRAS, night_extras=NIGHT_EXTRAS, globe=GLOBE)
 
 
 @app.route("/photos")

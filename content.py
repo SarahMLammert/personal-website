@@ -8,29 +8,49 @@ static/images/photos/ (see make_photos.py), so those aren't listed here.
 SITE_URL = "https://www.sarahlammert.com"
 
 # ---------------------------------------------------------------------------
-# Plates on the homepage sushi belt, in order. For each one, give:
+# The homepage has two modes. Click the sun or moon in the window to switch.
+#   Day ("side": "day"):     the sushi bar. Professional sections ride the belt as plates.
+#   Night ("side": "night"): after hours. Personal sections are drinks on the bar.
+# For each one, give:
 #   "endpoint": a page on this site (the name of its function in app.py), or
 #   "url":      a link to another site (opens in a new tab), or
-#   neither:    the plate shows "Coming soon".
-# sushi: toro, salmon, tuna, ebi, unagi, spicy, maki, tempura, ikura
+#   neither:    it shows "Coming soon".
+# sushi: toro, salmon, tuna, ebi, unagi, spicy, maki, tempura, ikura, acorn
 # plate: red, blue, yellow, green, black, pink
+# drink: taro, matcha, mango, brownsugar, strawberry
 # ---------------------------------------------------------------------------
 PLATES = [
-    {"title": "Photos", "description": "Squirrels, mainly.", "endpoint": "photos",
-     "sushi": "toro", "plate": "red"},
-    {"title": "Projects", "description": "Data and analytics work.", "endpoint": "projects",
+    # day
+    {"side": "day", "title": "Projects", "description": "Data and analytics work.", "endpoint": "projects",
      "sushi": "spicy", "plate": "blue"},
-    {"title": "Book Notes", "description": "Notes from what I\u2019m reading.", "endpoint": "books",
-     "sushi": "tempura", "plate": "yellow"},
-    {"title": "Writing", "description": "Notes and posts.",
-     "sushi": "unagi", "plate": "green"},
-    {"title": "GitHub", "description": "Code and repositories.",
+    {"side": "day", "title": "GitHub", "description": "Code and repositories.",
      "url": "https://github.com/SarahMLammert", "sushi": "salmon", "plate": "black"},
-    {"title": "LinkedIn", "description": "Professional profile.",
+    {"side": "day", "title": "LinkedIn", "description": "Professional profile.",
      "url": "https://www.linkedin.com/in/sarahmlammert/", "sushi": "ebi", "plate": "pink"},
+    # night
+    {"side": "night", "title": "Photos", "description": "Squirrels, mainly.", "endpoint": "photos",
+     "drink": "taro"},
+    {"side": "night", "title": "Book Notes", "description": "Notes from what I\u2019m reading.", "endpoint": "books",
+     "drink": "matcha"},
+    {"side": "night", "title": "Writing", "description": "Notes and posts.",
+     "drink": "mango"},
 ]
-# sushi options: toro, salmon, tuna, ebi, unagi, spicy, maki, tempura, ikura
-# plate options: red, blue, yellow, green, black, pink
+
+# Plates and drinks that are just for fun (no link).
+DAY_EXTRAS = [
+    {"title": "An acorn", "description": "Not on the menu", "sushi": "acorn", "plate": "yellow"},
+    {"title": "Toro", "description": "Just a snack", "sushi": "toro", "plate": "red"},
+    {"title": "Unagi", "description": "Just a snack", "sushi": "unagi", "plate": "green"},
+]
+# The little globe on the windowsill (day only) links to the map project.
+# Clicking it zooms into the globe, then into the map (zoom_image), then opens the atlas.
+GLOBE = {"title": "College Sports Atlas", "description": "Where college athletes come from",
+         "url": "https://sarahmlammert.github.io/college-sports-atlas/index.html",
+         "zoom_image": "images/projects/atlas-map.jpg"}
+
+NIGHT_EXTRAS = [
+    {"title": "Acorn sour", "description": "House special", "drink": "brownsugar"},
+]
 
 # ---------------------------------------------------------------------------
 # Captions for photos, by file name (optional).
@@ -71,8 +91,14 @@ PROJECTS = [
              "text": "I have Pok\u00e9mon art prints of little scenes, like a barbecue and bath time in the "
                      "sink, and I wanted my homepage to feel like one of them. So the sushi bar became an "
                      "illustrated scene, with squirrels like the ones in my photos sitting around the belt."},
+            {"label": "After hours",
+             "title": "Separate the professional from the personal",
+             "text": "I added a night scene so the site could have two sides: by day, the sushi bar shows "
+                     "my professional work, and after hours, the personal side opens up. It was also a chance "
+                     "to put in something else I love, boba, and the dream of owning a boba shop that turns "
+                     "into a night club."},
         ],
-        "features": ["Squirrel sushi bar illustration", "Plates on a moving belt",
+        "features": ["Squirrel sushi bar illustration", "Plates on a moving belt", "After-hours boba bar",
                      "Photo gallery and viewer", "Bookshelf of book notes", "Project story flows"],
         "tools": ["Python", "Flask", "Jinja", "JavaScript", "SVG", "CSS", "Obsidian", "GitHub Pages"],
         "image": "images/projects/website-home.jpg",
@@ -88,40 +114,45 @@ PROJECTS = [
         # How the project grew, step by step (shown as a flow on the page).
         "story": [
             {"label": "Dot map",
-             "title": "Where do Ivy League football players come from?",
-             "text": "For a project at work, we mapped where Ivy League football players are "
-                     "recruited from. The dot map was part of that project."},
+             "title": "Start small, with the Ivies",
+             "text": "For a project at work, we mapped where Ivy League football players are recruited "
+                     "from. The dot map and the heatmaps both came out of that project, and they became the "
+                     "starting point for everything else."},
             {"label": "All of Division I",
-             "title": "Can we do this for all of D1?",
-             "text": "Once it worked for the Ivies, I wanted to see the same thing for every "
-                     "Division I college."},
+             "title": "Scale it up to every D1 college",
+             "text": "Once it worked for the Ivies, I wanted to see the same thing for every Division I "
+                     "college. A lot of my coworkers, and the sports professionals I met through the IMPACT "
+                     "Learning Institute, love college football, so I thought it would be fun to build "
+                     "something they'd enjoy exploring."},
             {"label": "Recruiting footprints",
-             "title": "What if you could choose the colleges?",
-             "text": "I modified the heatmap page to be more modular, so you can pick which "
-                     "colleges to compare."},
+             "title": "Let people pick the colleges",
+             "text": "The Ivy League version showed all eight heatmaps on one page. Seeing colleges side by "
+                     "side was the part that mattered, so I made the heatmap page modular: you pick which "
+                     "colleges to compare, up to four at a time."},
             {"label": "Transfer map",
-             "title": "Where do transfers go?",
-             "text": "After thinking about transfers, I realized I could map the transfers in "
-                     "and out of D1."},
+             "title": "Follow the players who move",
+             "text": "With NIL changing college sports, and transfers being something we look at in my work "
+                     "too, I realized I could map transfers in and out of D1, college to college."},
             {"label": "More divisions",
-             "title": "What about players outside D1?",
-             "text": "To follow transfers, I needed more rosters, so I added more divisions."},
+             "title": "Go beyond D1 to see the whole picture",
+             "text": "To follow transfers, I needed rosters from the colleges players were coming from and "
+                     "going to, so I added Division II, Division III, NAIA and junior colleges."},
             {"label": "Coaching moves & staff directory",
-             "title": "Where does the staff come from?",
-             "text": "Working in an athletic department, I thought this was an interesting thing "
-                     "to visualize."},
+             "title": "Map the people behind the teams",
+             "text": "Working in an athletic department, I wondered where coaches and staff come from, and I "
+                     "thought it was an interesting thing to visualize. So I added a map of coaching moves "
+                     "and a directory of every college's staff over time."},
             {"label": "School influence map",
-             "title": "Where did everyone from one college end up?",
-             "text": "My boss is a super fan of her college\u2019s teams, so I made a way to pick "
-                     "one college and see where everyone who went there ended up."},
+             "title": "Make it for the fans",
+             "text": "My boss is a super fan of her college\u2019s teams, so I made a way to pick one college "
+                     "and see where everyone who went there ended up: players, coaches and staff."},
             {"label": "All-sports college map", "next": True,
-             "title": "What does one college look like across every sport?",
-             "text": "A massive map for a single college, with every one of its sports together "
-                     "in one place."},
+             "title": "Put every sport for one college on one map",
+             "text": "A massive map for a single college, with every one of its sports together in one place."},
             {"label": "High school map", "next": True,
-             "title": "Which high schools are getting the most looks?",
-             "text": "A map of just high schools, to see which ones are sending the most players "
-                     "to college teams."},
+             "title": "Flip it around to the high schools",
+             "text": "A map of just the high schools, to see which ones are sending the most players to "
+                     "college teams."},
         ],
         "stats": [("12", "sports"), ("1.5M+", "player records"), ("2016\u20132027", "seasons")],
         "features": ["Recruiting map", "Recruiting footprints", "Transfer map",

@@ -1,4 +1,6 @@
-{# The homepage illustration: a squirrel sushi bar with a working conveyor belt.
+{# The homepage illustration: a squirrel sushi bar with a working conveyor belt by day,
+   and an after-hours boba bar by night (click the sun or the moon in the window).
+   Anything marked day-only / night-only fades in and out with the mode.
    Drawn on a 1600 x 1000 canvas. Plates are placed on the belt by static/js/belt.js. #}
 {% import "_squirrels.html" as sq %}
 {% from "_sushi.html" import sushi %}
@@ -11,7 +13,7 @@
 {% set BELT = "M 330 520 L 1270 520 A 120 80 0 0 1 1270 680 L 330 680 A 120 80 0 0 1 330 520 Z" %}
 
 {% macro plate(p) %}
-<g class="plate-art">
+<g class="pick-art plate-art">
   <ellipse cx="5" cy="7" rx="48" ry="16" fill="#3a2a1e" opacity=".18"/>
   <ellipse cx="0" cy="0" rx="48" ry="17" fill="{{ RIMS.get(p.plate, RIMS.red) }}"/>
   <ellipse cx="0" cy="-1.5" rx="38" ry="12" fill="#fbf7ef"/>
@@ -19,6 +21,49 @@
   {{ sushi(p.sushi or 'salmon', x=-42, y=-52, w=84, h=56) }}
 </g>
 <ellipse class="plate-hit" cx="0" cy="-16" rx="58" ry="44"/>
+{% endmacro %}
+
+{% set DRINKS = {'taro': ('#b89ad1', '#d6c2e8'), 'matcha': ('#8fb86a', '#c3dca6'), 'mango': ('#f2b04a', '#f8d28d'),
+                 'brownsugar': ('#b9794a', '#e8c9a4'), 'strawberry': ('#ee8fa6', '#f8c6d2')} %}
+{% macro boba(d) %}
+{% set col, light = DRINKS.get(d.drink, DRINKS.taro) %}
+<g class="pick-art drink-art">
+  <ellipse cx="4" cy="2" rx="34" ry="9" fill="#120c1a" opacity=".35"/>
+  <ellipse cx="0" cy="0" rx="30" ry="8" fill="#2a1d14" stroke="#c8a46a" stroke-width="1.5"/>
+  {# the cup #}
+  <path d="M -22 -78 L 22 -78 L 17 -4 C 10 0 -10 0 -17 -4 Z" fill="#f4f6fb" opacity=".35"/>
+  <path d="M -21 -62 L 21 -62 L 17 -4 C 10 0 -10 0 -17 -4 Z" fill="{{ col }}"/>
+  <path d="M -21 -62 C -8 -58 8 -58 21 -62 L 20.5 -54 C 8 -50 -8 -50 -20.5 -54 Z" fill="{{ light }}"/>
+  {% for x, y in [(-11,-10), (-2,-8), (8,-10), (-7,-18), (4,-17), (12,-19), (-13,-24), (-1,-26)] %}
+  <circle cx="{{ x }}" cy="{{ y }}" r="4.2" fill="#2b1a12"/><circle cx="{{ x - 1.2 }}" cy="{{ y - 1.4 }}" r="1.1" fill="#8a6a5a"/>
+  {% endfor %}
+  <path d="M -22 -78 L 22 -78 L 17 -4 C 10 0 -10 0 -17 -4 Z" fill="none" stroke="#e9edf5" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M -15 -70 L -12 -14" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+  {# dome lid, straw and a little garnish (it's a cocktail) #}
+  <path d="M -24 -78 C -22 -100 22 -100 24 -78 Z" fill="#f4f6fb" opacity=".55" stroke="#e9edf5" stroke-width="2"/>
+  <path d="M 4 -60 L 14 -118" stroke="#e0705a" stroke-width="7" stroke-linecap="round"/>
+  <path d="M 4 -60 L 14 -118" stroke="#f3a189" stroke-width="2" stroke-linecap="round"/>
+  <g transform="translate(-14 -84)">
+    <path d="M 0 0 A 13 13 0 0 1 26 0 Z" fill="#9cc06a" stroke="#5f8c3f" stroke-width="2"/>
+    <path d="M 13 0 L 13 -11 M 13 0 L 5 -9 M 13 0 L 21 -9" stroke="#e8f2d2" stroke-width="1.5"/>
+  </g>
+</g>
+<ellipse class="plate-hit" cx="0" cy="-50" rx="38" ry="62"/>
+{% endmacro %}
+
+{# the land and recruiting dots on the globe (two copies side by side, so it can spin forever) #}
+{% macro globe_land() %}
+              {% for dx in [0, 100] %}
+              <g transform="translate({{ dx - 50 }} 0)" fill="#a9cf8e">
+                <path d="M 2 -62 C 14 -66 26 -60 26 -52 C 26 -46 18 -44 16 -38 C 14 -32 6 -30 4 -36 C 2 -42 -6 -44 -4 -52 C -2 -58 -4 -60 2 -62 Z"/>
+                <path d="M 12 -30 C 18 -30 22 -24 20 -18 C 18 -14 12 -14 10 -20 Z"/>
+                <path d="M 46 -64 C 58 -66 76 -60 80 -52 C 84 -44 72 -42 66 -44 C 58 -40 60 -30 54 -28 C 48 -30 50 -40 44 -44 C 38 -48 38 -58 46 -64 Z"/>
+                <path d="M 70 -34 C 78 -34 84 -28 80 -24 C 76 -22 70 -26 70 -34 Z"/>
+                {% for x, y, col in [(8,-54,'#c8473a'), (16,-50,'#4a6fa5'), (12,-44,'#e3b04b'), (20,-56,'#5a8f6e'), (6,-46,'#c8473a'), (56,-54,'#4a6fa5'), (64,-50,'#c8473a'), (60,-46,'#e3b04b')] %}
+                <circle cx="{{ x }}" cy="{{ y }}" r="2.2" fill="{{ col }}"/>
+                {% endfor %}
+              </g>
+              {% endfor %}
 {% endmacro %}
 
 {% macro lantern(x) %}
@@ -54,15 +99,22 @@
 </g>
 {% endmacro %}
 
-{% macro scene(plates) %}
+{% macro scene(day, night, day_extras=[], night_extras=[], globe=None) %}
 <svg class="scene" viewBox="0 0 1600 1000" role="img" aria-labelledby="scene-title">
-  <title id="scene-title">Squirrels at a sushi bar. Plates on the conveyor belt lead to each part of the site.</title>
+  <title id="scene-title">Squirrels at a sushi bar. By day, plates on the conveyor belt lead to the professional side of the site; after hours, drinks on the bar lead to the personal side.</title>
   <defs>
     <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbefd9"/><stop offset="1" stop-color="#f1dcbb"/></linearGradient>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe7df"/><stop offset="1" stop-color="#f3f1df"/></linearGradient>
     <linearGradient id="kitchen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c4030"/><stop offset="1" stop-color="#7a5a42"/></linearGradient>
     <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a98466"/><stop offset="1" stop-color="#8f6c52"/></linearGradient>
     <radialGradient id="glow"><stop offset="0" stop-color="#ffd9a0" stop-opacity=".55"/><stop offset="1" stop-color="#ffd9a0" stop-opacity="0"/></radialGradient>
+    <linearGradient id="wall-night" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f2647"/><stop offset="1" stop-color="#43325a"/></linearGradient>
+    <linearGradient id="floor-night" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3d2c3d"/><stop offset="1" stop-color="#2a1f2c"/></linearGradient>
+    <linearGradient id="sky-night" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#141a3f"/><stop offset="1" stop-color="#3a3470"/></linearGradient>
+    <radialGradient id="bulb"><stop offset="0" stop-color="#fff1c2" stop-opacity=".9"/><stop offset=".35" stop-color="#ffd27a" stop-opacity=".45"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
+    <radialGradient id="moonglow"><stop offset="0" stop-color="#fff6d8" stop-opacity=".6"/><stop offset="1" stop-color="#fff6d8" stop-opacity="0"/></radialGradient>
+    <radialGradient id="sunglow"><stop offset="0" stop-color="#ffe6a0" stop-opacity=".9"/><stop offset="1" stop-color="#ffe6a0" stop-opacity="0"/></radialGradient>
+    <filter id="neon" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     <radialGradient id="warm" cx=".5" cy=".35" r=".75"><stop offset="0" stop-color="#fff6e2" stop-opacity="0"/><stop offset="1" stop-color="#b9824a" stop-opacity=".22"/></radialGradient>
   </defs>
 
@@ -71,26 +123,98 @@
   <rect y="440" width="1600" height="200" fill="#e8cda5"/>
   <rect y="620" width="1600" height="380" fill="url(#floor)"/>
   <path d="M 0 700 H 1600 M 0 790 H 1600 M 0 890 H 1600" stroke="#7d5d45" stroke-width="2" opacity=".45"/>
+  <g class="night-only">
+    <rect width="1600" height="1000" fill="url(#wall-night)"/>
+    <rect y="440" width="1600" height="200" fill="#4b3550"/>
+    <rect y="620" width="1600" height="380" fill="url(#floor-night)"/>
+    <path d="M 0 700 H 1600 M 0 790 H 1600 M 0 890 H 1600" stroke="#5a4258" stroke-width="2" opacity=".6"/>
+    <path d="M 0 440 H 1600" stroke="#c8a46a" stroke-width="3" opacity=".5"/>
+  </g>
 
   {# window with a tree, and a tiny squirrel on the branch #}
   <g class="window">
     <path d="M 80 362 L 80 168 A 125 125 0 0 1 330 168 L 330 362 Z" fill="url(#sky)"/>
     <path d="M 80 362 C 120 320 170 330 205 312 C 250 290 290 320 330 300 L 330 362 Z" fill="#b9d6a6"/>
+    <g class="celestial sun day-only" role="button" tabindex="0" aria-label="Switch to after hours">
+      <circle cx="136" cy="116" r="62" fill="url(#sunglow)"/>
+      <g class="sun-rays" stroke="#f6b73c" stroke-width="5" stroke-linecap="round">
+        {% for a in range(0, 360, 45) %}<line x1="136" y1="84" x2="136" y2="72" transform="rotate({{ a }} 136 116)"/>{% endfor %}
+      </g>
+      <circle cx="136" cy="116" r="24" fill="#ffd36b" stroke="#f0a92e" stroke-width="3"/>
+      <circle cx="136" cy="116" r="44" fill="transparent"/>
+    </g>
     <path d="M 330 150 C 280 170 250 200 196 214 C 170 220 150 236 132 252" stroke="#8a6040" stroke-width="10" fill="none" stroke-linecap="round"/>
     <g fill="#7fb07a"><circle cx="300" cy="130" r="42"/><circle cx="250" cy="170" r="34"/><circle cx="330" cy="190" r="36"/><circle cx="180" cy="196" r="22"/></g>
     <g fill="#9bc68f"><circle cx="286" cy="118" r="22"/><circle cx="242" cy="160" r="16"/><circle cx="320" cy="178" r="18"/></g>
     <g transform="translate(152 236) scale(.14)" opacity=".85">{{ sq.back(kind='gray', tailside=-1) }}</g>
     <path d="M 205 50 L 205 362 M 80 230 L 330 230" stroke="{{ WOOD_D }}" stroke-width="8"/>
     <path d="M 80 362 L 80 168 A 125 125 0 0 1 330 168 L 330 362 Z" fill="none" stroke="{{ WOOD_D }}" stroke-width="14"/>
+    <g class="night-only">
+      <path d="M 80 362 L 80 168 A 125 125 0 0 1 330 168 L 330 362 Z" fill="url(#sky-night)"/>
+      {% for x, y, r in [(110,200,2), (178,86,1.6), (250,70,2.2), (300,110,1.5), (230,150,1.8), (120,260,1.4), (290,230,2), (190,300,1.5), (310,290,1.7), (160,180,1.3)] %}
+      <circle class="star" cx="{{ x }}" cy="{{ y }}" r="{{ r }}" fill="#fff6d8" style="animation-delay: {{ loop.index0 * -0.7 }}s"/>
+      {% endfor %}
+      <path d="M 80 362 C 120 322 170 332 205 314 C 250 292 290 322 330 302 L 330 362 Z" fill="#1f2b3a"/>
+      <g fill="#24384a"><circle cx="300" cy="130" r="42"/><circle cx="250" cy="170" r="34"/><circle cx="330" cy="190" r="36"/><circle cx="180" cy="196" r="22"/></g>
+      <path d="M 330 150 C 280 170 250 200 196 214 C 170 220 150 236 132 252" stroke="#1b2733" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <g class="celestial moon" role="button" tabindex="0" aria-label="Switch to daytime">
+        <circle cx="136" cy="116" r="60" fill="url(#moonglow)"/>
+        <path d="M 150 92 A 26 26 0 1 0 150 140 A 20 20 0 1 1 150 92 Z" fill="#fff4cf" stroke="#e9d59a" stroke-width="2"/>
+        <circle cx="136" cy="116" r="44" fill="transparent"/>
+      </g>
+      <path d="M 205 50 L 205 362 M 80 230 L 330 230" stroke="#3a2a33" stroke-width="8"/>
+      <path d="M 80 362 L 80 168 A 125 125 0 0 1 330 168 L 330 362 Z" fill="none" stroke="#3a2a33" stroke-width="14"/>
+    </g>
     <rect x="62" y="358" width="286" height="18" rx="4" fill="{{ WOOD }}" stroke="{{ WOOD_D }}" stroke-width="3"/>
     <g transform="translate(110 358)">
       <path d="M -18 -30 L 18 -30 L 14 0 L -14 0 Z" fill="{{ RED }}"/>
       <path d="M 0 -30 C -4 -50 -24 -60 -30 -50 C -24 -44 -10 -40 0 -30 M 0 -30 C 4 -56 22 -66 30 -56 C 22 -48 10 -42 0 -30 M 0 -30 C 0 -54 4 -70 10 -74 C 12 -62 8 -46 0 -30" fill="#6f9f63"/>
     </g>
+    {% if globe %}
+    {# a little desk globe, dotted like the recruiting map, slowly spinning #}
+    <g class="day-only">
+      <a class="scene-link globe" href="{{ globe.url }}" data-zoom="globe"
+         data-title="{{ globe.title }}" data-sub="{{ globe.description }}" data-external="1"
+         aria-label="{{ globe.title }}" transform="translate(288 358)">
+        <g class="pick-art globe-art">
+          <rect class="globe-frame" x="-160" y="-80" width="320" height="84"/>
+          <ellipse cx="0" cy="-1" rx="24" ry="5" fill="#7e5530"/>
+          <path d="M -6 -6 L -3 -18 L 3 -18 L 6 -6 Z" fill="#a8743f"/>
+          <path d="M -28 -40 A 30 30 0 0 0 26 -22" stroke="#c8a46a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <clipPath id="globe-clip"><circle cx="0" cy="-46" r="25"/></clipPath>
+          <circle class="globe-ball" cx="0" cy="-46" r="25" fill="#7fb8c9"/>
+          <g clip-path="url(#globe-clip)">
+            <g class="globe-land">
+              {{ globe_land() }}
+            </g>
+          </g>
+          <circle cx="0" cy="-46" r="25" fill="none" stroke="#3f6f7e" stroke-width="2.5"/>
+          <path d="M -14 -60 A 18 18 0 0 1 -2 -66" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".6"/>
+        </g>
+        <ellipse class="plate-hit" cx="0" cy="-38" rx="34" ry="40"/>
+      </a>
+    </g>
+    {% endif %}
   </g>
 
   {{ lantern(470) }}
   {{ lantern(1520) }}
+
+  {# string lights, after hours #}
+  <g class="night-only string-lights">
+    {% for x0, x1 in [(380, 1040), (1040, 1460)] %}
+    <path d="M {{ x0 }} 30 Q {{ (x0 + x1) / 2 }} 110 {{ x1 }} 30" stroke="#1d1626" stroke-width="2.5" fill="none"/>
+    {% for i in range(1, 11) %}
+    {% set u = i / 11 %}
+    {% set bx = x0 + (x1 - x0) * u %}
+    {% set by = 30 + 80 * 2 * u * (1 - u) %}
+    {% set col = ['#ffd27a', '#ff9fc0', '#8fd6c8'][i % 3] %}
+    <circle class="bulb" cx="{{ bx }}" cy="{{ by + 9 }}" r="26" fill="url(#bulb)" style="animation-delay: {{ (i * 0.37) % 2 }}s"/>
+    <ellipse cx="{{ bx }}" cy="{{ by + 9 }}" rx="5.5" ry="7.5" fill="{{ col }}"/>
+    <rect x="{{ bx - 3.5 }}" y="{{ by - 1 }}" width="7" height="5" rx="1" fill="#2b2433"/>
+    {% endfor %}
+    {% endfor %}
+  </g>
 
   {# hanging menu tags #}
   <g class="menu">
@@ -114,13 +238,32 @@
     <circle cx="800" cy="122" r="4" fill="{{ WOOD_D }}"/>
     {{ sushi('acorn', x=818, y=99, w=66, h=44) }}
     <line x1="636" y1="176" x2="964" y2="176" stroke="#4a3324" stroke-width="8" stroke-linecap="round"/>
+    <g class="night-only">
+      <rect x="650" y="170" width="300" height="300" fill="#191424"/>
+      <rect x="672" y="90" width="256" height="62" rx="10" fill="#1b1424" stroke="#3a2a40" stroke-width="4"/>
+      <text x="800" y="132" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-style="italic" font-weight="600" font-size="38" fill="#ff8fbf" filter="url(#neon)" class="neon">After Hours</text>
+      <path d="M 692 142 H 908" stroke="#7fe0d0" stroke-width="2.5" filter="url(#neon)" opacity=".8"/>
+      {# disco ball #}
+      <line x1="720" y1="176" x2="720" y2="206" stroke="#8a8796" stroke-width="2"/>
+      <g class="disco"><circle cx="720" cy="226" r="20" fill="#b9bccb"/>
+        {% for dx in [-12, -4, 4, 12] %}{% for dy in [-12, -4, 4, 12] %}{% if dx*dx + dy*dy < 300 %}<rect x="{{ 717 + dx }}" y="{{ 223 + dy }}" width="6" height="6" fill="{{ ['#eef0f8', '#9fa3b8', '#d9dbe8'][(dx + dy) % 3] }}"/>{% endif %}{% endfor %}{% endfor %}
+      </g>
+      {% for x, y in [(690, 300), (770, 270), (860, 330), (700, 380), (900, 250)] %}<circle class="sparkle" cx="{{ x }}" cy="{{ y }}" r="3" fill="#fff" style="animation-delay: {{ loop.index0 * -0.4 }}s"/>{% endfor %}
+      {# the DJ, with decks and speakers #}
+      <g class="dj" transform="translate(880 432) scale(0.62)">{{ sq.front(kind='gray', outfit='dj', tailshape='curl', tailside=1) }}</g>
+      <rect x="812" y="408" width="132" height="54" rx="6" fill="#2b2433" stroke="#120d18" stroke-width="3"/>
+      <circle class="record" cx="846" cy="420" r="15" fill="#0e0b12" stroke="#4a4256" stroke-width="2"/><circle cx="846" cy="420" r="4" fill="#e0705a"/>
+      <circle class="record" cx="910" cy="420" r="15" fill="#0e0b12" stroke="#4a4256" stroke-width="2"/><circle cx="910" cy="420" r="4" fill="#7fe0d0"/>
+      <path d="M 820 446 H 936" stroke="#7fe0d0" stroke-width="2" filter="url(#neon)" opacity=".8"/>
+      {% for x in [664, 914] %}<rect x="{{ x }}" y="350" width="22" height="112" rx="4" fill="#211b2b"/><circle cx="{{ x + 11 }}" cy="380" r="7" fill="#3a3346"/><circle cx="{{ x + 11 }}" cy="420" r="9" fill="#3a3346"/>{% endfor %}
+    </g>
     {% for i in range(3) %}
-    <g class="noren" style="transform-origin: {{ 700 + i*100 }}px 176px; animation-delay: {{ i * -1.3 }}s">
+    <g class="noren day-only" style="transform-origin: {{ 700 + i*100 }}px 176px; animation-delay: {{ i * -1.3 }}s">
       <rect x="{{ 653 + i*100 }}" y="178" width="94" height="148" rx="3" fill="{{ TEAL }}"/>
       <rect x="{{ 653 + i*100 }}" y="178" width="94" height="10" fill="#4f8279"/>
     </g>
     {% endfor %}
-    <g transform="translate(800 258)" fill="#f6efe2">
+    <g class="day-only" transform="translate(800 258)" fill="#f6efe2">
       <ellipse cx="0" cy="12" rx="20" ry="22"/>
       <path d="M -26 -6 C -26 -22 -12 -28 0 -28 C 12 -28 26 -22 26 -6 C 14 0 -14 0 -26 -6 Z"/>
       <path d="M 0 -28 C 0 -36 4 -40 9 -41" stroke="#f6efe2" stroke-width="4" fill="none" stroke-linecap="round"/>
@@ -163,8 +306,14 @@
   </g>
 
   {# ---- diners across the belt, facing us ---- #}
-  <g class="diner diner--far" transform="translate(470 500) scale(.78)">{{ sq.front(kind='gray', outfit='scientist', tailshape='curl', tailside=-1) }}</g>
-  <g class="diner diner--far" transform="translate(1300 500) scale(.78)">{{ sq.front(kind='fox', outfit='mail', tailshape='curl') }}</g>
+  <g class="day-only">
+    <g class="diner diner--far" transform="translate(470 500) scale(.78)">{{ sq.front(kind='gray', outfit='scientist', tailshape='curl', tailside=-1) }}</g>
+    <g class="diner diner--far" transform="translate(1300 500) scale(.78)">{{ sq.front(kind='fox', outfit='mail', tailshape='curl') }}</g>
+  </g>
+  <g class="night-only">
+    <g class="dancer" transform="translate(470 500) scale(.78)"><g class="dance">{{ sq.front(kind='gray', outfit='pearls', tailshape='curl', tailside=-1) }}</g></g>
+    <g class="dancer" transform="translate(1300 500) scale(.78)"><g class="dance" style="animation-delay: -.45s">{{ sq.front(kind='fox', outfit='bowtie', look='happy', tailshape='curl') }}</g></g>
+  </g>
 
   {# ---- the counter and belt ---- #}
   <path d="{{ BELT }}" fill="none" stroke="{{ WOOD }}" stroke-width="170" stroke-linejoin="round"/>
@@ -174,17 +323,24 @@
   <path d="M 125 668 A 205 165 0 0 0 330 833 L 1270 833 A 205 165 0 0 0 1475 668" fill="none" stroke="{{ WOOD_DD }}" stroke-width="6"/>
   <path d="M 140 640 A 205 165 0 0 0 330 798 L 1270 798 A 205 165 0 0 0 1460 640" fill="none" stroke="{{ WOOD_DD }}" stroke-width="3" opacity=".4"/>
   <path d="M 330 549 L 1270 549 A 91 51 0 0 1 1270 651 L 330 651 A 91 51 0 0 1 330 549 Z" fill="#c99358"/>
+  <g class="day-only">
   <path d="{{ BELT }}" fill="none" stroke="#6c7880" stroke-width="64" stroke-linejoin="round"/>
   <path d="{{ BELT }}" fill="none" stroke="#d3dadd" stroke-width="60" stroke-linejoin="round"/>
   <path d="{{ BELT }}" fill="none" stroke="#a7b1b7" stroke-width="56" stroke-linejoin="round"/>
   <path class="belt-slats" d="{{ BELT }}" fill="none" stroke="#919ca3" stroke-width="54" stroke-dasharray="3 17" stroke-linejoin="round"/>
+  </g>
+  <g class="night-only">
+    <path d="{{ BELT }}" fill="none" stroke="#c8a46a" stroke-width="66" stroke-linejoin="round"/>
+    <path d="{{ BELT }}" fill="none" stroke="#5b3a26" stroke-width="61" stroke-linejoin="round"/>
+    <path d="{{ BELT }}" fill="none" stroke="#7a5034" stroke-width="40" stroke-linejoin="round" opacity=".5"/>
+  </g>
   <path id="belt-line" d="{{ BELT }}" fill="none" stroke="none"/>
 
   {# plates that are behind the chef right now #}
-  <g id="plates-back"></g>
+  <g class="day-only" id="plates-back"></g>
 
   {# the chef #}
-  <g class="chef" transform="translate(800 652) scale(1.12)">
+  <g class="chef day-only" transform="translate(800 652) scale(1.12)">
     {% call sq.front(kind='fox', outfit='chef', tailside=-1) %}
       <g class="chef-roll">
         <rect x="-26" y="-100" width="52" height="22" rx="10" fill="#1f2a22"/>
@@ -193,18 +349,42 @@
       </g>
     {% endcall %}
   </g>
+  <g class="bartender night-only" transform="translate(800 652) scale(1.12)">
+    <g class="sway">
+    {% call sq.front(kind='fox', outfit='bartender', tailside=-1) %}
+      <g transform="translate(62 -6)"><g class="shaker">
+        <path d="M -12 -150 L 12 -150 L 16 -96 L -16 -96 Z" fill="#cfd4dc" stroke="#7d8490" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M -9 -150 L -6 -166 L 6 -166 L 9 -150 Z" fill="#b6bcc6" stroke="#7d8490" stroke-width="3"/>
+        <rect x="-4" y="-174" width="8" height="9" rx="2" fill="#9aa1ad"/>
+        <path d="M -8 -140 L -10 -104" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+        <ellipse cx="-20" cy="-104" rx="11" ry="9" fill="#d7894f" stroke="#4f4038" stroke-width="3"/>
+        <ellipse cx="20" cy="-140" rx="11" ry="9" fill="#d7894f" stroke="#4f4038" stroke-width="3"/>
+      </g></g>
+    {% endcall %}
+    </g>
+  </g>
   <rect x="700" y="582" width="200" height="56" rx="8" fill="{{ WOOD_D }}"/>
   <rect x="700" y="582" width="200" height="14" rx="6" fill="{{ WOOD }}"/>
+  <g class="day-only">
   <rect x="728" y="570" width="144" height="16" rx="4" fill="#ecd3a8" stroke="#c9a46f" stroke-width="2"/>
   <path d="M 744 574 C 760 566 786 566 796 574 Z" fill="#ee8a5c"/>
   <path d="M 750 572 l 8 -4 M 762 571 l 8 -4 M 774 571 l 8 -4" stroke="#fde3d3" stroke-width="2"/>
   <rect x="812" y="560" width="40" height="16" rx="7" fill="#1f2a22"/><ellipse cx="812" cy="568" rx="6" ry="8" fill="#f8f3e8"/><ellipse cx="812" cy="568" rx="2.5" ry="3" fill="#ee8a5c"/>
+  </g>
+  <g class="night-only">
+    {# bottles on the bartender's station #}
+    {% for x, h, col in [(716, 54, '#3f6b5a'), (738, 44, '#8f3b2b'), (860, 50, '#c8a46a'), (884, 40, '#4a6fa5')] %}
+    <rect x="{{ x - 8 }}" y="{{ 586 - h }}" width="16" height="{{ h }}" rx="5" fill="{{ col }}" opacity=".95"/>
+    <rect x="{{ x - 3.5 }}" y="{{ 586 - h - 14 }}" width="7" height="16" rx="2" fill="{{ col }}"/>
+    <rect x="{{ x - 8 }}" y="{{ 586 - h * 0.55 }}" width="16" height="10" fill="#f4e2c4" opacity=".9"/>
+    {% endfor %}
+  </g>
 
   {# plates in front of the chef #}
-  <g id="plates-front"></g>
+  <g class="day-only" id="plates-front"></g>
 
   {# the plates themselves; belt.js moves each one into one of the groups above #}
-  <g id="plates" class="plates">
+  <g id="plates" class="plates day-only">
     {% for p in plates %}
     {% if p.href %}
     <a class="belt-plate" href="{{ p.href }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}
@@ -214,22 +394,59 @@
     <g class="belt-plate belt-plate--soon" tabindex="0" role="img" data-title="{{ p.title }}" data-sub="Coming soon" aria-label="{{ p.title }}, coming soon">{{ plate(p) }}</g>
     {% endif %}
     {% endfor %}
-    <g class="belt-plate belt-plate--acorn" tabindex="0" role="img" data-title="An acorn" data-sub="Not on the menu" aria-label="An acorn on its own plate">{{ plate({'plate': 'yellow', 'sushi': 'acorn'}) }}</g>
+    {% for x in day_extras %}
+    <g class="belt-plate belt-plate--extra" tabindex="0" role="img" data-title="{{ x.title }}" data-sub="{{ x.description }}" aria-label="{{ x.title }}: {{ x.description }}">{{ plate(x) }}</g>
+    {% endfor %}
+  </g>
+
+  {# the drinks on the bar, after hours #}
+  <g class="drinks night-only">
+    {% set items = night + night_extras %}
+    {% for d in items %}
+    {% set x = 470 + loop.index0 * (660 / ((items|length - 1) or 1)) %}
+    <g transform="translate({{ x }} 694) scale(1.18)">
+    {% if d.href %}
+    <a class="bar-drink" href="{{ d.href }}"{% if d.external %} target="_blank" rel="noopener"{% endif %}
+       data-title="{{ d.title }}" data-sub="{{ d.description }}"{% if d.external %} data-external="1"{% endif %}
+       aria-label="{{ d.title }}{% if d.external %} (opens in a new tab){% endif %}">{{ boba(d) }}</a>
+    {% else %}
+    <g class="bar-drink bar-drink--extra" tabindex="0" role="img" data-title="{{ d.title }}" data-sub="{{ d.description if d.side is not defined else 'Coming soon' }}" aria-label="{{ d.title }}">{{ boba(d) }}</g>
+    {% endif %}
+    </g>
+    {% endfor %}
   </g>
 
   {# things on the front ledge #}
+  <g class="day-only">
   {{ cup(560, 756) }}{{ cup(1132, 756) }}
   <g transform="translate(868 752)">
     <ellipse cx="0" cy="0" rx="22" ry="8" fill="#f6efe2" stroke="#c9b79a" stroke-width="2"/><ellipse cx="0" cy="0" rx="14" ry="4.5" fill="#4a2c1e"/>
     <path d="M 30 -2 L 92 -10 M 32 4 L 94 -2" stroke="#b07a46" stroke-width="4" stroke-linecap="round"/>
   </g>
+  </g>
+  <g class="night-only">
+    {% for x in [380, 1236] %}
+    <g transform="translate({{ x }} 758)">
+      <path d="M -16 -34 L 16 -34 L 0 -14 Z" fill="#f0e6c8" opacity=".55" stroke="#e9edf5" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M 0 -14 L 0 0 M -9 0 L 9 0" stroke="#e9edf5" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="4" cy="-28" r="4" fill="#7a9a3f"/><path d="M -6 -40 L 8 -24" stroke="#5e3f26" stroke-width="1.5"/>
+    </g>
+    {% endfor %}
+    <g transform="translate(808 758)">
+      <circle cx="0" cy="-26" r="30" fill="url(#bulb)" class="bulb"/>
+      <rect x="-7" y="-22" width="14" height="22" rx="3" fill="#f6efe2"/>
+      <path class="flame" d="M 0 -36 C 6 -28 4 -24 0 -22 C -4 -24 -6 -28 0 -36 Z" fill="#ffc35a"/>
+    </g>
+  </g>
 
-  {# ---- the gardener at the end of the counter ---- #}
+  {# ---- the gardener at the end of the counter (day) and a dancer (night) ---- #}
   {{ stool(74, 760, 0.8, '#5a8f6e') }}
-  <g class="diner" transform="translate(74 762) scale(.8)">{{ sq.front(kind='ground', outfit='gardener', tailside=-1) }}</g>
+  <g class="diner day-only" transform="translate(74 762) scale(.8)">{{ sq.front(kind='ground', outfit='gardener', tailside=-1) }}</g>
+  <g class="dancer night-only" transform="translate(74 762) scale(.8)"><g class="dance" style="animation-delay: -.2s">{{ sq.front(kind='ground', outfit='gown', look='happy', tailside=-1) }}</g></g>
 
   {# ---- the front row, on stools, with their backs to us ---- #}
   {% for x, cushion in [(330, '#c8473a'), (610, '#4a6fa5'), (890, '#d9a441'), (1170, '#5a8f6e'), (1440, '#c8473a')] %}{{ stool(x, 906, 0.9, cushion) }}{% endfor %}
+  <g class="day-only">
   <g class="diner diner--reach" transform="translate(330 908) scale(.86)">{{ sq.back(kind='gray', reach=true, tailside=1, outfit='firefighter', tailshape='curl') }}</g>
   <g class="diner" transform="translate(610 908) scale(.86)">{{ sq.back(kind='ground', tailside=-1, outfit='painter') }}</g>
   <g class="diner" transform="translate(890 908) scale(.86)">{{ sq.back(kind='fox', tailside=1, outfit='builder', tailshape='sweep') }}</g>
@@ -244,7 +461,31 @@
       <ellipse cx="17" cy="-80" rx="11" ry="9" fill="#c9b398" stroke="#4f4038" stroke-width="3"/>
     {% endcall %}
   </g>
+  </g>
+  <g class="night-only">
+  {% set outfits = [('gray', 'tux', 1, 'curl'), ('ground', 'gown', -1, 'short'), ('fox', 'suit', 1, 'sweep'), ('gray', 'tux', -1, 'plume')] %}
+  {% for kind, outfit, side, tail in outfits %}
+  <g class="dancer" transform="translate({{ [330, 610, 890, 1170][loop.index0] }} 908) scale(.86)"><g class="dance" style="animation-delay: {{ loop.index0 * -0.3 }}s">{{ sq.back(kind=kind, tailside=side, outfit=outfit, tailshape=tail) }}</g></g>
+  {% endfor %}
+  <g class="dancer muncher" transform="translate(1440 908) scale(.86)"><g class="dance" style="animation-delay: -.6s">
+    {% call sq.front(kind='ground', look='happy', cheeks=true, outfit='pearls', tailside=-1, tailshape='curl') %}
+      {# sipping a boba #}
+      <g transform="translate(0 -64) scale(.55)">
+        <path d="M -22 -78 L 22 -78 L 17 -4 C 10 0 -10 0 -17 -4 Z" fill="#b89ad1" stroke="#e9edf5" stroke-width="3"/>
+        {% for x, y in [(-9,-10), (2,-9), (10,-12), (-4,-20), (8,-22)] %}<circle cx="{{ x }}" cy="{{ y }}" r="4.5" fill="#2b1a12"/>{% endfor %}
+        <path d="M 2 -78 L 4 -112" stroke="#e0705a" stroke-width="7" stroke-linecap="round"/>
+      </g>
+      <ellipse cx="-17" cy="-78" rx="11" ry="9" fill="#c9b398" stroke="#4f4038" stroke-width="3"/>
+      <ellipse cx="17" cy="-78" rx="11" ry="9" fill="#c9b398" stroke="#4f4038" stroke-width="3"/>
+    {% endcall %}
+  </g></g>
+  </g>
 
-  <rect width="1600" height="1000" fill="url(#warm)" pointer-events="none"/>
+  <rect class="day-only" width="1600" height="1000" fill="url(#warm)" pointer-events="none"/>
+  <g class="night-only" pointer-events="none">
+    <rect width="1600" height="1000" fill="#1a1636" opacity=".2"/>
+    {% for x in [470, 1520] %}<circle cx="{{ x }}" cy="112" r="120" fill="url(#bulb)" opacity=".6"/>{% endfor %}
+    <ellipse cx="800" cy="640" rx="520" ry="150" fill="url(#bulb)" opacity=".25"/>
+  </g>
 </svg>
 {% endmacro %}
