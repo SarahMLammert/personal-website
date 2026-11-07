@@ -191,6 +191,10 @@ html.is-night .print-nav--night { display: flex; }
 .scene-link.is-held .globe-land { animation-duration: 4s; }
 @keyframes globe-spin { from { transform: translateX(0); } to { transform: translateX(-100px); } }
 
+/* the framed photos on the wall, after hours */
+.photos-art { transition: transform .35s cubic-bezier(.2,.8,.2,1); transform-box: fill-box; transform-origin: 50% 0; }
+.scene-link.is-held .photos-art { transform: scale(1.06); }
+
 /* the bookcase on the windowsill, after hours */
 .books-art { transition: transform .35s cubic-bezier(.2,.8,.2,1); transform-box: fill-box; transform-origin: 50% 100%; }
 .scene-link.is-held .books-art { transform: translateY(-5px) scale(1.1); }
@@ -235,6 +239,19 @@ html.is-zooming, html.is-zooming body { overflow: hidden; }
     transition: transform 1.1s cubic-bezier(.6, 0, .9, .4);
     filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .35));
 }
+.zoom-photos {
+    width: min(86vmin, 760px);
+    height: auto;
+    transform: scale(1);
+    transition: transform 1.1s cubic-bezier(.6, 0, .9, .4);
+    filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .35));
+}
+.zoom-side { transition: transform 1.1s cubic-bezier(.3, 0, .2, 1), opacity .9s ease; }
+.zoom-world.is-turning .zoom-side--left { transform: translateX(-40px); opacity: 0; }
+.zoom-world.is-turning .zoom-side--right { transform: translateX(40px); opacity: 0; }
+.zoom-photo { transform-box: fill-box; transform-origin: 50% 50%; transition: transform 1.1s cubic-bezier(.3, 0, .2, 1); }
+.zoom-world.is-turning .zoom-photo { transform: scale(1.15); }
+.zoom-world.is-diving .zoom-photos { transform: scale(9); transform-origin: 50% 50%; }
 .zoom-book { transform-box: fill-box; transform-origin: 50% 50%; transition: transform 1.1s cubic-bezier(.3, 0, .2, 1); }
 .zoom-world.is-turning .zoom-book { transform: translateY(-2px) scale(1.12); }
 .zoom-world.is-diving .zoom-bookcase { transform: scale(18); transform-origin: 55.1% 28.4%; }

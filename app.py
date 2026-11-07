@@ -5,7 +5,7 @@ from pathlib import Path
 from flask import Flask, abort, render_template, url_for
 
 from books import grouped, load_books, slugify
-from content import BOOKCASE, DAY_EXTRAS, GITHUB, GLOBE, NIGHT_EXTRAS, PHOTO_CAPTIONS, PLATES, PROJECTS, SITE_URL
+from content import BOOKCASE, DAY_EXTRAS, PHOTO_WALL, GITHUB, GLOBE, NIGHT_EXTRAS, PHOTO_CAPTIONS, PLATES, PROJECTS, SITE_URL
 
 app = Flask(__name__)
 PHOTO_DIR = Path(app.static_folder) / "images" / "photos"
@@ -40,7 +40,10 @@ def home():
                            day=[p for p in plates if p.get("side", "day") == "day"],
                            night=[p for p in plates if p.get("side") == "night"],
                            day_extras=DAY_EXTRAS, night_extras=NIGHT_EXTRAS, globe=GLOBE,
-                           bookcase=dict(BOOKCASE, href=url_for(BOOKCASE["endpoint"])))
+                           bookcase=dict(BOOKCASE, href=url_for(BOOKCASE["endpoint"])),
+                           photo_wall=dict(PHOTO_WALL, href=url_for(PHOTO_WALL["endpoint"]),
+                                           images=[url_for("static", filename=f"images/photos/thumb/{n}")
+                                                   for n in PHOTO_WALL["photos"]]))
 
 
 @app.route("/photos")

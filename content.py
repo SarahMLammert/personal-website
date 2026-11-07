@@ -28,6 +28,8 @@ PLATES = [
     {"side": "day", "title": "LinkedIn", "description": "Professional profile.",
      "url": "https://www.linkedin.com/in/sarahmlammert/", "sushi": "ebi", "plate": "pink"},
     # night
+    # Photos is also the framed photos on the wall (PHOTO_WALL). This drink is temporary:
+    # take it off the bar once more drinks are added.
     {"side": "night", "title": "Photos", "description": "Squirrels, mainly.", "endpoint": "photos",
      "drink": "taro"},
     # Book Notes is also the bookcase on the windowsill (BOOKCASE). This drink is temporary:
@@ -52,6 +54,12 @@ GLOBE = {"title": "College Sports Atlas", "description": "Where college athletes
 # The little bookcase on the windowsill (after hours only) links to Book Notes.
 # Clicking it zooms into the bookcase, pulls the Book Notes book off the shelf, dives into it, then opens the page.
 BOOKCASE = {"title": "Book Notes", "description": "Notes from what I\u2019m reading.", "endpoint": "books"}
+
+# After hours, framed photos hang on the wall where the sushi menu is by day; they link to Photos.
+# Clicking them zooms into the wall, the middle frame comes forward, we dive into the photo, then the page opens.
+# "photos" = file names in static/images/photos/thumb/, in order: left, middle, right.
+PHOTO_WALL = {"title": "Photos", "description": "Squirrels, mainly.", "endpoint": "photos",
+              "photos": ["squirrel2.jpg", "squirrel1.jpg", "squirrel3.jpg"]}
 
 NIGHT_EXTRAS = [
     {"title": "Acorn sour", "description": "House special", "drink": "brownsugar"},

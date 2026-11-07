@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% from "_sushi.html" import defs %}
-{% from "_scene.html" import scene, globe_land, bookcase_art %}
+{% from "_scene.html" import scene, globe_land, bookcase_art, photo_wall_art %}
 
 {% block content %}
 <script>
@@ -16,7 +16,7 @@
         <span class="tack tack--left" aria-hidden="true"></span>
         <span class="tack tack--right" aria-hidden="true"></span>
         <div class="print-art" data-belt>
-            {{ scene(day, night, day_extras, night_extras, globe, bookcase) }}
+            {{ scene(day, night, day_extras, night_extras, globe, bookcase, photo_wall) }}
             <div class="plate-tag" hidden><strong></strong><span></span></div>
         </div>
         <figcaption class="print-caption">
@@ -37,6 +37,13 @@
         <circle cx="0" cy="-46" r="25" fill="none" stroke="#3f6f7e" stroke-width="1"/>
         <path d="M -14 -60 A 18 18 0 0 1 -2 -66" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".5"/>
     </svg>
+</div>
+{% endif %}
+
+{% if photo_wall %}
+{# after hours, clicking the photos zooms into the wall, brings the middle photo forward and dives in #}
+<div class="zoom-world zoom-world--night" data-for="photos" data-fit="0.3455" aria-hidden="true">
+    <svg class="zoom-art zoom-photos" viewBox="-110 -80 220 160">{{ photo_wall_art(photo_wall.images, big=True) }}</svg>
 </div>
 {% endif %}
 
