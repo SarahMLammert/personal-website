@@ -1,10 +1,15 @@
 """Read the Obsidian book notes in books/ and turn them into data for the site.
 
 Each note is a Markdown file: the file name is the title, the header between
-the --- lines holds fields like `author` and `status`, and the body is an
+the --- lines holds fields like `author`, `status` and an optional full `title`
+(use it for punctuation a file name can't hold, like a colon). The site shows the
+short title: the part before the first ": " (or `short_title`, if given), plus
+", Volume 2" when there's a `volume`. `edition` is kept in the file but not shown.
+`date_finished` (YYYY-MM-DD) is the day you finished the book, for a reading timeline. The body is an
 outline. Indented lines (tabs, or bullets like "- ") become nested points;
 an unindented line with points under it becomes a section heading.
 """
+import datetime
 import hashlib
 import re
 from pathlib import Path
@@ -86,6 +91,15 @@ def spine_size(title, digest):
     return {"spine_height": height, "spine_width": 26 + lines * 19}
 
 
+def finished_date(meta):
+    """`date_finished: 2026-11-08` (Obsidian's date property) -> a date, or None if blank or unreadable."""
+    raw = meta.get("date_finished") or meta.get("date finished") or ""
+    try:
+        return datetime.date.fromisoformat(raw[:10])
+    except ValueError:
+        return None
+
+
 def status_group(status):
     s = (status or "").strip().lower()
     for label, names in STATUS_GROUPS:
@@ -100,11 +114,18 @@ def load_books():
         return books
     for path in sorted(BOOKS_DIR.glob("*.md")):
         meta, notes = parse_note(path.read_text(encoding="utf-8"))
-        title = meta.get("title") or path.stem
+        full_title = meta.get("title") or path.stem
+        title = meta.get("short_title") or full_title.split(": ", 1)[0]
+        if meta.get("volume"):
+            title += ", Volume " + meta["volume"]
         digest = int(hashlib.md5(title.encode()).hexdigest(), 16)
         color_index = digest % len(COVER_COLORS)
         books.append({
             "title": title,
+            "full_title": full_title,
+            "edition": meta.get("edition", ""),
+            "volume": meta.get("volume", ""),
+            "finished": finished_date(meta),  # for a reading timeline
             "slug": slugify(title),
             "author": meta.get("author", ""),
             "status": meta.get("status", ""),
@@ -126,3 +147,12 @@ def grouped(books):
     keys = sorted(groups, key=lambda g: order.index(g) if g in order else len(order))
     # books with notes first within each group
     return [(k, sorted(groups[k], key=lambda b: (not b["has_notes"], b["title"]))) for k in keys]
+
+
+def reading_log(books):
+    """Finished books with a `date_finished`, newest first, grouped by year: [(2026, [book, ...]), ...]."""
+    done = sorted((b for b in books if b["finished"]), key=lambda b: (b["finished"], b["title"]), reverse=True)
+    years = {}
+    for b in done:
+        years.setdefault(b["finished"].year, []).append(b)
+    return list(years.items())

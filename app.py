@@ -4,7 +4,7 @@ from pathlib import Path
 
 from flask import Flask, abort, render_template, url_for
 
-from books import grouped, load_books, slugify
+from books import grouped, load_books, reading_log, slugify
 from content import (ABOUT, BOOKCASE, DAY_EXTRAS, GITHUB, GLOBE, NIGHT_EXTRAS, PHOTO_CAPTIONS, PHOTO_WALL, PLATES,
                      PROJECTS, SITE_URL)
 
@@ -99,6 +99,14 @@ def project(slug):
 @app.route("/books")
 def books():
     return render_template("books.html", groups=grouped(load_books()))
+
+
+@app.route("/books/reading-log")
+def reading_log_page():
+    """The reading log: the journal on the Book Notes shelf opens this timeline of finished books."""
+    all_books = load_books()
+    reading = [b for b in all_books if b["group"] == "Reading"]
+    return render_template("reading_log.html", years=reading_log(all_books), reading=reading)
 
 
 @app.route("/books/<slug>")

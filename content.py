@@ -70,7 +70,7 @@ PHOTO_WALL = {"title": "Photos", "description": "Squirrels, mainly.", "endpoint"
 # ---------------------------------------------------------------------------
 ABOUT = {
     "title": "About",
-    "sub": "Meet the chef",
+    "sub": "Nice to meet you",
     "hello": "Hi, I\u2019m Sarah.",
     "paragraphs": [
         "I work with data: maps, analysis, and building things people enjoy exploring. My favorite so far is "

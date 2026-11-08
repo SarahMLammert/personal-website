@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% import "_squirrels.html" as sq %}
 
 {% block title %}About · Sarah May Hui Yu Lammert{% endblock %}
 {% block description %}About Sarah May Hui Yu Lammert.{% endblock %}
@@ -13,13 +12,8 @@
     </header>
 
     <div class="about">
-        {# the chef from the homepage, behind the counter #}
-        <svg class="about-chef" viewBox="-175 -248 330 282" aria-hidden="true">
-            <ellipse cx="0" cy="0" rx="130" ry="18" fill="#e6d8c2"/>
-            {% call sq.front(kind='fox', outfit='chef', tailside=-1) %}{% endcall %}
-            <rect x="-150" y="-6" width="290" height="36" rx="8" fill="#a8743f"/>
-            <rect x="-150" y="-6" width="290" height="10" rx="5" fill="#d6a468"/>
-        </svg>
+        <img class="about-photo" src="{{ url_for('static', filename='images/sarah.jpg') }}"
+             alt="Sarah May Hui Yu Lammert" width="900" height="805">
 
         <div class="about-text">
             <p class="about-hello">{{ about.hello }}</p>

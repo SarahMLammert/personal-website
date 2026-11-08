@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Reading Log · Book Notes{% endblock %}
+{% block description %}Every book Sarah May Hui Yu Lammert has finished, newest first.{% endblock %}
+
+{# after hours, like the rest of Book Notes. Opened from the leather journal on the shelf. #}
+{% block body_class %}night-room log-room{% endblock %}
+{% block theme_color %}#1d1a30{% endblock %}
+
+{% block content %}
+<main class="log-page">
+    <a class="crumb" href="{{ url_for('books') }}">&larr; Back to the shelf</a>
+
+    <header class="page-head">
+        <h1 class="page-title">Reading Log</h1>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="page-sub">Every book I&rsquo;ve finished, newest first</p>
+    </header>
+
+    <div class="journal">
+        {% if reading %}
+        <section class="log-now">
+            <h2 class="log-now-label">On the nightstand</h2>
+            <ul class="log-list">
+                {% for b in reading %}
+                <li class="log-entry log-entry--now">
+                    <span class="log-date">Reading</span>
+                    <span class="log-chip" style="--cover: {{ b.color }}" aria-hidden="true"></span>
+                    <span class="log-book">
+                        <a class="log-title" href="{{ url_for('book', slug=b.slug) }}">{{ b.title }}</a>
+                        {% if b.author %}<span class="log-author">{{ b.author }}</span>{% endif %}
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+        {% endif %}
+
+        {% for year, items in years %}
+        <section class="log-year">
+            <h2 class="log-year-label">{{ year }} <span>{{ items|length }} {{ 'book' if items|length == 1 else 'books' }}</span></h2>
+            <ol class="log-list">
+                {% for b in items %}
+                <li class="log-entry">
+                    <time class="log-date" datetime="{{ b.finished.isoformat() }}">{{ b.finished.strftime('%b') }} {{ b.finished.day }}</time>
+                    <span class="log-chip" style="--cover: {{ b.color }}" aria-hidden="true"></span>
+                    <span class="log-book">
+                        <a class="log-title" href="{{ url_for('book', slug=b.slug) }}">{{ b.title }}</a>
+                        {% if b.author %}<span class="log-author">{{ b.author }}</span>{% endif %}
+                    </span>
+                </li>
+                {% endfor %}
+            </ol>
+        </section>
+        {% else %}
+        <p class="log-empty">The first page is still blank. Finished books will be written in here.</p>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

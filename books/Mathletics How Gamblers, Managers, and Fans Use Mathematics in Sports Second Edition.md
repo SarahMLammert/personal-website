@@ -1,0 +1,7 @@
+---
+title: "Mathletics: How Gamblers, Managers, and Fans Use Mathematics in Sports"
+author: Wayne L. Winston, Scott Nestler, Konstantinos Pelechrinis
+status: To Read
+date_finished:
+edition: 2
+---

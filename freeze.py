@@ -29,6 +29,7 @@ def pages():
     for p in project_list():
         yield f"/projects/{p['slug']}"
     yield "/books"
+    yield "/books/reading-log"
     for b in load_books():
         yield f"/books/{b['slug']}"
 

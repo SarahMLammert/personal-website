@@ -27,9 +27,18 @@
     <section class="shelf">
         <h2 class="shelf-label">{{ label }} <span>{{ items|length }}</span></h2>
         <ul class="bookcase">
+            {% if loop.first %}
+            {# not a real book: a leather journal that opens the reading log #}
+            <li class="slot slot--log">
+                <a class="spine spine--log" href="{{ url_for('reading_log_page') }}" title="Reading Log: every book I&rsquo;ve finished">
+                    <span class="spine-title">Reading Log</span>
+                    <span class="spine-author">Sarah</span>
+                </a>
+            </li>
+            {% endif %}
             {% for b in items %}
             <li class="slot">
-                <a class="spine{% if b.has_notes %} spine--notes{% endif %}" data-search="{{ (b.title ~ ' ' ~ b.author)|lower }}"
+                <a class="spine{% if b.has_notes %} spine--notes{% endif %}" data-search="{{ (b.full_title ~ ' ' ~ b.author)|lower }}"
                    href="{{ url_for('book', slug=b.slug) }}"
                    style="--cover: {{ b.color }}; --h: {{ b.spine_height }}px; --w: {{ b.spine_width }}px"
                    title="{{ b.title }}{% if b.author %} by {{ b.author }}{% endif %}">
@@ -47,7 +56,7 @@
     {% endfor %}
     {% if groups %}</div>{% endif %}
 
-    <p class="shelf-hint">Books with a ribbon have notes. Pick one off the shelf.</p>
+    <p class="shelf-hint">Books with a ribbon have notes. The leather journal is my reading log.</p>
 </main>
 
 <script>
@@ -56,7 +65,7 @@
         const input = document.getElementById('bookSearch');
         if (!input) return;
         const count = document.querySelector('.book-search-count');
-        const spines = Array.from(document.querySelectorAll('.spine'));
+        const spines = Array.from(document.querySelectorAll('.spine:not(.spine--log)'));
         input.addEventListener('input', () => {
             const q = input.value.trim().toLowerCase();
             let shown = 0;
@@ -66,7 +75,7 @@
                 if (hit) shown++;
             });
             document.querySelectorAll('.shelf').forEach(sh => {
-                sh.hidden = !!q && !sh.querySelector('.slot:not([hidden]) .spine');
+                sh.hidden = !!q && !sh.querySelector('.slot:not([hidden]) .spine:not(.spine--log)');
             });
             count.textContent = q ? `${shown} ${shown === 1 ? 'book' : 'books'}` : '';
         });
