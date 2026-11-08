@@ -23,9 +23,9 @@
     {% endif %}
 
     {% if groups %}<div class="cabinet">{% endif %}
-    {% for label, items in groups %}
+    {% for label, number, items in groups %}
     <section class="shelf">
-        <h2 class="shelf-label">{{ label }} <span>{{ items|length }}</span></h2>
+        <h2 class="shelf-label">{% if number %}<b>{{ number }}</b> {% endif %}{{ label }} <span>{{ items|length }}</span></h2>
         <ul class="bookcase">
             {% if loop.first %}
             {# not a real book: a leather journal that opens the reading log #}
@@ -38,13 +38,14 @@
             {% endif %}
             {% for b in items %}
             <li class="slot">
-                <a class="spine{% if b.has_notes %} spine--notes{% endif %}" data-search="{{ (b.full_title ~ ' ' ~ b.author)|lower }}"
+                <a class="spine{% if b.group == 'Reading' %} spine--reading{% endif %}" data-search="{{ (b.full_title ~ ' ' ~ b.author)|lower }}"
                    href="{{ url_for('book', slug=b.slug) }}"
                    style="--cover: {{ b.color }}; --h: {{ b.spine_height }}px; --w: {{ b.spine_width }}px"
                    title="{{ b.title }}{% if b.author %} by {{ b.author }}{% endif %}">
                     <span class="spine-title">{{ b.title }}</span>
                     {% if b.author %}<span class="spine-author">{{ b.author.split(',')[0].split(' ')[-1] }}</span>{% endif %}
-                    <span class="sr-only">{{ b.author }}{% if b.has_notes %}, has notes{% endif %}</span>
+                    {% if b.call_number %}<span class="call-label" aria-hidden="true">{% for part in b.call_number.split(' ') %}<span>{{ part }}</span>{% endfor %}</span>{% endif %}
+                    <span class="sr-only">{{ b.author }}{% if b.group == 'Reading' %}, reading now{% endif %}{% if b.has_notes %}, has notes{% endif %}</span>
                 </a>
             </li>
             {% endfor %}
@@ -56,7 +57,7 @@
     {% endfor %}
     {% if groups %}</div>{% endif %}
 
-    <p class="shelf-hint">Books with a ribbon have notes. The leather journal is my reading log.</p>
+    <p class="shelf-hint">Shelved like a library: by subject, then author. A ribbon bookmark means I&rsquo;m reading it now; the leather journal is my reading log.</p>
 </main>
 
 <script>

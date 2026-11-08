@@ -1,6 +1,7 @@
 ---
 title: "Influence: The Psychology of Persuasion"
 author: Robert B. Cialdini
+dewey: "153"
 status: In Progress
 date_finished:
 ---

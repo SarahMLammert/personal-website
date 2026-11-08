@@ -169,7 +169,6 @@ html.is-night .print { background: #fbf6ec; }
 .globe-frame { fill: none; stroke: none; pointer-events: none; }
 .scene-link.is-held .globe-art { transform: translateY(-6px) scale(1.12); }
 .globe-land { animation: globe-spin 14s linear infinite; }
-.scene-link.is-held .globe-land { animation-duration: 4s; }
 @keyframes globe-spin { from { transform: translateX(0); } to { transform: translateX(-100px); } }
 
 /* the framed photos swing out from where they hang; their pictures fade as they rotate (belt.js) */
@@ -218,8 +217,7 @@ html.is-zooming, html.is-zooming body { overflow: hidden; }
 
 /* globe: spins round to the Americas, then dives in */
 .zoom-globe { filter: drop-shadow(0 30px 40px rgba(40, 60, 70, .25)); }
-.zoom-land { transition: transform 1.35s cubic-bezier(.45, 0, .2, 1); }
-.zoom-world.is-turning .zoom-land { transform: translateX(-64px); }
+.zoom-land { transition: transform 1.6s cubic-bezier(.25, .5, .3, 1); }   /* belt.js sets where it starts and ends */
 .zoom-world.is-diving .zoom-globe { transform: scale(7); transform-origin: 48% 44%; }
 
 /* framed photos: the side frames slide away, the middle one comes forward, then we dive into it */
@@ -768,16 +766,16 @@ html:not(.is-night) .night-only * { animation-play-state: paused; }
     opacity: .8;
 }
 
-/* a ribbon bookmark for books with notes */
-.spine--notes::after {
+/* a ribbon bookmark for the books I'm reading now */
+.spine--reading::after {
     content: "";
     position: absolute;
-    top: -12px;
-    left: 26%;
-    width: 7px;
-    height: 22px;
-    background: #c8a46a;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+    top: -30px;
+    left: 24%;
+    width: 10px;
+    height: 40px;
+    background: linear-gradient(90deg, #8e1f2b, #d0454f 45%, #9c2430);   /* red satin */
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
     z-index: -1;
 }
 
@@ -1053,13 +1051,14 @@ body.lb-open { overflow: hidden; }
         -webkit-box-orient: vertical;
     }
     .spine-author { writing-mode: horizontal-tb; font-size: 9.5px; white-space: nowrap; }
-    .spine--notes::after {
-        top: 26%;
+    .spine--reading::after {
+        top: 22%;
         left: auto;
-        right: -14px;
-        width: 22px;
-        height: 7px;
-        clip-path: polygon(0 0, 100% 0, 80% 50%, 100% 100%, 0 100%);
+        right: -26px;
+        width: 34px;
+        height: 10px;
+        background: linear-gradient(180deg, #8e1f2b, #d0454f 45%, #9c2430);
+        clip-path: polygon(0 0, 100% 0, 82% 50%, 100% 100%, 0 100%);
     }
     .spine:hover, .spine:focus-visible { transform: translateX(8px); }
     .project-stats { gap: 22px; }
@@ -1342,4 +1341,38 @@ body.night-room {
     .log-entry::before { left: -23px; top: 18px; margin-top: 0; }
     .log-chip { display: none; }
     .log-title { font-size: 19px; }
+}
+
+/* ---------- Library touches (Book Notes) ----------
+   Shelves are Dewey classes; each spine wears a white call-number sticker near the foot. */
+.shelf-label b { font-weight: 600; margin-right: 4px; }
+.spine:not(.spine--log) { padding-bottom: 52px; }
+.call-label {
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 30px;
+    padding: 2px 3px 1px;
+    font-family: var(--sans);
+    font-size: 8.5px;
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: .04em;
+    color: #2b2620;
+    background: #f6f1e4;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.15);
+}
+.spine-author { margin-bottom: 4px; white-space: nowrap; }
+.spine:not(.spine--log) .spine-title { height: calc(var(--h) - 112px); }
+.book-call { color: var(--muted); letter-spacing: .16em; }
+
+@media (max-width: 640px) {
+    .spine:not(.spine--log) { padding-bottom: 8px; padding-right: 58px; }
+    .spine:not(.spine--log) .spine-title { height: auto; }
+    .call-label { left: auto; right: 16px; top: 50%; bottom: auto; transform: translateY(-50%); }
 }

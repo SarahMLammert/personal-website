@@ -48,6 +48,26 @@
         requestAnimationFrame(tick);
     }
 
+    // ---- the desk globe --------------------------------------------------
+    const globeLand = root.querySelector('.globe-land');
+    const AMERICAS = -64;                        // how far the land has to slide for the Americas to face us
+    // Speed up without changing its place (changing animation-duration in CSS makes the land jump).
+    function spinGlobe(rate) {
+        if (globeLand && globeLand.getAnimations) globeLand.getAnimations().forEach(a => a.updatePlaybackRate(rate));
+    }
+    // The big copy starts exactly where the little globe has got to, then carries on round to the Americas.
+    function turnBigGlobe(world) {
+        const land = world.querySelector('.zoom-land');
+        if (!land || !globeLand) return;
+        let x = new DOMMatrix(getComputedStyle(globeLand).transform).m41;
+        if (x < AMERICAS) x += 100;              // already past them: one full turn back looks identical, and keeps it spinning forwards
+        land.style.transition = 'none';
+        land.style.transform = `translateX(${x}px)`;
+        void land.getBoundingClientRect();
+        land.style.transition = '';
+        land.style.transform = `translateX(${AMERICAS}px)`;
+    }
+
     // ---- labels ---------------------------------------------------------
     function show(p) {
         if (zooming) return;
@@ -69,11 +89,13 @@
         const x = Math.min(Math.max(r.left + r.width / 2 - box.left, half), box.width - half);
         tag.style.left = `${x}px`;
         p.classList.add('is-held');
+        if (p.dataset.zoom === 'globe') spinGlobe(3.5);
     }
 
     function hide() {
         if (zooming) return;                     // the room sliding under the pointer mustn't drop the globe
         if (held) held.classList.remove('is-held');
+        spinGlobe(1);
         held = null;
         tag.hidden = true;
     }
@@ -127,7 +149,7 @@
             if (started) return;
             started = true;
             [
-                [0, () => world.classList.add('is-on')],                   // the big copy fills the screen
+                [0, () => { turnBigGlobe(world); world.classList.add('is-on'); }],   // the big copy fills the screen
                 [300, () => world.classList.add('is-turning')],            // spin / come forward / slide out
                 [1700, () => world.classList.add('is-diving')],            // and we dive in
                 [2600, () => { window.location.href = href; }],
@@ -147,6 +169,8 @@
         print.style.transformOrigin = '';
         print.style.removeProperty('--zoom');
         worlds.forEach(w => w.classList.remove('is-on', 'is-turning', 'is-diving'));
+        const bigLand = document.querySelector('.zoom-land');
+        if (bigLand) bigLand.style.transform = '';
     });
     picks.forEach(p => {
         if (!p.dataset.zoom) return;

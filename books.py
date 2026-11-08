@@ -5,13 +5,17 @@ the --- lines holds fields like `author`, `status` and an optional full `title`
 (use it for punctuation a file name can't hold, like a colon). The site shows the
 short title: the part before the first ": " (or `short_title`, if given), plus
 ", Volume 2" when there's a `volume`. `edition` is kept in the file but not shown.
-`date_finished` (YYYY-MM-DD) is the day you finished the book, for a reading timeline. The body is an
+`date_finished` (YYYY-MM-DD) is the day you finished the book, for a reading timeline.
+`dewey` is the book's Dewey Decimal number ("796", or "796.357"; keep the quotes so "005"
+keeps its zeros). Like a library, books are shelved by Dewey class and, within a shelf,
+by number and then the first author's last name; each spine gets a call-number sticker. The body is an
 outline. Indented lines (tabs, or bullets like "- ") become nested points;
 an unindented line with points under it becomes a section heading.
 """
 import datetime
 import hashlib
 import re
+import unicodedata
 from pathlib import Path
 
 BOOKS_DIR = Path(__file__).parent / "books"
@@ -85,9 +89,9 @@ def parse_note(raw):
 
 def spine_size(title, digest):
     """Height varies a little from book to book; width fits the title's lines."""
-    height = 220 + (digest >> 8) % 45
-    chars_per_line = (height - 74) // 8.4          # 14px serif, written down the spine (with room to spare)
-    lines = max(1, min(4, -(-len(title) // int(chars_per_line))))
+    height = 238 + (digest >> 8) % 45
+    chars_per_line = (height - 112) // 8.4         # 14px serif down the spine; leaves room for author + call-number sticker
+    lines = max(1, min(5, -(-len(title) // int(chars_per_line))))
     return {"spine_height": height, "spine_width": 26 + lines * 19}
 
 
@@ -125,6 +129,8 @@ def load_books():
             "full_title": full_title,
             "edition": meta.get("edition", ""),
             "volume": meta.get("volume", ""),
+            "dewey": meta.get("dewey", ""),
+            "call_number": " ".join(x for x in (meta.get("dewey", ""), cutter(meta.get("author", ""))) if x),
             "finished": finished_date(meta),  # for a reading timeline
             "slug": slugify(title),
             "author": meta.get("author", ""),
@@ -139,14 +145,59 @@ def load_books():
     return books
 
 
+# The shelves, like a library: Dewey Decimal classes, by the hundreds.
+DEWEY_CLASSES = {
+    "000": "Computers & Information",
+    "100": "Philosophy & Psychology",
+    "200": "Religion",
+    "300": "Social Sciences",
+    "400": "Language",
+    "500": "Science & Math",
+    "600": "Technology & Business",
+    "700": "Arts & Recreation",
+    "800": "Literature",
+    "900": "History & Geography",
+}
+
+
+def author_last(author):
+    """Last name of the first author: "Gayle Laakmann McDowell" -> "McDowell"."""
+    first = (author or "").split(",")[0].strip()
+    words = [w for w in first.split() if w.rstrip(".").lower() not in {"jr", "sr", "ii", "iii"}]
+    return words[-1] if words else ""
+
+
+def cutter(author):
+    """The letters on a library spine label: first three of the author's last name, "LEW"."""
+    plain = unicodedata.normalize("NFKD", author_last(author)).encode("ascii", "ignore").decode()
+    return re.sub(r"[^A-Za-z]", "", plain)[:3].upper()
+
+
+def dewey_number(b):
+    try:
+        return float(b["dewey"])
+    except (TypeError, ValueError):
+        return 1000.0          # no number yet: shelved last
+
+
+def call_order(b):
+    """Library order: call number, then author's last name, then title."""
+    return (dewey_number(b), author_last(b["author"]).lower(), b["title"].lower())
+
+
 def grouped(books):
-    order = [label for label, _ in STATUS_GROUPS]
-    groups = {}
+    """Shelves for the Book Notes page: one per Dewey class. Books I'm reading stay in
+    their section and get a ribbon bookmark instead."""
+    shelves = []
+    sections = {}
     for b in books:
-        groups.setdefault(b["group"], []).append(b)
-    keys = sorted(groups, key=lambda g: order.index(g) if g in order else len(order))
-    # books with notes first within each group
-    return [(k, sorted(groups[k], key=lambda b: (not b["has_notes"], b["title"]))) for k in keys]
+        n = dewey_number(b)
+        key = f"{int(n // 100) * 100:03d}" if n < 1000 else ""
+        sections.setdefault(key, []).append(b)
+    for key in sorted(sections, key=lambda k: k or "999"):
+        name = DEWEY_CLASSES.get(key, "Not yet shelved")
+        shelves.append((name, key, sorted(sections[key], key=call_order)))
+    return shelves
 
 
 def reading_log(books):

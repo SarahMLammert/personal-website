@@ -1,6 +1,7 @@
 ---
 title:
 author:
+dewey:
 status:
 date_finished:
 edition:
