@@ -220,13 +220,10 @@ html.is-zooming, html.is-zooming body { overflow: hidden; }
 .zoom-land { transition: transform 1.6s cubic-bezier(.25, .5, .3, 1); }   /* belt.js sets where it starts and ends */
 .zoom-world.is-diving .zoom-globe { transform: scale(7); transform-origin: 48% 44%; }
 
-/* framed photos: the side frames slide away, the middle one comes forward, then we dive into it */
-.zoom-side { transition: transform 1.1s cubic-bezier(.3, 0, .2, 1), opacity .9s ease; }
-.zoom-world.is-turning .zoom-side--left { transform: translateX(-40px); opacity: 0; }
-.zoom-world.is-turning .zoom-side--right { transform: translateX(40px); opacity: 0; }
+/* framed photo: it comes forward, then we dive into it */
 .zoom-photo { transform-box: fill-box; transform-origin: 50% 50%; transition: transform 1.1s cubic-bezier(.3, 0, .2, 1); }
 .zoom-world.is-turning .zoom-photo { transform: scale(1.15); }
-.zoom-world.is-diving .zoom-photos { transform: scale(9); transform-origin: 50% 50%; }
+.zoom-world.is-diving .zoom-photos { transform: scale(5.5); transform-origin: 50% 50%; }
 
 /* bookcase: the Book Notes book slides out, we dive into it (aimed at its middle), and it washes into the Book Notes page */
 .zoom-book { transform-box: fill-box; transform-origin: 50% 50%; transition: transform 1.1s cubic-bezier(.3, 0, .2, 1); }

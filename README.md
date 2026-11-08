@@ -25,7 +25,7 @@ automatically: upload it under Settings → General → Social preview.
 
 By day it's a sushi bar: plates ride the conveyor belt (Projects, GitHub, LinkedIn) and a globe on the
 windowsill opens the College Sports Atlas. Click the sun and it turns into an after-hours bar: drinks on
-the bar, framed photos on the wall (they slowly cycle through every photo) and a tall bookcase. Click the
+the bar, a big framed photo on the wall (it slowly cycles through every photo) and a tall bookcase. Click the
 moon to go back.
 
 Clicking the globe, the photos or the bookcase zooms into it before the page opens. To add another one:

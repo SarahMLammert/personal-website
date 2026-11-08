@@ -58,11 +58,11 @@ GLOBE = {"title": "College Sports Atlas", "description": "Where college athletes
 # After hours: the tall bookcase on the right. The Book Notes book slides off the shelf, then Book Notes opens.
 BOOKCASE = {"title": "Book Notes", "description": "Notes from what I\u2019m reading.", "endpoint": "books"}
 
-# After hours: framed photos on the wall, where the sushi menu hangs by day. The middle one comes forward,
-# then Photos opens. Every few seconds one frame fades to the next photo, cycling through all of them.
-# "photos" = the three to start with (left, middle, right), by file name in static/images/photos/web/.
+# After hours: one big framed photo on the wall, where the sushi menu hangs by day. It comes forward,
+# then Photos opens. Every few seconds it fades to the next photo, cycling through all of them.
+# "photo" = the one to start with, by file name in static/images/photos/web/.
 PHOTO_WALL = {"title": "Photos", "description": "Squirrels, mainly.", "endpoint": "photos",
-              "photos": ["squirrel2.jpg", "squirrel1.jpg", "squirrel3.jpg"]}
+              "photo": "squirrel1.jpg"}
 
 # ---------------------------------------------------------------------------
 # About page: the chef in the middle of the belt opens it.

@@ -44,9 +44,9 @@ def photo_url(name, size="thumb"):
 
 
 def photo_wall():
-    """PHOTO_WALL with its link, the three photos it starts with, and every photo it rotates through."""
+    """PHOTO_WALL with its link, the photo it starts with, and every photo it rotates through."""
     return dict(PHOTO_WALL, href=url_for(PHOTO_WALL["endpoint"]),
-                images=[photo_url(n) for n in PHOTO_WALL["photos"]],
+                image=photo_url(PHOTO_WALL["photo"]),
                 all=[photo_url(n) for n in photo_names()])
 
 

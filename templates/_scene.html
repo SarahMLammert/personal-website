@@ -133,29 +133,16 @@
 
 {# three framed photos (left, middle, right); centred on the middle frame.
    big=True is the zoomed-in copy, where the side frames slide away and the middle one comes forward #}
-{% macro photo_wall_art(images, big=False) %}
-  <ellipse cx="0" cy="-18" rx="62" ry="56" fill="#ffe9b0" opacity=".09"/>
-  <g{% if big %} class="zoom-side zoom-side--left"{% endif %}>
-    <line x1="-72" y1="-56" x2="-82" y2="-34" stroke="#c8a46a" stroke-width="1.2"/><line x1="-72" y1="-56" x2="-62" y2="-34" stroke="#c8a46a" stroke-width="1.2"/>
-    <circle cx="-72" cy="-56" r="2" fill="#c8a46a"/>
-    <rect x="-96" y="-34" width="48" height="64" rx="2" fill="#5b3a26" stroke="#3a2418" stroke-width="1.5"/>
-    <rect x="-91" y="-29" width="38" height="54" fill="#f4ead8"/>
-    <image class="wall-img" data-slot="0" href="{{ images[0] }}" x="-88" y="-26" width="32" height="48" preserveAspectRatio="xMidYMid slice"/>
-  </g>
-  <g{% if big %} class="zoom-side zoom-side--right"{% endif %}>
-    <line x1="72" y1="-60" x2="62" y2="-38" stroke="#c8a46a" stroke-width="1.2"/><line x1="72" y1="-60" x2="82" y2="-38" stroke="#c8a46a" stroke-width="1.2"/>
-    <circle cx="72" cy="-60" r="2" fill="#c8a46a"/>
-    <rect x="48" y="-38" width="48" height="64" rx="2" fill="#5b3a26" stroke="#3a2418" stroke-width="1.5"/>
-    <rect x="53" y="-33" width="38" height="54" fill="#f4ead8"/>
-    <image class="wall-img" data-slot="2" href="{{ images[2] }}" x="56" y="-30" width="32" height="48" preserveAspectRatio="xMidYMid slice"/>
-  </g>
+{% macro photo_wall_art(image, big=False) %}
+  <radialGradient id="wall-glow{{ '-big' if big }}"><stop offset=".6" stop-color="#ffe9b0" stop-opacity=".3"/><stop offset="1" stop-color="#ffe9b0" stop-opacity="0"/></radialGradient>
+  <ellipse cx="0" cy="-8" rx="57" ry="57" fill="url(#wall-glow{{ '-big' if big }})"/>
   <g class="{{ 'zoom-photo' if big else 'wall-photo' }}">
     {# a little brass picture light #}
     <rect x="-16" y="-60" width="32" height="5" rx="2.5" fill="#c8a46a"/>
     <path d="M -3 -55 V -51 M 3 -55 V -51" stroke="#a07a3f" stroke-width="2"/>
     <rect class="zoom-from" x="-38" y="-50" width="76" height="100" rx="2" fill="#c8a46a" stroke="#8a6a3a" stroke-width="2"/>
     <rect x="-32" y="-44" width="64" height="88" fill="#f4ead8"/>
-    <image class="wall-img" data-slot="1" href="{{ images[1] }}" x="-27" y="-38" width="54" height="76" preserveAspectRatio="xMidYMid slice"/>
+    <image class="wall-img" href="{{ image }}" x="-27" y="-38" width="54" height="76" preserveAspectRatio="xMidYMid slice"/>
     <path d="M -38 -50 L 38 -50 L 26 -20 L -26 -20 Z" fill="#fff6d8" opacity=".12"/>
   </g>
 {% endmacro %}
@@ -323,12 +310,12 @@
   </g>
 
   {% if photo_wall %}
-  {# after hours, framed photos hang where the menu is by day #}
+  {# after hours, one big framed photo hangs where the menu is by day #}
   <g class="night-only">
     <a class="scene-link photo-wall" href="{{ photo_wall.href }}" data-zoom="photos"
        data-title="{{ photo_wall.title }}" data-sub="{{ photo_wall.description }}"
-       aria-label="{{ photo_wall.title }}" data-photos="{{ photo_wall.all|join(' ') }}" transform="translate(496 272) scale(1.05)">
-      <g class="pick-art photos-art">{{ photo_wall_art(photo_wall.images) }}</g>
+       aria-label="{{ photo_wall.title }}" data-photos="{{ photo_wall.all|join(' ') }}" transform="translate(545 290) scale(2.05)">
+      <g class="pick-art photos-art">{{ photo_wall_art(photo_wall.image) }}</g>
       <rect class="plate-hit" x="-100" y="-64" width="200" height="118" rx="8"/>
     </a>
   </g>

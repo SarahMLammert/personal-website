@@ -45,9 +45,9 @@
 {% endif %}
 
 {% if photo_wall %}
-{# after hours: the middle photo comes forward and we dive into it #}
-<div class="zoom-world zoom-world--night" data-for="photos" data-fit="0.3455" aria-hidden="true">
-    <svg class="zoom-art zoom-photos" viewBox="-110 -80 220 160">{{ photo_wall_art(photo_wall.images, big=True) }}</svg>
+{# after hours: the photo comes forward and we dive into it #}
+<div class="zoom-world zoom-world--night" data-for="photos" data-fit="0.5846" aria-hidden="true">
+    <svg class="zoom-art zoom-photos" viewBox="-65 -65 130 130">{{ photo_wall_art(photo_wall.image, big=True) }}</svg>
 </div>
 {% endif %}
 

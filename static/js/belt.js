@@ -116,7 +116,7 @@
 
     // ---- worlds inside worlds --------------------------------------------
     // Clicking the globe (day), or the framed photos or bookcase (after hours), zooms the room into it.
-    // Then its big copy (.zoom-world) takes over: the globe spins to the Americas / the middle photo comes
+    // Then its big copy (.zoom-world) takes over: the globe spins to the Americas / the photo comes
     // forward / the Book Notes book slides out, and we dive in and open the page.
     const worlds = Array.from(document.querySelectorAll('.zoom-world'));
     function zoomInto(el) {
@@ -181,24 +181,20 @@
         });
     });
 
-    // ---- the framed photos (after hours) ---------------------------------
-    // Every few seconds one frame fades to the next photo, so the wall slowly cycles through all of them.
+    // ---- the framed photo (after hours) ----------------------------------
+    // Every few seconds it fades to the next photo, slowly cycling through all of them.
     const wall = svg.querySelector('.photo-wall');
     if (wall && wall.dataset.photos && !reduceMotion.matches) {
         const all = wall.dataset.photos.split(' ');
-        const slots = [1, 0, 2];                               // middle, left, right, middle, ...
-        const shown = [0, 1, 2].map(i => wall.querySelector(`.wall-img[data-slot="${i}"]`).getAttribute('href'));
-        let turn = 0, pointer = Math.max(...shown.map(h => all.indexOf(h)));
+        // the zoomed-in copy follows along, so the dive lands on the photo you clicked
+        const imgs = document.querySelectorAll('.photo-wall .wall-img, .zoom-world[data-for="photos"] .wall-img');
+        let pointer = Math.max(0, all.indexOf(imgs[0].getAttribute('href')));
         all.forEach(src => { const im = new Image(); im.src = src; });   // so the fades never show a blank frame
         setInterval(() => {
             if (!isNight() || zooming || document.hidden) return;
-            const slot = slots[turn++ % slots.length];
-            do { pointer = (pointer + 1) % all.length; } while (shown.includes(all[pointer]) && all.length > 3);
-            shown[slot] = all[pointer];
-            // the zoomed-in copy follows along, so the dive lands on the photo you clicked
-            const imgs = document.querySelectorAll(`.photo-wall .wall-img[data-slot="${slot}"], .zoom-world[data-for="photos"] .wall-img[data-slot="${slot}"]`);
+            pointer = (pointer + 1) % all.length;
             imgs.forEach(im => im.classList.add('is-fading'));
-            setTimeout(() => imgs.forEach(im => { im.setAttribute('href', shown[slot]); im.classList.remove('is-fading'); }), 600);
+            setTimeout(() => imgs.forEach(im => { im.setAttribute('href', all[pointer]); im.classList.remove('is-fading'); }), 600);
         }, 3200);
     }
 
