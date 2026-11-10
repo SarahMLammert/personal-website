@@ -133,6 +133,7 @@ PROJECTS = [
         "features": ["Squirrel sushi bar illustration", "Plates on a moving belt", "After-hours boba bar",
                      "Photo gallery and viewer", "Bookshelf of book notes", "Project story flows"],
         "tools": ["Python", "Flask", "Jinja", "JavaScript", "SVG", "CSS", "Obsidian", "GitHub Pages"],
+        "credit": "Built in collaboration with Claude",   # optional line under "Built with"
         "image": "images/projects/website-home.jpg",
         "image_alt": "The homepage: an illustrated sushi bar where squirrels sit around a conveyor belt of plates",
         "url": "/",
@@ -190,6 +191,7 @@ PROJECTS = [
         "features": ["Recruiting map", "Recruiting footprints", "Transfer map",
                      "Coaching moves", "Staff directory", "School influence map"],
         "tools": ["Python", "Requests", "Beautiful Soup", "Playwright", "D3", "GitHub Pages"],
+        "credit": "Built in collaboration with Claude",   # optional line under "Built with"
         "image": "images/projects/atlas-map.jpg",
         "image_alt": "Map of the United States covered in colored dots, one for each college football player's hometown",
         "url": "https://sarahmlammert.github.io/college-sports-atlas/index.html",

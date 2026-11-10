@@ -456,6 +456,9 @@ html:not(.is-night) .night-only * { animation-play-state: paused; }
 .project-row-title a:hover { text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 5px; }
 .project-row-summary { margin: 6px 0 8px; font-family: var(--serif); font-style: italic; font-size: 19px; color: var(--muted); }
 .project-info .tools { margin: 0; font-size: 13px; }
+/* optional "Built in collaboration with ..." line, right under the tools */
+.tools:has(+ .project-credit) { margin-bottom: 0; }
+.project-credit { margin: 8px 0 30px; font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--muted); }
 .project-row-btn { white-space: nowrap; }
 
 /* a single project */

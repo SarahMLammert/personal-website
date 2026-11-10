@@ -23,7 +23,7 @@
                 <p class="project-row-summary">{{ p.summary }}</p>
                 <p class="tools">{{ p.tools|join(' · ') }}</p>
             </div>
-            <a class="btn project-row-btn" href="{{ url_for('project', slug=p.slug) }}" aria-label="How {{ p.title }} grew">How it grew</a>
+            <a class="btn project-row-btn" href="{{ url_for('project', slug=p.slug) }}" aria-label="Read about the decisions behind {{ p.title }}">Read about the decisions</a>
         </li>
         {% endfor %}
     </ul>

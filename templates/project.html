@@ -25,7 +25,7 @@
     <div class="project-body">
         <div class="project-main">
             {% if p.story %}
-            <h2 class="side-label flow-label">How it grew</h2>
+            <h2 class="side-label flow-label">The decisions</h2>
             <ol class="flow">
                 {% for step in p.story %}
                 <li class="flow-step{% if step.next %} flow-step--next{% endif %}" style="--i: {{ loop.index0 }}">
@@ -51,6 +51,7 @@
             <ul class="chips">{% for f in p.features %}<li>{{ f }}</li>{% endfor %}</ul>
             <h2 class="side-label">Built with</h2>
             <p class="tools">{{ p.tools|join(' · ') }}</p>
+            {% if p.credit %}<p class="project-credit">{{ p.credit }}</p>{% endif %}
         </aside>
     </div>
 </main>
