@@ -80,8 +80,7 @@
         if (zooming) return;
         held = p;
         const href = p.getAttribute('href');
-        tag.querySelector('strong').textContent = p.dataset.title + (p.dataset.external ? ' ↗' : '');
-        tag.querySelector('span').textContent = p.dataset.sub;
+        tag.querySelector('strong').textContent = p.dataset.title;
         tag.dataset.href = href || '';
         tag.dataset.external = p.dataset.external ? '1' : '';
         tag.classList.toggle('is-link', !!href);

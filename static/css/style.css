@@ -105,27 +105,40 @@ body {
 .print-hint--night, html.is-night .print-hint--day { display: none; }
 html.is-night .print-hint--night { display: block; }
 
-/* Projects, GitHub, LinkedIn as plain links under the name */
+/* Projects, GitHub, LinkedIn under the name, on little ovals of the sushi counter's wood
+   (top #d6a468, with the counter's darker front edge #a8743f underneath) */
 .print-links {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 6px 26px;
-    margin-top: 12px;
+    gap: 10px 14px;
+    margin-top: 14px;
 }
 .print-links a {
+    padding: 7px 20px 6px;
+    border-radius: 999px;
+    background: #d6a468;
+    box-shadow: inset 0 1px 0 rgba(255, 240, 210, .45), 0 3px 0 #a8743f, 0 5px 8px -2px rgba(60, 40, 20, .3);
     font-family: var(--sans);
     font-size: 12px;
-    font-weight: 500;
-    letter-spacing: .18em;
+    font-weight: 600;
+    letter-spacing: .16em;
     text-transform: uppercase;
-    color: var(--gold);
+    color: #3a2a1e;
     text-decoration: none;
-    padding-bottom: 2px;
-    border-bottom: 1px solid transparent;
-    transition: border-color .2s ease, color .2s ease;
+    transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
 }
-.print-links a:hover, .print-links a:focus-visible { color: var(--text); border-bottom-color: currentColor; }
+.print-links a:hover, .print-links a:focus-visible {
+    background: #e0b073;
+    transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 rgba(255, 240, 210, .5), 0 5px 0 #a8743f, 0 8px 12px -3px rgba(60, 40, 20, .3);
+    outline: none;
+}
+.print-links a:active { transform: translateY(2px); box-shadow: inset 0 1px 0 rgba(255, 240, 210, .45), 0 1px 0 #a8743f; }
+@media (max-width: 480px) {   /* keep all three on one row on phones */
+    .print-links { gap: 8px; }
+    .print-links a { padding: 6px 13px 5px; font-size: 11px; letter-spacing: .1em; }
+}
 
 /* plates on the belt */
 .belt-plate { cursor: pointer; outline: none; }
@@ -163,15 +176,12 @@ html.is-night .print-hint--night { display: block; }
     transform: translateX(-50%) rotate(45deg);
 }
 .plate-tag strong { display: block; font-family: var(--serif); font-size: 20px; font-weight: 600; }
-.plate-tag span { display: block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 
-/* phones: a title-only label you can tap to open, and bigger tap targets on the plates */
+/* phones: a label you can tap to open, and bigger tap targets on the plates */
 @media (hover: none) {
     .plate-hit { transform: scale(1.7); transform-box: fill-box; transform-origin: center; }
     .plate-tag { padding: 7px 14px; pointer-events: auto; cursor: pointer; }
-    .plate-tag span { display: none; }
     .plate-tag strong { font-size: 17px; }
-    .plate-tag.is-link:not(.is-external) strong::after { content: " \2192"; }
 }
 
 /* ---------- day and night ---------- */
@@ -518,7 +528,7 @@ html:not(.is-night) .night-only * { animation-play-state: paused; }
     transition-delay: calc(var(--i) * 70ms);
 }
 
-/* connecting line, with an arrowhead into the next step */
+/* connecting line to the next step */
 .flow-step::before {
     content: "";
     position: absolute;
@@ -528,20 +538,8 @@ html:not(.is-night) .night-only * { animation-play-state: paused; }
     width: 1px;
     background: linear-gradient(rgba(160,122,63,.55), rgba(160,122,63,.25));
 }
-.flow-step::after {
-    content: "";
-    position: absolute;
-    left: 13px;
-    bottom: 4px;
-    width: 9px;
-    height: 9px;
-    border-right: 1px solid rgba(160,122,63,.55);
-    border-bottom: 1px solid rgba(160,122,63,.55);
-    transform: rotate(45deg);
-}
 .flow-step:last-child { padding-bottom: 0; }
-.flow-step:last-child::before,
-.flow-step:last-child::after { display: none; }
+.flow-step:last-child::before { display: none; }
 
 .flow-marker {
     position: absolute;

@@ -5,7 +5,7 @@
 
 {% block content %}
 <main class="project-page">
-    <a class="crumb" href="{{ url_for('projects') }}">&larr; All projects</a>
+    <a class="crumb" href="{{ url_for('projects') }}">All projects</a>
 
     <header class="project-head">
         <a class="project-head-thumb" href="{{ p.url }}"{% if p.external %} target="_blank" rel="noopener"{% endif %} aria-label="Open {{ p.title }}">
@@ -16,8 +16,8 @@
             <h1 class="project-title">{{ p.title }}</h1>
             <p class="project-summary">{{ p.summary }}</p>
             <div class="project-links">
-                <a class="btn btn--solid" href="{{ p.url }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}>{{ p.cta }}{% if p.external %} &#8599;{% endif %}</a>
-                {% if p.code %}<a class="btn" href="{{ p.code }}" target="_blank" rel="noopener">View the code &#8599;</a>{% endif %}
+                <a class="btn btn--solid" href="{{ p.url }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}>{{ p.cta }}</a>
+                {% if p.code %}<a class="btn" href="{{ p.code }}" target="_blank" rel="noopener">View the code</a>{% endif %}
             </div>
         </div>
     </header>
@@ -29,7 +29,7 @@
             <ol class="flow">
                 {% for step in p.story %}
                 <li class="flow-step{% if step.next %} flow-step--next{% endif %}" style="--i: {{ loop.index0 }}">
-                    <span class="flow-marker" aria-hidden="true">{{ '→' if step.next else loop.index }}</span>
+                    <span class="flow-marker" aria-hidden="true">{{ loop.index }}</span>
                     <p class="flow-kicker">{% if step.next %}<span class="flow-badge">In progress</span> {% endif %}{{ step.label }}</p>
                     <h3 class="flow-title">{{ step.title }}</h3>
                     <p class="flow-text">{{ step.text }}</p>

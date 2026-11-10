@@ -20,7 +20,7 @@
             {% for para in about.paragraphs %}<p>{{ para }}</p>{% endfor %}
             <p class="about-links">
                 {% for l in links %}
-                <a class="btn" href="{{ l.href }}"{% if l.external %} target="_blank" rel="noopener"{% endif %}>{{ l.title }}{% if l.external %} &nearr;{% endif %}</a>
+                <a class="btn" href="{{ l.href }}"{% if l.external %} target="_blank" rel="noopener"{% endif %}>{{ l.title }}</a>
                 {% endfor %}
             </p>
         </div>

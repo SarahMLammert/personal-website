@@ -17,7 +17,7 @@
         <span class="tack tack--right" aria-hidden="true"></span>
         <div class="print-art" data-belt>
             {{ scene(day, night, day_extras, night_extras, globe, bookcase, photo_wall) }}
-            <div class="plate-tag" hidden><strong></strong><span></span></div>
+            <div class="plate-tag" hidden><strong></strong></div>
         </div>
         <figcaption class="print-caption">
             {# the three middle names unfold after resting the pointer on the name (or tapping it) for a moment #}
@@ -27,7 +27,7 @@
             {# the day plates that open something (Projects, GitHub, LinkedIn), as plain links too #}
             <nav class="print-links" aria-label="Links">
                 {% for p in day if p.href %}
-                <a href="{{ p.href }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}>{{ p.title }}{% if p.external %}<span aria-hidden="true"> ↗</span>{% endif %}</a>
+                <a href="{{ p.href }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}>{{ p.title }}</a>
                 {% endfor %}
             </nav>
         </figcaption>
