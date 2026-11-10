@@ -55,17 +55,24 @@
     function spinGlobe(rate) {
         if (globeLand && globeLand.getAnimations) globeLand.getAnimations().forEach(a => a.updatePlaybackRate(rate));
     }
-    // The big copy starts exactly where the little globe has got to, then carries on round to the Americas.
-    function turnBigGlobe(world) {
+    // The big copy starts exactly where the little globe has got to and keeps its pace while it takes over
+    // (otherwise you see two sets of land at once), then carries on round to the Americas.
+    let bigGlobeTurn = null;
+    function turnBigGlobe(world, now) {
         const land = world.querySelector('.zoom-land');
         if (!land || !globeLand) return;
+        const spin = globeLand.getAnimations()[0];
+        const speed = (spin ? spin.playbackRate : 1) * 100 / 14;     // land units per second (one turn = 100 units in 14 s)
+        const KEEP_PACE = 1300, TURN = 1350;                         // the room's zoom + the big copy's first moment, then the turn
         let x = new DOMMatrix(getComputedStyle(globeLand).transform).m41;
-        if (x < AMERICAS) x += 100;              // already past them: one full turn back looks identical, and keeps it spinning forwards
-        land.style.transition = 'none';
-        land.style.transform = `translateX(${x}px)`;
-        void land.getBoundingClientRect();
-        land.style.transition = '';
-        land.style.transform = `translateX(${AMERICAS}px)`;
+        const travelled = speed * KEEP_PACE / 1000;
+        if (x - travelled < AMERICAS) x += 100;  // already past them: one full turn back looks identical, and keeps it spinning forwards
+        bigGlobeTurn = land.animate([
+            { transform: `translateX(${x}px)`, easing: 'linear' },
+            { transform: `translateX(${x - travelled}px)`, offset: KEEP_PACE / (KEEP_PACE + TURN), easing: 'cubic-bezier(.3, .4, .3, 1)' },
+            { transform: `translateX(${AMERICAS}px)` },
+        ], { duration: KEEP_PACE + TURN, fill: 'forwards' });
+        bigGlobeTurn.startTime = now;            // start this very frame, in step with the little globe
     }
 
     // ---- labels ---------------------------------------------------------
@@ -119,6 +126,7 @@
     // Then its big copy (.zoom-world) takes over: the globe spins to the Americas / the photo comes
     // forward / the Book Notes book slides out, and we dive in and open the page.
     const worlds = Array.from(document.querySelectorAll('.zoom-world'));
+    let zoomMoves = [];
     function zoomInto(el) {
         const href = el.getAttribute('href');
         const world = document.querySelector(`.zoom-world[data-for="${el.dataset.zoom}"]`);
@@ -139,24 +147,39 @@
         const target = world.querySelector('.zoom-art').getBoundingClientRect();     // where the big copy will be
         const big = target.width * parseFloat(world.dataset.fit);                 // its .zoom-from part, on screen
         const scale = big / r.width;
+        const landing = world.querySelector('.zoom-from').getBoundingClientRect();    // the same part on the big copy
+        const lx = landing.left + landing.width / 2, ly = landing.top + landing.height / 2;
+        const dx = lx - gx, dy = ly - gy;
+        const pivot = `${lx - target.left}px ${ly - target.top}px`;
         print.style.transformOrigin = `${gx - box.left}px ${gy - box.top}px`;
-        print.style.setProperty('--zoom', `translate(${target.left + target.width / 2 - gx}px, ${target.top + target.height / 2 - gy}px) scale(${scale})`);
         document.documentElement.classList.add('is-zooming');
         root.classList.add('is-zooming');
+        // The big copy rides along on top of the room, starting at the object's exact size and place. The same
+        // timing keeps the two glued together, and it takes over early: at this magnification the room's drawing
+        // lands several pixels off, which would show as a jump if the swap waited until the end.
+        const glide = { duration: 1000, easing: 'cubic-bezier(.5, 0, .7, 1)' };
+        zoomMoves = [
+            print.animate([{ transform: 'translate(0px, 0px) scale(1)' }, { transform: `translate(${dx}px, ${dy}px) scale(${scale})` }], { ...glide, fill: 'forwards' }),
+            world.querySelector('.zoom-art').animate([{ transformOrigin: pivot, transform: `translate(${-dx}px, ${-dy}px) scale(${1 / scale})` }, { transformOrigin: pivot, transform: 'translate(0px, 0px) scale(1)' }], glide),
+        ];
+        const now = document.timeline.currentTime;
+        zoomMoves.forEach(a => { a.startTime = now; });
+        world.classList.add('is-gliding');
+        turnBigGlobe(world, now);
         // once the room has finished zooming in, the big copy takes over
         let started = false;
         const next = () => {
             if (started) return;
             started = true;
             [
-                [0, () => { turnBigGlobe(world); world.classList.add('is-on'); }],   // the big copy fills the screen
+                [0, () => world.classList.add('is-on')],                   // its background fades in over the room
                 [300, () => world.classList.add('is-turning')],            // spin / come forward / slide out
                 [1700, () => world.classList.add('is-diving')],            // and we dive in
                 [2600, () => { window.location.href = href; }],
             ].forEach(([ms, fn]) => setTimeout(fn, ms));
         };
-        print.addEventListener('transitionend', e => { if (e.target === print) next(); }, { once: true });
-        setTimeout(next, 1300);                                            // in case the transition never reports back
+        zoomMoves[0].finished.then(next, () => {});
+        setTimeout(next, 1300);                                            // in case the animation never reports back
     }
     // coming back with the browser's Back button: put the room back as it was
     window.addEventListener('pageshow', () => {
@@ -167,10 +190,10 @@
         document.documentElement.classList.remove('is-zooming');
         const print = root.closest('.print');
         print.style.transformOrigin = '';
-        print.style.removeProperty('--zoom');
-        worlds.forEach(w => w.classList.remove('is-on', 'is-turning', 'is-diving'));
-        const bigLand = document.querySelector('.zoom-land');
-        if (bigLand) bigLand.style.transform = '';
+        zoomMoves.forEach(a => a.cancel());
+        zoomMoves = [];
+        worlds.forEach(w => w.classList.remove('is-gliding', 'is-on', 'is-turning', 'is-diving'));
+        if (bigGlobeTurn) bigGlobeTurn.cancel();
     });
     picks.forEach(p => {
         if (!p.dataset.zoom) return;

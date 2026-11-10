@@ -20,9 +20,16 @@
             <div class="plate-tag" hidden><strong></strong><span></span></div>
         </div>
         <figcaption class="print-caption">
-            <h1 class="print-title">Sarah May Hui Yu Lammert</h1>
+            {# the three middle names unfold after resting the pointer on the name (or tapping it) for a moment #}
+            <h1 class="print-title" tabindex="0">Sarah<span class="middle-names"><span> May Hui Yu</span></span> Lammert</h1>
             <p class="print-hint print-hint--day">Click on the plates on the conveyor belt</p>
             <p class="print-hint print-hint--night">Click on the drinks at the bar</p>
+            {# the day plates that open something (Projects, GitHub, LinkedIn), as plain links too #}
+            <nav class="print-links" aria-label="Links">
+                {% for p in day if p.href %}
+                <a href="{{ p.href }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}>{{ p.title }}{% if p.external %}<span aria-hidden="true"> ↗</span>{% endif %}</a>
+                {% endfor %}
+            </nav>
         </figcaption>
     </figure>
 </main>
@@ -36,8 +43,8 @@
 <div class="zoom-world" data-for="globe" data-fit="0.78125" aria-hidden="true">
     <svg class="zoom-art zoom-globe" viewBox="-32 -78 64 64">
         <defs><clipPath id="zoom-globe-clip"><circle cx="0" cy="-46" r="25"/></clipPath></defs>
-        <circle cx="0" cy="-46" r="25" fill="#7fb8c9"/>
-        <g clip-path="url(#zoom-globe-clip)"><g class="zoom-land">{{ globe_land() }}</g></g>
+        <circle class="zoom-from" cx="0" cy="-46" r="25" fill="#7fb8c9"/>
+        <g clip-path="url(#zoom-globe-clip)"><g class="zoom-land">{{ globe_land([-100, 0, 100]) }}</g></g>
         <circle cx="0" cy="-46" r="25" fill="none" stroke="#3f6f7e" stroke-width="2.5"/>
         <path d="M -14 -60 A 18 18 0 0 1 -2 -66" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".6"/>
     </svg>

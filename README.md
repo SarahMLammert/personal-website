@@ -30,7 +30,7 @@ moon to go back.
 
 Clicking the globe, the photos or the bookcase zooms into it before the page opens. To add another one:
 draw it in `_scene.html` as a `.scene-link` with `data-zoom="name"` and a `.zoom-from` part, add a big
-copy in `index.html` as `.zoom-world[data-for="name"]`, and style its stages in `style.css`.
+copy in `index.html` as `.zoom-world[data-for="name"]` (with the same `.zoom-from` part), and style its stages in `style.css`.
 
 ## Book notes
 

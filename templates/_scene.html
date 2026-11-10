@@ -51,9 +51,9 @@
 <ellipse class="plate-hit" cx="0" cy="-50" rx="38" ry="62"/>
 {% endmacro %}
 
-{# the land and recruiting dots on the globe (two copies side by side, so it can spin forever) #}
-{% macro globe_land() %}
-              {% for dx in [0, 100] %}
+{# the land and recruiting dots on the globe (copies side by side, so it can spin forever) #}
+{% macro globe_land(copies=[0, 100]) %}
+              {% for dx in copies %}
               <g transform="translate({{ dx - 50 }} 0)" fill="#a9cf8e">
                 <path d="M 2 -62 C 14 -66 26 -60 26 -52 C 26 -46 18 -44 16 -38 C 14 -32 6 -30 4 -36 C 2 -42 -6 -44 -4 -52 C -2 -58 -4 -60 2 -62 Z"/>
                 <path d="M 12 -30 C 18 -30 22 -24 20 -18 C 18 -14 12 -14 10 -20 Z"/>
@@ -446,7 +446,7 @@
 
   {# the chef: click him for the About page #}
   <g class="day-only">
-  <a class="scene-link chef-link" href="{{ url_for('about') }}" data-title="About" data-sub="Meet the chef"
+  <a class="scene-link chef-link" href="{{ url_for('about') }}" data-title="About" data-sub="Meet Sarah"
      aria-label="About">
   <g class="chef pick-art chef-art" transform="translate(800 652) scale(1.12)">
     {% call sq.front(kind='fox', outfit='chef', tailside=-1) %}

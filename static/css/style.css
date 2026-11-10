@@ -34,8 +34,8 @@ body {
 .print {
     position: relative;
     /* as wide as fits, but never taller than the window: the scene is 16:10, plus room for the caption */
-    width: min(1240px, 100%, calc((100vh - 230px) * 1.6 + 40px));
-    width: min(1240px, 100%, calc((100svh - 230px) * 1.6 + 40px));
+    width: min(1240px, 100%, calc((100vh - 262px) * 1.6 + 40px));
+    width: min(1240px, 100%, calc((100svh - 262px) * 1.6 + 40px));
     margin: 0;
     padding: clamp(12px, 2vw, 26px) clamp(12px, 2vw, 26px) 0;
     background: #fffdf8;
@@ -79,6 +79,22 @@ body {
     text-wrap: balance;
 }
 
+/* "Sarah Lammert"; hold the pointer on it for two seconds and "May Hui Yu" unfolds in the middle */
+.print-title { cursor: default; outline: none; }
+.middle-names {
+    display: inline-grid;
+    grid-template-columns: 0fr;
+    opacity: 0;
+    vertical-align: bottom;
+    transition: grid-template-columns .5s ease, opacity .3s ease;   /* folds back straight away */
+}
+.middle-names > span { overflow: hidden; white-space: pre; min-width: 0; }
+.print-title:hover .middle-names, .print-title:focus-visible .middle-names, .print-title:focus .middle-names {
+    grid-template-columns: 1fr;
+    opacity: 1;
+    transition: grid-template-columns .9s cubic-bezier(.3, 0, .2, 1) 2s, opacity .7s ease 2.2s;
+}
+
 .print-hint {
     margin: 6px 0 0;
     font-family: var(--serif);
@@ -88,6 +104,28 @@ body {
 }
 .print-hint--night, html.is-night .print-hint--day { display: none; }
 html.is-night .print-hint--night { display: block; }
+
+/* Projects, GitHub, LinkedIn as plain links under the name */
+.print-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 26px;
+    margin-top: 12px;
+}
+.print-links a {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s ease, color .2s ease;
+}
+.print-links a:hover, .print-links a:focus-visible { color: var(--text); border-bottom-color: currentColor; }
 
 /* plates on the belt */
 .belt-plate { cursor: pointer; outline: none; }
@@ -187,9 +225,8 @@ html.is-night .print { background: #fbf6ec; }
 .scene-link.is-held .notes-book { transform: translateY(-8px); }
 
 /* worlds inside worlds: the room zooms into an object, then its big copy (.zoom-world) takes over.
-   Stages, set by belt.js: .is-on -> .is-turning -> .is-diving -> the page opens. */
-.print { transition: transform 1s cubic-bezier(.5, 0, .7, 1); }
-html.is-zooming .print { transform: var(--zoom); }
+   Stages, set by belt.js: .is-gliding (the big copy rides along on top of the zooming room) -> .is-on (its background
+   fades in) -> .is-turning -> .is-diving -> the page opens. */
 html.is-zooming, html.is-zooming body { overflow: hidden; }
 .print-art.is-zooming .plate-tag { display: none; }
 
@@ -200,24 +237,31 @@ html.is-zooming, html.is-zooming body { overflow: hidden; }
     display: grid;
     place-items: center;
     overflow: hidden;
+    visibility: hidden;
+}
+.zoom-world.is-gliding { visibility: visible; }
+.zoom-world::before {
+    content: "";
+    position: absolute;
+    inset: 0;
     background: radial-gradient(circle at 50% 50%, #e9f1ec 0%, #f3e7d3 70%);
     opacity: 0;
-    visibility: hidden;
-    transition: opacity .35s ease, visibility 0s linear .35s;
+    transition: opacity .25s ease;
 }
-.zoom-world--night { background: radial-gradient(circle at 50% 50%, #3a2f4f 0%, #191424 75%); }
-.zoom-world.is-on { opacity: 1; visibility: visible; transition: opacity .25s ease, visibility 0s; }
+.zoom-world--night::before { background: radial-gradient(circle at 50% 50%, #3a2f4f 0%, #191424 75%); }
+.zoom-world.is-on::before { opacity: 1; }
 .zoom-art {
+    opacity: 0;
     transform: scale(1);
-    transition: transform 1.1s cubic-bezier(.6, 0, .9, .4);
+    transition: transform 1.1s cubic-bezier(.6, 0, .9, .4), opacity .2s ease;
     filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .35));
 }
+.zoom-world.is-gliding .zoom-art { opacity: 1; }
 .zoom-globe, .zoom-photos { width: min(86vmin, 760px); height: auto; }
 .zoom-bookcase { height: min(88vh, 960px); width: auto; }   /* tall, so it's sized by height */
 
 /* globe: spins round to the Americas, then dives in */
 .zoom-globe { filter: drop-shadow(0 30px 40px rgba(40, 60, 70, .25)); }
-.zoom-land { transition: transform 1.6s cubic-bezier(.25, .5, .3, 1); }   /* belt.js sets where it starts and ends */
 .zoom-world.is-diving .zoom-globe { transform: scale(7); transform-origin: 48% 44%; }
 
 /* framed photo: it comes forward, then we dive into it */
