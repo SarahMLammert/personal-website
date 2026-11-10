@@ -83,8 +83,6 @@
         tag.querySelector('strong').textContent = p.dataset.title;
         tag.dataset.href = href || '';
         tag.dataset.external = p.dataset.external ? '1' : '';
-        tag.classList.toggle('is-link', !!href);
-        tag.classList.toggle('is-external', !!p.dataset.external);
         tag.hidden = false;
         const box = svg.getBoundingClientRect();
         const r = p.querySelector('.pick-art').getBoundingClientRect();
@@ -121,7 +119,7 @@
     });
 
     // ---- worlds inside worlds --------------------------------------------
-    // Clicking the globe (day), or the framed photos or bookcase (after hours), zooms the room into it.
+    // Clicking the globe (day), or the framed photo or bookcase (after hours), zooms the room into it.
     // Then its big copy (.zoom-world) takes over: the globe spins to the Americas / the photo comes
     // forward / the Book Notes book slides out, and we dive in and open the page.
     const worlds = Array.from(document.querySelectorAll('.zoom-world'));

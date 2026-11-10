@@ -142,7 +142,7 @@ html.is-night .print-hint--night { display: block; }
 
 /* plates on the belt */
 .belt-plate { cursor: pointer; outline: none; }
-.belt-plate--acorn, .belt-plate--soon { cursor: default; }
+.belt-plate--extra, .belt-plate--soon { cursor: default; }
 .plate-hit { fill: transparent; }
 .plate-art { transition: transform .35s cubic-bezier(.2,.8,.2,1); }
 .belt-plate.is-held .plate-art { transform: translateY(-12px) scale(1.08); }
@@ -207,7 +207,7 @@ html.is-night .print { background: #fbf6ec; }
 .bar-drink.is-held .drink-art { transform: translateY(-10px) scale(1.06); }
 .bar-drink:focus-visible .plate-hit { stroke: var(--gold); stroke-width: 3; stroke-dasharray: 6 5; }
 
-/* things in the scene that open a page: the globe (day), the framed photos and bookcase (after hours) */
+/* things in the scene that open a page: the globe (day), the framed photo and bookcase (after hours) */
 .scene-link { cursor: pointer; outline: none; }
 .scene-link:focus-visible .plate-hit { stroke: var(--gold); stroke-width: 3; stroke-dasharray: 6 5; }
 .globe-art, .photos-art, .books-art, .notes-book { transition: transform .35s cubic-bezier(.2,.8,.2,1); transform-box: fill-box; }
@@ -219,7 +219,7 @@ html.is-night .print { background: #fbf6ec; }
 .globe-land { animation: globe-spin 14s linear infinite; }
 @keyframes globe-spin { from { transform: translateX(0); } to { transform: translateX(-100px); } }
 
-/* the framed photos swing out from where they hang; their pictures fade as they rotate (belt.js) */
+/* the framed photo grows from where it hangs; its picture fades as it rotates (belt.js) */
 .photos-art { transform-origin: 50% 0; }
 .scene-link.is-held .photos-art { transform: scale(1.06); }
 .wall-img { transition: opacity .6s ease; }

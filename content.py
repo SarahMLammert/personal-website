@@ -11,36 +11,33 @@ SITE_URL = "https://www.sarahlammert.com"
 # The homepage has two modes. Click the sun or moon in the window to switch.
 #   Day ("side": "day"):     the sushi bar. Professional sections ride the belt as plates.
 #   Night ("side": "night"): after hours. Personal sections are drinks on the bar.
-# For each one, give:
+# For each one, give a "title" (shown when you hover over it) and:
 #   "endpoint": a page on this site (the name of its function in app.py), or
 #   "url":      a link to another site (opens in a new tab), or
-#   neither:    it shows "Coming soon".
+#   neither:    it's coming soon (not clickable yet).
+# The day ones that open something also appear as the buttons under the name.
 # sushi: toro, salmon, tuna, ebi, unagi, spicy, maki, tempura, ikura, acorn
 # plate: red, blue, yellow, green, black, pink
 # drink: taro, matcha, mango, brownsugar, strawberry
 # ---------------------------------------------------------------------------
 PLATES = [
     # day
-    {"side": "day", "title": "Projects", "description": "Data and analytics work.", "endpoint": "projects",
-     "sushi": "spicy", "plate": "blue"},
-    {"side": "day", "title": "GitHub", "description": "Code and repositories.",
+    {"side": "day", "title": "Projects", "endpoint": "projects", "sushi": "spicy", "plate": "blue"},
+    {"side": "day", "title": "GitHub",
      "url": "https://github.com/SarahMLammert", "sushi": "salmon", "plate": "black"},
-    {"side": "day", "title": "LinkedIn", "description": "Professional profile.",
+    {"side": "day", "title": "LinkedIn",
      "url": "https://www.linkedin.com/in/sarahmlammert/", "sushi": "ebi", "plate": "pink"},
     # night
-    # Photos is also the framed photos on the wall (PHOTO_WALL). This drink is temporary:
+    # Photos is also the framed photo on the wall (PHOTO_WALL). This drink is temporary:
     # take it off the bar once more drinks are added.
-    {"side": "night", "title": "Photos", "description": "Squirrels, mainly.", "endpoint": "photos",
-     "drink": "taro"},
-    # Book Notes is also the bookcase on the windowsill (BOOKCASE). This drink is temporary:
+    {"side": "night", "title": "Photos", "endpoint": "photos", "drink": "taro"},
+    # Book Notes is also the bookcase against the back wall (BOOKCASE). This drink is temporary:
     # take it off the bar once more drinks are added.
-    {"side": "night", "title": "Book Notes", "description": "Notes from what I\u2019m reading.", "endpoint": "books",
-     "drink": "matcha"},
-    {"side": "night", "title": "Writing", "description": "Notes and posts.",
-     "drink": "mango"},
+    {"side": "night", "title": "Book Notes", "endpoint": "books", "drink": "matcha"},
+    {"side": "night", "title": "Writing", "drink": "mango"},
 ]
 
-# Plates and drinks that are just for fun (no link).
+# Plates and drinks that are just for fun (no link). "description" is read out by screen readers.
 DAY_EXTRAS = [
     {"title": "An acorn", "description": "Not on the menu", "sushi": "acorn", "plate": "yellow"},
     {"title": "Toro", "description": "Just a snack", "sushi": "toro", "plate": "red"},
@@ -52,17 +49,17 @@ NIGHT_EXTRAS = [
 
 # Things in the scene that open a page. Clicking one zooms the room into it ("worlds inside worlds").
 # Day: the little globe on the windowsill. It spins to the Americas, then opens the atlas.
-GLOBE = {"title": "College Sports Atlas", "description": "Where college athletes come from",
+GLOBE = {"title": "College Sports Atlas",
          "url": "https://sarahmlammert.github.io/college-sports-atlas/index.html"}
 
-# After hours: the tall bookcase on the right. The Book Notes book slides off the shelf, then Book Notes opens.
-BOOKCASE = {"title": "Book Notes", "description": "Notes from what I\u2019m reading.", "endpoint": "books"}
+# After hours: the tall bookcase against the back wall on the right. The Book Notes book slides off the
+# shelf, then Book Notes opens.
+BOOKCASE = {"title": "Book Notes", "endpoint": "books"}
 
 # After hours: one big framed photo on the wall, where the sushi menu hangs by day. It comes forward,
 # then Photos opens. Every few seconds it fades to the next photo, cycling through all of them.
 # "photo" = the one to start with, by file name in static/images/photos/web/.
-PHOTO_WALL = {"title": "Photos", "description": "Squirrels, mainly.", "endpoint": "photos",
-              "photo": "squirrel1.jpg"}
+PHOTO_WALL = {"title": "Photos", "endpoint": "photos", "photo": "squirrel1.jpg"}
 
 # ---------------------------------------------------------------------------
 # About page: the chef in the middle of the belt opens it.

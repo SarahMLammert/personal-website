@@ -131,8 +131,8 @@
   <rect x="-57" y="-716" width="114" height="716" rx="2" fill="none" stroke="{{ WOOD_DD }}" stroke-width="2"/>
 {% endmacro %}
 
-{# three framed photos (left, middle, right); centred on the middle frame.
-   big=True is the zoomed-in copy, where the side frames slide away and the middle one comes forward #}
+{# one big framed photo with a brass picture light; centred on the frame.
+   big=True is the zoomed-in copy, where the photo comes forward #}
 {% macro photo_wall_art(image, big=False) %}
   <radialGradient id="wall-glow{{ '-big' if big }}"><stop offset=".6" stop-color="#ffe9b0" stop-opacity=".3"/><stop offset="1" stop-color="#ffe9b0" stop-opacity="0"/></radialGradient>
   <ellipse cx="0" cy="-8" rx="57" ry="57" fill="url(#wall-glow{{ '-big' if big }})"/>
@@ -255,7 +255,7 @@
     {# a little desk globe, dotted like the recruiting map, slowly spinning #}
     <g class="day-only">
       <a class="scene-link globe" href="{{ globe.url }}" data-zoom="globe"
-         data-title="{{ globe.title }}" data-sub="{{ globe.description }}" data-external="1"
+         data-title="{{ globe.title }}" data-external="1"
          aria-label="{{ globe.title }}" transform="translate(288 358)">
         <g class="pick-art globe-art">
           <rect class="globe-frame" x="-160" y="-80" width="320" height="84"/>
@@ -282,7 +282,7 @@
   {# after hours, a tall bookcase stands against the back wall on the right (behind the lantern and the diners) #}
   <g class="night-only">
     <a class="scene-link scene-bookcase" href="{{ bookcase.href }}" data-zoom="books"
-       data-title="{{ bookcase.title }}" data-sub="{{ bookcase.description }}"
+       data-title="{{ bookcase.title }}"
        aria-label="{{ bookcase.title }}" transform="translate(1546 626) scale(.62)">
       <g class="pick-art books-art">{{ bookcase_art() }}</g>
       <rect class="plate-hit" x="-62" y="-734" width="124" height="740" rx="8"/>
@@ -313,7 +313,7 @@
   {# after hours, one big framed photo hangs where the menu is by day #}
   <g class="night-only">
     <a class="scene-link photo-wall" href="{{ photo_wall.href }}" data-zoom="photos"
-       data-title="{{ photo_wall.title }}" data-sub="{{ photo_wall.description }}"
+       data-title="{{ photo_wall.title }}"
        aria-label="{{ photo_wall.title }}" data-photos="{{ photo_wall.all|join(' ') }}" transform="translate(545 290) scale(2.05)">
       <g class="pick-art photos-art">{{ photo_wall_art(photo_wall.image) }}</g>
       <rect class="plate-hit" x="-100" y="-64" width="200" height="118" rx="8"/>
@@ -446,7 +446,7 @@
 
   {# the chef: click him for the About page #}
   <g class="day-only">
-  <a class="scene-link chef-link" href="{{ url_for('about') }}" data-title="About" data-sub="Meet Sarah"
+  <a class="scene-link chef-link" href="{{ url_for('about') }}" data-title="About"
      aria-label="About">
   <g class="chef pick-art chef-art" transform="translate(800 652) scale(1.12)">
     {% call sq.front(kind='fox', outfit='chef', tailside=-1) %}
@@ -499,14 +499,14 @@
     {% for p in day %}
     {% if p.href %}
     <a class="belt-plate" href="{{ p.href }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}
-       data-title="{{ p.title }}" data-sub="{{ p.description }}"{% if p.external %} data-external="1"{% endif %}
+       data-title="{{ p.title }}"{% if p.external %} data-external="1"{% endif %}
        aria-label="{{ p.title }}{% if p.external %} (opens in a new tab){% endif %}">{{ plate(p) }}</a>
     {% else %}
-    <g class="belt-plate belt-plate--soon" tabindex="0" role="img" data-title="{{ p.title }}" data-sub="Coming soon" aria-label="{{ p.title }}, coming soon">{{ plate(p) }}</g>
+    <g class="belt-plate belt-plate--soon" tabindex="0" role="img" data-title="{{ p.title }}" aria-label="{{ p.title }}, coming soon">{{ plate(p) }}</g>
     {% endif %}
     {% endfor %}
     {% for x in day_extras %}
-    <g class="belt-plate belt-plate--extra" tabindex="0" role="img" data-title="{{ x.title }}" data-sub="{{ x.description }}" aria-label="{{ x.title }}: {{ x.description }}">{{ plate(x) }}</g>
+    <g class="belt-plate belt-plate--extra" tabindex="0" role="img" data-title="{{ x.title }}" aria-label="{{ x.title }}: {{ x.description }}">{{ plate(x) }}</g>
     {% endfor %}
   </g>
 
@@ -518,10 +518,10 @@
     <g transform="translate({{ x }} 694) scale(1.18)">
     {% if d.href %}
     <a class="bar-drink" href="{{ d.href }}"{% if d.external %} target="_blank" rel="noopener"{% endif %}
-       data-title="{{ d.title }}" data-sub="{{ d.description }}"{% if d.external %} data-external="1"{% endif %}
+       data-title="{{ d.title }}"{% if d.external %} data-external="1"{% endif %}
        aria-label="{{ d.title }}{% if d.external %} (opens in a new tab){% endif %}">{{ boba(d) }}</a>
     {% else %}
-    <g class="bar-drink bar-drink--extra" tabindex="0" role="img" data-title="{{ d.title }}" data-sub="{{ d.description if d.side is not defined else 'Coming soon' }}" aria-label="{{ d.title }}">{{ boba(d) }}</g>
+    <g class="bar-drink bar-drink--extra" tabindex="0" role="img" data-title="{{ d.title }}" aria-label="{{ d.title }}{{ ', coming soon' if d.side is defined else ': ' ~ d.description if d.description }}">{{ boba(d) }}</g>
     {% endif %}
     </g>
     {% endfor %}
