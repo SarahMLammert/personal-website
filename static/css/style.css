@@ -457,8 +457,6 @@ html:not(.is-night) .night-only * { animation-play-state: paused; }
 .project-row-summary { margin: 6px 0 8px; font-family: var(--serif); font-style: italic; font-size: 19px; color: var(--muted); }
 .project-info .tools { margin: 0; font-size: 13px; }
 /* optional "Built in collaboration with ..." line, right under the tools */
-.tools:has(+ .project-credit) { margin-bottom: 0; }
-.project-credit { margin: 8px 0 30px; font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--muted); }
 .project-row-btn { white-space: nowrap; }
 
 /* a single project */
@@ -643,6 +641,35 @@ html:not(.is-night) .night-only * { animation-play-state: paused; }
     line-height: 1.7;
     color: var(--muted);
 }
+
+/* "Built with" on a project page: tools you can click for a sentence about each, then the credit line */
+.built-with { margin-bottom: 30px; }
+.built-with .tools { margin: 0; }
+.tool {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    text-decoration: underline dotted rgba(160, 122, 63, .7);
+    text-underline-offset: 4px;
+    transition: color .15s ease;
+}
+.tool:hover, .tool:focus-visible { color: var(--text); outline: none; }
+.tool[aria-expanded="true"] { color: var(--gold); text-decoration-style: solid; }
+.tool-note {
+    margin: 10px 0 0;
+    padding: 10px 14px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text);
+    background: rgba(160, 122, 63, .08);
+    border-left: 2px solid var(--gold);
+    border-radius: 0 6px 6px 0;
+}
+.tool-note strong { font-weight: 600; }
+.project-credit { margin: 10px 0 0; font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--muted); }
 
 .project-links { display: flex; flex-wrap: wrap; gap: 10px; }
 

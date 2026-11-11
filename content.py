@@ -133,6 +133,21 @@ PROJECTS = [
         "features": ["Squirrel sushi bar illustration", "Plates on a moving belt", "After-hours boba bar",
                      "Photo gallery and viewer", "Bookshelf of book notes", "Project story flows"],
         "tools": ["Python", "Flask", "Jinja", "JavaScript", "SVG", "CSS", "Obsidian", "GitHub Pages"],
+        # what each tool does here; click a tool on the project page to read its sentence
+        "tool_notes": {
+            "Python": "The programming language the site's code is written in.",
+            "Flask": "A small Python web framework that turns each address, like /books, into a page.",
+            "Jinja": "Flask's templating language: it fills each page's HTML with content from one file and "
+                     "repeats things like one plate per section or one book per note.",
+            "JavaScript": "Runs in the browser to move the plates along the belt, switch between day and night, "
+                          "and play the zoom into the globe, photo and bookcase.",
+            "SVG": "Pictures drawn with code instead of pixels. The whole sushi bar is SVG, so it stays sharp "
+                   "at any size and can move.",
+            "CSS": "Styles every page: the colors, fonts and layout, plus small touches like plates lifting "
+                   "when you hover over them.",
+            "Obsidian": "The note-taking app I write my book notes in; each note becomes a book on the shelf.",
+            "GitHub Pages": "Hosts the site for free, and rebuilds and publishes it every time I push a change.",
+        },
         "credit": "Built in collaboration with Claude",   # optional line under "Built with"
         "image": "images/projects/website-home.jpg",
         "image_alt": "The homepage: an illustrated sushi bar where squirrels sit around a conveyor belt of plates",
@@ -191,6 +206,17 @@ PROJECTS = [
         "features": ["Recruiting map", "Recruiting footprints", "Transfer map",
                      "Coaching moves", "Staff directory", "School influence map"],
         "tools": ["Python", "Requests", "Beautiful Soup", "Playwright", "D3", "GitHub Pages"],
+        "tool_notes": {
+            "Python": "Runs the whole data pipeline: collecting rosters, cleaning them and placing every "
+                      "hometown on the map.",
+            "Requests": "A Python library that downloads each college's roster page.",
+            "Beautiful Soup": "Reads the downloaded pages and pulls out each player's name and hometown.",
+            "Playwright": "Opens pages in a real, hidden browser for colleges whose rosters only appear after "
+                          "the page's JavaScript runs. It also tests the finished map pages.",
+            "D3": "A JavaScript library that draws the US map, places the hometown dots, and handles zooming "
+                  "and color scales.",
+            "GitHub Pages": "Hosts the atlas for free as a set of ready-made pages.",
+        },
         "credit": "Built in collaboration with Claude",   # optional line under "Built with"
         "image": "images/projects/atlas-map.jpg",
         "image_alt": "Map of the United States covered in colored dots, one for each college football player's hometown",
