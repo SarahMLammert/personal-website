@@ -707,16 +707,24 @@ html:not(.is-night) .night-only * { animation-play-state: paused; }
     display: grid;
     grid-template-columns: minmax(200px, 300px) 1fr;
     gap: clamp(28px, 5vw, 64px);
-    align-items: center;
+    align-items: start;
 }
-.about-photo { width: 100%; height: auto; display: block; border-radius: 14px; box-shadow: 0 10px 30px rgba(60, 40, 20, .14); }
+/* the photo lines up with "Hi, I'm Sarah" and stays in view while you read down */
+.about-photo { width: 100%; height: auto; display: block; border-radius: 14px; box-shadow: 0 10px 30px rgba(60, 40, 20, .14); position: sticky; top: 32px; margin-top: 10px; }
 .about-text { font-size: 17px; line-height: 1.75; }
 .about-text p { margin: 0 0 16px; }
 .about-hello { font-family: var(--serif); font-size: clamp(30px, 4vw, 40px); line-height: 1.15; }
 .about-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px !important; }
+/* Education and Home: small gold labels like "Built with" on the project pages */
+.about-section { margin-top: 30px; padding-top: 22px; border-top: 1px solid rgba(160, 122, 63, .25); }
+.about-section .side-label { margin-bottom: 12px; }
+.schools { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+.about-text .school-name { margin: 0; font-family: var(--serif); font-size: 22px; font-weight: 600; line-height: 1.25; }
+.about-text .school-detail { margin: 2px 0 0; font-size: 15px; color: var(--muted); }
+.school-notes { margin: 10px 0 0; }
 @media (max-width: 640px) {
     .about { grid-template-columns: 1fr; gap: 16px; }
-    .about-photo { max-width: 280px; margin: 0 auto; }
+    .about-photo { max-width: 280px; margin: 0 auto; position: static; }
 }
 
 /* ---------- Book notes ---------- */

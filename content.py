@@ -70,12 +70,17 @@ ABOUT = {
     "sub": "Nice to meet you",
     "hello": "Hi, I\u2019m Sarah.",
     "paragraphs": [
-        "I work with data: maps, analysis, and building things people enjoy exploring. My favorite so far is "
-        "the College Sports Atlas, which started as a project at work mapping where Ivy League football "
-        "players come from and grew into a map of every Division I college.",
-        "Outside of work you\u2019ll find me taking far too many photos of squirrels, ordering boba, eating "
-        "conveyor belt sushi, and writing book notes in Obsidian. This site is a little of all of that.",
+        "I\u2019m passionate about programming, data, and systems design.",
     ],
+    # schools, newest first: "degree", "year", "notes" (shown as small tags) and "place" are all optional
+    "education": [
+        {"school": "Harvey Mudd College", "degree": "B.S. in Computer Science", "year": 2025,
+         "notes": ["Graduated with Distinction", "Honors in Computer Science", "Emphasis in Data Science",
+                   "Concentration in Political Studies"]},
+        {"school": "St. Mark\u2019s School", "place": "Southborough, Massachusetts", "year": 2021},
+    ],
+    # a short section about home
+    "home": "I\u2019m from Massachusetts and a huge Massachusetts sports fan.",
     "links": [
         {"title": "Projects", "endpoint": "projects"},
         {"title": "GitHub", "url": "https://github.com/SarahMLammert"},

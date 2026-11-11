@@ -18,6 +18,28 @@
         <div class="about-text">
             <p class="about-hello">{{ about.hello }}</p>
             {% for para in about.paragraphs %}<p>{{ para }}</p>{% endfor %}
+
+            {% if about.education %}
+            <section class="about-section">
+                <h2 class="side-label">Education</h2>
+                <ul class="schools">
+                    {% for s in about.education %}
+                    <li class="school">
+                        <p class="school-name">{{ s.school }}</p>
+                        {% if s.degree or s.place or s.year %}<p class="school-detail">{{ [s.degree or s.place, s.year]|select|join(' · ') }}</p>{% endif %}
+                        {% if s.notes %}<ul class="chips school-notes">{% for n in s.notes %}<li>{{ n }}</li>{% endfor %}</ul>{% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endif %}
+
+            {% if about.home %}
+            <section class="about-section">
+                <h2 class="side-label">Home</h2>
+                <p>{{ about.home }}</p>
+            </section>
+            {% endif %}
             <p class="about-links">
                 {% for l in links %}
                 <a class="btn" href="{{ l.href }}"{% if l.external %} target="_blank" rel="noopener"{% endif %}>{{ l.title }}</a>
