@@ -79,8 +79,6 @@ ABOUT = {
                    "Concentration in Political Studies"]},
         {"school": "St. Mark\u2019s School", "place": "Southborough, Massachusetts", "year": 2021},
     ],
-    # a short section about home
-    "home": "I\u2019m from Massachusetts and a huge Massachusetts sports fan.",
     "links": [
         {"title": "Projects", "endpoint": "projects"},
         {"title": "GitHub", "url": "https://github.com/SarahMLammert"},
