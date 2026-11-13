@@ -5,8 +5,19 @@ from pathlib import Path
 from flask import Flask, abort, render_template, url_for
 
 from books import grouped, load_books, reading_log, slugify
-from content import (ABOUT, BOOKCASE, DAY_EXTRAS, GITHUB, GLOBE, NIGHT_EXTRAS, PHOTO_CAPTIONS, PHOTO_WALL, PLATES,
-                     PROJECTS, SITE_URL)
+from content import (
+    ABOUT,
+    BOOKCASE,
+    DAY_EXTRAS,
+    GITHUB,
+    GLOBE,
+    NIGHT_EXTRAS,
+    PHOTO_CAPTIONS,
+    PHOTO_WALL,
+    PLATES,
+    PROJECTS,
+    SITE_URL,
+)
 
 app = Flask(__name__)
 PHOTO_DIR = Path(app.static_folder) / "images" / "photos"

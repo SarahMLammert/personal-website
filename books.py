@@ -47,7 +47,7 @@ def clean_inline(text):
 
 def parse_note(raw):
     meta, body = {}, raw
-    m = re.match(r"\A---\s*\n(.*?)\n---\s*\n?(.*)\Z", raw, re.S)
+    m = re.match(r"\A---\s*\n(.*?)\n---\s*\n?(.*)\Z", raw, re.DOTALL)
     if m:
         for line in m.group(1).splitlines():
             if ":" in line:

@@ -4,3 +4,4 @@ build/
 books/.obsidian/
 books/.trash/
 .vscode/
+.venv/
