@@ -22,9 +22,18 @@
     </div>
     {% endif %}
 
-    {% if groups %}<div class="cabinet">{% endif %}
+    {% if groups %}<div class="cabinet">
+        {# lying on top of the bookcase: a guide to the numbers #}
+        <a class="guide-book" href="{{ url_for('dewey_guide_page') }}" title="The Dewey Decimal System: how the shelves are arranged">
+            <span class="guide-book-title">Dewey Decimal</span><span class="guide-book-sub">Guide</span>
+        </a>
+        {# and on top of it, a small book about why I keep these notes #}
+        <a class="guide-book guide-book--notes" href="{{ url_for('notes_vision_page') }}" title="About these notes">
+            <span class="guide-book-title">About These Notes</span>
+        </a>
+    {% endif %}
     {% for label, number, items in groups %}
-    <section class="shelf">
+    <section class="shelf" id="shelf-{{ number or 'unshelved' }}">
         <h2 class="shelf-label">{% if number %}<b>{{ number }}</b> {% endif %}{{ label }} <span>{{ items|length }}</span></h2>
         <ul class="bookcase">
             {% if loop.first %}
@@ -57,7 +66,7 @@
     {% endfor %}
     {% if groups %}</div>{% endif %}
 
-    <p class="shelf-hint">Shelved like a library: by subject, then author. A ribbon bookmark means I&rsquo;m reading it now; the leather journal is my reading log.</p>
+    <p class="shelf-hint">Shelved like a library: by subject, then author. A ribbon bookmark means I&rsquo;m reading it now; the leather journal is my reading log, and the books on top explain the numbers and why I keep these notes.</p>
 </main>
 
 <script>

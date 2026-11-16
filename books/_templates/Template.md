@@ -4,6 +4,7 @@ author:
 dewey:
 status:
 date_finished:
+reread:
 edition:
 volume:
 ---

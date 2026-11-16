@@ -1,0 +1,18 @@
+# Settings for the code checkers (they don't affect the site).
+#   ruff check .                    Python
+#   djlint templates --lint         the Jinja HTML templates
+
+[tool.ruff]
+line-length = 120
+extend-exclude = ["build", ".venv"]
+
+[tool.ruff.lint]
+# the usual errors, plus tidy imports (I), modern Python (UP), common bugs (B), simpler code (SIM, FURB)
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "FURB"]
+ignore = ["E501"]   # long lines are fine for the long strings in content.py
+
+[tool.djlint]
+profile = "jinja"
+# H020: empty tags filled in by JavaScript (the hover label); H021: inline styles set
+# per-item colors like --cover; H023: HTML entities like &rsquo; are on purpose
+ignore = "H020,H021,H023"

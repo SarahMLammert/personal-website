@@ -61,6 +61,11 @@ BOOKCASE = {"title": "Book Notes", "endpoint": "books"}
 # "photo" = the one to start with, by file name in static/images/photos/web/.
 PHOTO_WALL = {"title": "Photos", "endpoint": "photos", "photo": "squirrel1.jpg"}
 
+# The word visitors type after clicking the sun to get into After Hours (not case-sensitive).
+# Just for fun, not security: it keeps the night side off the homepage, but /books and /photos
+# are still public pages, and the word is visible in the page source.
+AFTER_HOURS_PASSWORD = "boba"
+
 # ---------------------------------------------------------------------------
 # About page: the chef in the middle of the belt opens it.
 # DRAFT, written from what's already on the site. Rewrite it in your own words!
@@ -83,6 +88,20 @@ ABOUT = {
         {"title": "Projects", "endpoint": "projects"},
         {"title": "GitHub", "url": "https://github.com/SarahMLammert"},
         {"title": "LinkedIn", "url": "https://www.linkedin.com/in/sarahmlammert/"},
+    ],
+}
+
+
+# ---------------------------------------------------------------------------
+# Book Notes: the small book lying on top of the Dewey guide opens this page.
+# Each paragraph can use *italics*.
+# ---------------------------------------------------------------------------
+NOTES_VISION = {
+    "title": "About These Notes",
+    "paragraphs": [
+        "These are my notes while reading these books. Despite having read many of these books before, I am now "
+        "reading them again with a deeper understanding and picking out pieces that I want to comment on or connect "
+        "with. This is in line with the book *They Say / I Say* about writing and how we can improve our writing.",
     ],
 }
 

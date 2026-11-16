@@ -4,14 +4,16 @@ from pathlib import Path
 
 from flask import Flask, abort, render_template, url_for
 
-from books import grouped, load_books, reading_log, slugify
+from books import dewey_guide, grouped, inline_html, load_books, reading_log, reading_timeline, slugify
 from content import (
     ABOUT,
+    AFTER_HOURS_PASSWORD,
     BOOKCASE,
     DAY_EXTRAS,
     GITHUB,
     GLOBE,
     NIGHT_EXTRAS,
+    NOTES_VISION,
     PHOTO_CAPTIONS,
     PHOTO_WALL,
     PLATES,
@@ -69,13 +71,14 @@ def home():
                            night=[p for p in plates if p.get("side") == "night"],
                            day_extras=DAY_EXTRAS, night_extras=NIGHT_EXTRAS, globe=GLOBE,
                            bookcase=dict(BOOKCASE, href=url_for(BOOKCASE["endpoint"])),
-                           photo_wall=photo_wall())
+                           photo_wall=photo_wall(), after_hours_password=AFTER_HOURS_PASSWORD)
 
 
 @app.route("/about")
 def about():
-    links = [dict(l, href=url_for(l["endpoint"]) if "endpoint" in l else l["url"], external="url" in l)
-             for l in ABOUT["links"]]
+    links = [dict(link, href=url_for(link["endpoint"]) if "endpoint" in link else link["url"],
+                  external="url" in link)
+             for link in ABOUT["links"]]
     return render_template("about.html", about=ABOUT, links=links)
 
 
@@ -112,12 +115,26 @@ def books():
     return render_template("books.html", groups=grouped(load_books()))
 
 
+@app.route("/books/about-these-notes")
+def notes_vision_page():
+    """The small book on top of the Dewey guide: why I keep these notes."""
+    paragraphs = [inline_html(p) for p in NOTES_VISION["paragraphs"]]
+    return render_template("about_notes.html", vision=NOTES_VISION, paragraphs=paragraphs)
+
+
+@app.route("/books/dewey")
+def dewey_guide_page():
+    """The guide lying on top of the bookcase: how the Dewey Decimal shelves work."""
+    return render_template("dewey.html", guide=dewey_guide(load_books()))
+
+
 @app.route("/books/reading-log")
 def reading_log_page():
     """The reading log: the journal on the Book Notes shelf opens this timeline of finished books."""
     all_books = load_books()
     reading = [b for b in all_books if b["group"] == "Reading"]
-    return render_template("reading_log.html", years=reading_log(all_books), reading=reading)
+    return render_template("reading_log.html", years=reading_log(all_books), reading=reading,
+                           timeline=reading_timeline(all_books))
 
 
 @app.route("/books/<slug>")

@@ -949,6 +949,7 @@ html:not(.is-night) .night-only * { animation-play-state: paused; }
 .book-status { margin: 0 0 8px; font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
 .book-page-title { margin: 0; font-family: var(--serif); font-weight: 500; font-size: clamp(32px, 5vw, 46px); line-height: 1.08; }
 .book-page-author { margin: 10px 0 0; font-family: var(--serif); font-style: italic; font-size: 20px; color: var(--muted); }
+.book-finished { margin: 12px 0 0; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 
 .notes { font-size: 16.5px; line-height: 1.7; }
 .note-line { margin: 0 0 14px; }
@@ -1071,7 +1072,8 @@ body.lb-open { overflow: hidden; }
     .project-row-btn { justify-self: start; }
     .project-head { grid-template-columns: 1fr; gap: 22px; }
     .project-side { position: static; }
-    .book-head { grid-template-columns: 110px 1fr; gap: 20px; }
+    .book-head { grid-template-columns: 110px minmax(0, 1fr); gap: 20px; }
+    .book-page-title { overflow-wrap: break-word; hyphens: auto; }   /* a very long word can't push off the screen */
     .bookcover--large { padding: 10px 8px 9px 13px; }
     .bookcover--large .bookcover-title { font-size: 12.5px; -webkit-line-clamp: 7; }
     .bookcover--large .bookcover-author { font-size: 9px; }
@@ -1151,6 +1153,11 @@ body.lb-open { overflow: hidden; }
     .globe-land, .dance, .shaker, .sway, .dj .sq, .record, .disco, .star, .sparkle, .bulb, .flame, .neon, .sun-rays { animation: none !important; }
     .flow-step { opacity: 1; transform: none; transition: none; }
     .shot { opacity: 1; transform: none; transition: none; }
+}
+
+@media (max-width: 400px) {                             /* narrowest phones: the cover sits above the title */
+    .book-head { grid-template-columns: 1fr; align-items: start; }
+    .book-head .bookcover { width: 110px; }
 }
 
 /* ---------- After-hours rooms ----------
@@ -1329,6 +1336,104 @@ body.night-room {
     .books-room .bookcase { padding: 0; background: none; border-bottom: 14px solid #a8743f; box-shadow: 0 4px 0 #7e5530; }
 }
 
+/* ---------- The Dewey guide (after hours) ----------
+   A cloth-bound reference book lying on top of the bookcase, and the page it opens. */
+.books-room .cabinet { margin-top: 104px; }              /* room on top for the two books lying there */
+.guide-book {
+    position: absolute;
+    top: -52px;                                          /* resting on the crown */
+    right: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 32px;
+    padding: 0 30px;                                     /* clear of the gold bands at each end */
+    color: #e6c98d;
+    text-decoration: none;
+    background:
+        linear-gradient(90deg, transparent 14px, #c8a46a 14px 17px, transparent 17px calc(100% - 17px), #c8a46a calc(100% - 17px) calc(100% - 14px), transparent calc(100% - 14px)),
+        linear-gradient(rgba(255,255,255,.12), transparent 40%, rgba(0,0,0,.3)),
+        #22324d;
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.35), 0 3px 5px rgba(0,0,0,.45);
+    transition: transform .2s ease;
+    z-index: 1;
+}
+.guide-book:hover, .guide-book:focus-visible { transform: translateY(-3px); outline: none; }
+.guide-book-title { font-family: var(--serif); font-size: 15px; font-weight: 600; letter-spacing: .06em; }
+.guide-book-sub { font-size: 9px; letter-spacing: .24em; text-transform: uppercase; opacity: .8; }
+.guide-book--notes {                                     /* a smaller book stacked on the guide */
+    top: -82px;
+    right: 56px;
+    height: 30px;
+    color: #f1e6cf;
+    background:
+        linear-gradient(90deg, transparent 12px, #c8a46a 12px 14px, transparent 14px calc(100% - 14px), #c8a46a calc(100% - 14px) calc(100% - 12px), transparent calc(100% - 12px)),
+        linear-gradient(rgba(255,255,255,.12), transparent 40%, rgba(0,0,0,.3)),
+        #6b2a2a;
+    z-index: 2;
+}
+.guide-book--notes .guide-book-title { font-size: 14px; font-style: italic; font-weight: 500; }
+
+.guide-page { max-width: 1020px; margin: 0 auto; padding: 0 20px 90px; }
+.guide-page .page-head { margin-bottom: 30px; }
+.guide {                                                 /* a page from the guide, bound in navy cloth */
+    padding: clamp(24px, 4vw, 44px) clamp(18px, 4vw, 46px);
+    color: #3a2c22;
+    background: linear-gradient(90deg, rgba(0,0,0,.07), transparent 5%), #f1e6cf;
+    border-radius: 4px 8px 8px 4px;
+    box-shadow: 0 0 0 10px #22324d, 0 0 0 11px rgba(226,196,135,.35), 0 30px 50px -20px rgba(0,0,0,.8);
+}
+.guide-intro { margin: 0 0 30px; max-width: 70ch; font-size: 16px; line-height: 1.7; }
+.guide-classes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 44px; }
+.guide-class h2 {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    margin: 0 0 8px;
+    padding-bottom: 6px;
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: #22324d;
+    border-bottom: 2px solid rgba(34, 50, 77, .5);
+}
+.guide-num { font-size: 28px; }
+.guide-count {
+    margin-left: auto;
+    padding: 1px 9px;
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #22324d;
+    text-decoration: none;
+    border: 1px solid rgba(34, 50, 77, .45);
+    border-radius: 999px;
+}
+.guide-count:hover, .guide-count:focus-visible { color: #f1e6cf; background: #22324d; outline: none; }
+.guide-table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+.guide-table th, .guide-table td { padding: 4px 0; border-bottom: 1px dotted rgba(91, 47, 42, .25); text-align: left; vertical-align: baseline; }
+.guide-table th { width: 46px; font-family: var(--sans); font-size: 12px; font-weight: 500; letter-spacing: .06em; color: #8a6a4a; }
+.guide-table .guide-n { width: 28px; text-align: right; font-size: 12px; font-weight: 600; color: #22324d; }
+.guide-table tr.has-books td:not(.guide-n) { font-weight: 600; color: #22324d; }
+.guide-class--empty { opacity: .72; }
+.guide-page--notes { max-width: 760px; }
+.guide--notes { box-shadow: 0 0 0 10px #6b2a2a, 0 0 0 11px rgba(226,196,135,.35), 0 30px 50px -20px rgba(0,0,0,.8); }
+.guide--notes p { margin: 0 0 18px; font-family: var(--serif); font-size: 21px; line-height: 1.6; }
+.guide--notes p:last-child { margin-bottom: 0; }
+@media (max-width: 720px) {
+    .guide-classes { grid-template-columns: 1fr; }
+    .books-room .cabinet { margin-top: 96px; }
+    .guide-book { right: 12px; padding: 0 26px; }
+    .guide-book--notes { right: 30px; }
+    .guide--notes p { font-size: 19px; }
+    .guide-book-title { font-size: 14px; }
+}
+
 /* ---------- Reading log (after hours) ----------
    The leather journal on the first Book Notes shelf, and the page it opens. */
 .spine--log {
@@ -1386,6 +1491,69 @@ body.night-room {
 .log-now + .log-year, .log-year + .log-year { margin-top: 34px; }
 .log-now { padding-bottom: 26px; border-bottom: 1px dashed rgba(91, 47, 42, .3); }
 .log-now + .log-empty { margin-top: 26px; }
+.log-again {                                           /* a re-read, next to the title */
+    align-self: flex-start;                            /* only as wide as its words */
+    margin: 3px 0 2px;
+    padding: 1px 8px;
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #5b2f2a;
+    border: 1px solid rgba(91, 47, 42, .4);
+    border-radius: 999px;
+}
+
+/* month by month: a little pile of spines for each month, on a shared shelf line */
+.log-timeline { padding-bottom: 26px; border-bottom: 1px dashed rgba(91, 47, 42, .3); }
+.log-now + .log-timeline { margin-top: 26px; }
+.log-timeline + .log-year { margin-top: 34px; }
+.log-timeline .log-now-label { flex-wrap: wrap; row-gap: 6px; }
+.tl-total { font-family: var(--sans); font-size: 11px; font-style: normal; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: #8a6a4a; }
+.tl-months { list-style: none; margin: 0; padding: 30px 0 0; display: flex; overflow-x: auto; }   /* top padding: room for the labels */
+.tl-month { flex: 1 0 44px; display: flex; flex-direction: column; justify-content: flex-end; }
+.tl-pile { list-style: none; margin: 0; padding: 0 5px 3px; display: flex; flex-direction: column-reverse; align-items: center; gap: 2px; }
+.tl-pile li { width: 100%; display: flex; justify-content: center; }
+.tl-book {
+    position: relative;
+    display: block;
+    width: var(--w);
+    height: 11px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(0,0,0,.25), rgba(255,255,255,.14) 40%, rgba(0,0,0,.2)), var(--cover);
+    box-shadow: 0 1px 0 rgba(0,0,0,.25);
+    transition: transform .15s ease;
+}
+.tl-book:hover, .tl-book:focus-visible { transform: translateY(-2px); outline: none; }
+.tl-book::after {                                      /* the book's title, on hover */
+    content: attr(data-label);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 3px 8px;
+    white-space: nowrap;
+    font-size: 12px;
+    color: #f1e6cf;
+    background: #3a2c22;
+    border-radius: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .15s ease;
+    z-index: 2;
+}
+.tl-book:hover::after, .tl-book:focus-visible::after { opacity: 1; }
+.tl-label {                                            /* the shelf line, with the month under it */
+    padding-top: 6px;
+    border-top: 2px solid rgba(91, 47, 42, .45);
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    text-align: center;
+    color: #8a6a4a;
+}
+.tl-label small { display: block; letter-spacing: .08em; font-size: 10px; }
 
 .log-list { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 2px solid rgba(91, 47, 42, .35); }
 .log-entry { position: relative; display: grid; grid-template-columns: 64px 12px 1fr; gap: 14px; align-items: center; padding: 10px 0; }
@@ -1450,6 +1618,49 @@ body.night-room {
 
 @media (max-width: 640px) {
     .spine:not(.spine--log) { padding-bottom: 8px; padding-right: 58px; }
-    .spine:not(.spine--log) .spine-title { height: auto; }
+    .spine:not(.spine--log) .spine-title { height: auto; display: block; overflow: visible; }   /* long titles wrap; the book gets taller */
     .call-label { left: auto; right: 16px; top: 50%; bottom: auto; transform: translateY(-50%); }
+}
+
+
+/* ---- The door to After Hours: the password box that opens when you click the sun ---- */
+.ah-door {
+    position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 50;
+    width: min(340px, 86%); padding: 26px 26px 22px; box-sizing: border-box;
+    background: #1d1a30; color: #f5ecdc; text-align: center;
+    border: 2px solid #ff7ac6; border-radius: 16px;
+    box-shadow: 0 0 0 1px rgba(255, 122, 198, .35), 0 0 22px rgba(255, 122, 198, .45), 0 18px 40px rgba(0, 0, 0, .35),
+                0 0 0 100vmax rgba(29, 26, 48, .35);   /* dims the page behind it */
+    font-family: Inter, system-ui, sans-serif;
+}
+.ah-door[hidden] { display: none; }
+.ah-door-sign {
+    margin: 0 0 10px; font-family: "Cormorant Garamond", Georgia, serif; font-size: 2rem; font-style: italic;
+    color: #ffd6ee; text-shadow: 0 0 6px #ff7ac6, 0 0 16px #ff4fb0;
+}
+.ah-door-ask { display: block; margin-bottom: 14px; font-size: .95rem; color: #cfc6ea; }
+.ah-door-input {
+    width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; font-size: 1rem; text-align: center;
+    color: #f5ecdc; background: rgba(255, 255, 255, .06); border: 1px solid #6ee7d8; border-radius: 10px; outline: none;
+}
+.ah-door-input:focus { box-shadow: 0 0 0 3px rgba(110, 231, 216, .3); }
+.ah-door-wrong { min-height: 1.3em; margin: 8px 0 6px; font-size: .9rem; color: #ffb3d9; }
+.ah-door-buttons { display: flex; gap: 10px; justify-content: center; }
+.ah-door-buttons button {
+    padding: 8px 18px; font: inherit; font-size: .9rem; border-radius: 999px; cursor: pointer;
+    border: 1px solid #e0b25c; background: #e0b25c; color: #1d1a30;
+}
+.ah-door-buttons .ah-door-leave { background: transparent; color: #cfc6ea; border-color: rgba(207, 198, 234, .5); }
+.ah-door-buttons button:focus-visible { outline: 2px dashed #6ee7d8; outline-offset: 3px; }
+.ah-door.is-wrong { animation: ah-door-shake .4s ease; }
+@keyframes ah-door-shake {
+    0%, 100% { transform: translate(-50%, -50%); }
+    20%, 60% { transform: translate(calc(-50% - 8px), -50%); }
+    40%, 80% { transform: translate(calc(-50% + 8px), -50%); }
+}
+@media (prefers-reduced-motion: reduce) { .ah-door.is-wrong { animation: none; } }
+@media (max-width: 480px) {
+    .ah-door { padding: 18px 16px 16px; }
+    .ah-door-sign { font-size: 1.6rem; margin-bottom: 6px; }
+    .ah-door-ask { font-size: .85rem; margin-bottom: 10px; }
 }

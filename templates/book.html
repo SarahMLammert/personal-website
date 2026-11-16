@@ -26,6 +26,7 @@
             <p class="book-status">{{ book.status }}{% if book.call_number %} <span class="book-call">&middot; {{ book.call_number }}</span>{% endif %}</p>
             <h1 class="book-page-title">{{ book.title }}</h1>
             {% if book.author %}<p class="book-page-author">{{ book.author }}</p>{% endif %}
+            {% if book.reads %}<p class="book-finished">Finished {% for d in book.reads %}{{ d.strftime('%b') }} {{ d.day }}, {{ d.year }}{% if not loop.last %} &middot; again {% endif %}{% endfor %}</p>{% endif %}
         </div>
     </header>
 

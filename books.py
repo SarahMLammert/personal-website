@@ -5,18 +5,23 @@ the --- lines holds fields like `author`, `status` and an optional full `title`
 (use it for punctuation a file name can't hold, like a colon). The site shows the
 short title: the part before the first ": " (or `short_title`, if given), plus
 ", Volume 2" when there's a `volume`. `edition` is kept in the file but not shown.
-`date_finished` (YYYY-MM-DD) is the day you finished the book, for a reading timeline.
+`date_finished` (YYYY-MM-DD) is the day you finished the book; if you read it again, list the later
+days under `reread` (one "- YYYY-MM-DD" per line). Both feed the Reading Log.
 `dewey` is the book's Dewey Decimal number ("796", or "796.357"; keep the quotes so "005"
 keeps its zeros). Like a library, books are shelved by Dewey class and, within a shelf,
 by number and then the first author's last name; each spine gets a call-number sticker. The body is an
 outline. Indented lines (tabs, or bullets like "- ") become nested points;
-an unindented line with points under it becomes a section heading.
+an unindented line with points under it becomes a section heading, and so does a
+"# heading" line (points under it start at the left edge, as Obsidian lists do).
 """
+import contextlib
 import datetime
 import hashlib
 import re
 import unicodedata
 from pathlib import Path
+
+from markupsafe import Markup, escape
 
 BOOKS_DIR = Path(__file__).parent / "books"
 
@@ -34,29 +39,42 @@ def slugify(text):
     return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
 
 
-def clean_inline(text):
-    """Strip Obsidian/Markdown syntax that shouldn't show up as raw characters."""
-    text = re.sub(r"!\[\[[^\]]*\]\]", "", text)                    # embeds
-    text = re.sub(r"\[\[([^\]|]*\|)?([^\]]*)\]\]", r"\2", text)     # [[link|label]] -> label
-    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)            # [label](url) -> label
-    text = re.sub(r"(\*\*|__)(.+?)\1", r"\2", text)                 # bold
-    text = re.sub(r"(?<!\w)[*_](.+?)[*_](?!\w)", r"\1", text)       # italic
-    text = re.sub(r"==(.+?)==", r"\1", text)                        # highlight
-    return text.strip()
+def inline_html(text):
+    """A line of Obsidian/Markdown as safe HTML: **bold**, *italic*, ==highlight== and links show as
+    formatting; anything else that would look like raw syntax ([[links]], embeds) is tidied away."""
+    text = str(escape(text.strip()))
+    text = re.sub(r"!\[\[[^\]]*\]\]", "", text)                                   # embeds
+    text = re.sub(r"\[\[([^\]|]*\|)?([^\]]*)\]\]", r"\2", text)                    # [[link|label]] -> label
+    text = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)",                            # [label](https://...)
+                  r'<a href="\2" target="_blank" rel="noopener">\1</a>', text)
+    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)                           # other links -> label
+    text = re.sub(r"(\*\*|__)(?=\S)(.+?)(?<=\S)\1", r"<strong>\2</strong>", text)  # bold
+    text = re.sub(r"(?<![\w*])\*(?=\S)(.+?)(?<=\S)\*(?![\w*])", r"<em>\1</em>", text)  # *italic*
+    text = re.sub(r"(?<![\w_])_(?=\S)(.+?)(?<=\S)_(?![\w_])", r"<em>\1</em>", text)    # _italic_
+    text = re.sub(r"==(.+?)==", r"<mark>\1</mark>", text)                          # highlight
+    return Markup(text.strip())
 
 
 def parse_note(raw):
     meta, body = {}, raw
     m = re.match(r"\A---\s*\n(.*?)\n---\s*\n?(.*)\Z", raw, re.DOTALL)
     if m:
+        key = None
         for line in m.group(1).splitlines():
-            if ":" in line:
+            item = re.match(r"\s*-\s+(.*)", line)
+            if item and key:                       # a list property, one "- value" per line (like `reread`)
+                if not isinstance(meta[key], list):
+                    meta[key] = [meta[key]] if meta[key] else []
+                meta[key].append(item.group(1).strip().strip('"').strip("'"))
+            elif ":" in line:
                 key, value = line.split(":", 1)
-                meta[key.strip().lower()] = value.strip().strip('"').strip("'")
+                key = key.strip().lower()
+                meta[key] = value.strip().strip('"').strip("'")
         body = m.group(2)
 
     # Each non-empty line becomes (depth, text).
     items = []
+    under_heading = 0      # after a "# heading", left-edge points belong to it (one level in)
     for line in body.splitlines():
         if not line.strip():
             continue
@@ -65,10 +83,12 @@ def parse_note(raw):
         text = line.strip()
         heading = re.match(r"(#{1,6})\s+(.*)", text)
         if heading:
-            items.append((0, clean_inline(heading.group(2)), True))
+            items.append((0, inline_html(heading.group(2)), True))
+            under_heading = 1
             continue
-        text = re.sub(r"^([-*+]|\d+[.)])\s+(\[[ xX]\]\s+)?", "", text)
-        items.append((depth, clean_inline(text), False))
+        depth += under_heading
+        text = re.sub(r"^[-*+]\s+(\[[ xX]\]\s+)?", "", text)   # bullets go (the outline draws its own); numbers like "1)" stay
+        items.append((depth, inline_html(text), False))
 
     # Build a tree from the indentation.
     root = {"children": []}
@@ -99,9 +119,20 @@ def finished_date(meta):
     """`date_finished: 2026-11-08` (Obsidian's date property) -> a date, or None if blank or unreadable."""
     raw = meta.get("date_finished") or meta.get("date finished") or ""
     try:
-        return datetime.date.fromisoformat(raw[:10])
+        return datetime.date.fromisoformat(str(raw)[:10])
     except ValueError:
         return None
+
+
+def reread_dates(meta):
+    """Later finishes from the `reread` list (one YYYY-MM-DD per item; commas work too)."""
+    raw = meta.get("reread") or ""
+    raw = " ".join(raw) if isinstance(raw, list) else raw
+    dates = []
+    for d in re.findall(r"\d{4}-\d{2}-\d{2}", raw):
+        with contextlib.suppress(ValueError):      # skip impossible dates like 2027-02-30
+            dates.append(datetime.date.fromisoformat(d))
+    return dates
 
 
 def status_group(status):
@@ -131,7 +162,8 @@ def load_books():
             "volume": meta.get("volume", ""),
             "dewey": meta.get("dewey", ""),
             "call_number": " ".join(x for x in (meta.get("dewey", ""), cutter(meta.get("author", ""))) if x),
-            "finished": finished_date(meta),  # for a reading timeline
+            "finished": finished_date(meta),  # the first time you finished it
+            "reads": sorted({d for d in [finished_date(meta), *reread_dates(meta)] if d}),  # every finish, oldest first
             "slug": slugify(title),
             "author": meta.get("author", ""),
             "status": meta.get("status", ""),
@@ -185,6 +217,66 @@ def call_order(b):
     return (dewey_number(b), author_last(b["author"]).lower(), b["title"].lower())
 
 
+# The second level of Dewey: ten divisions in each class, for the guide on top of the bookcase.
+DEWEY_DIVISIONS = {
+    "000": "Computer science, knowledge & systems", "010": "Bibliographies",
+    "020": "Library & information sciences", "030": "Encyclopedias & books of facts",
+    "040": "(unassigned)", "050": "Magazines, journals & serials",
+    "060": "Associations, organizations & museums", "070": "News media, journalism & publishing",
+    "080": "Quotations", "090": "Manuscripts & rare books",
+    "100": "Philosophy", "110": "Metaphysics", "120": "Epistemology", "130": "Parapsychology & occultism",
+    "140": "Philosophical schools of thought", "150": "Psychology", "160": "Logic", "170": "Ethics",
+    "180": "Ancient, medieval & eastern philosophy", "190": "Modern western philosophy",
+    "200": "Religion", "210": "Philosophy & theory of religion", "220": "The Bible", "230": "Christianity",
+    "240": "Christian practice & observance", "250": "Christian pastoral practice & religious orders",
+    "260": "Christian organization, social work & worship", "270": "History of Christianity",
+    "280": "Christian denominations", "290": "Other religions (and mythology)",
+    "300": "Social sciences, sociology & anthropology", "310": "Statistics", "320": "Political science",
+    "330": "Economics", "340": "Law", "350": "Public administration & military science",
+    "360": "Social problems & social services", "370": "Education",
+    "380": "Commerce, communications & transportation", "390": "Customs, etiquette & folklore",
+    "400": "Language", "410": "Linguistics", "420": "English", "430": "German & related languages",
+    "440": "French & related languages", "450": "Italian, Romanian & related languages",
+    "460": "Spanish, Portuguese & Galician", "470": "Latin & Italic languages",
+    "480": "Classical & modern Greek", "490": "Other languages",
+    "500": "Science", "510": "Mathematics", "520": "Astronomy", "530": "Physics", "540": "Chemistry",
+    "550": "Earth sciences & geology", "560": "Fossils & prehistoric life", "570": "Biology",
+    "580": "Plants", "590": "Animals",
+    "600": "Technology", "610": "Medicine & health", "620": "Engineering", "630": "Agriculture",
+    "640": "Home & family management (cooking)", "650": "Management & business",
+    "660": "Chemical engineering", "670": "Manufacturing", "680": "Manufacture for specific uses",
+    "690": "Construction of buildings",
+    "700": "Arts", "710": "Area planning & landscape architecture", "720": "Architecture",
+    "730": "Sculpture, ceramics & metalwork", "740": "Drawing & decorative arts", "750": "Painting",
+    "760": "Graphic arts", "770": "Photography & computer art", "780": "Music",
+    "790": "Sports, games & entertainment",
+    "800": "Literature, rhetoric & criticism", "810": "American literature in English",
+    "820": "English & Old English literatures", "830": "German & related literatures",
+    "840": "French & related literatures", "850": "Italian, Romanian & related literatures",
+    "860": "Spanish, Portuguese & Galician literatures", "870": "Latin & Italic literatures",
+    "880": "Classical & modern Greek literatures", "890": "Other literatures",
+    "900": "History", "910": "Geography & travel", "920": "Biography & genealogy",
+    "930": "The ancient world (to about 499)", "940": "Europe", "950": "Asia", "960": "Africa",
+    "970": "North America", "980": "South America", "990": "Other areas",
+}
+
+
+def dewey_guide(books):
+    """The guide on top of the bookcase: every class with its ten divisions and how many of my books
+    are in each. [(class, name, [(division, name, count), ...], count), ...]"""
+    counts = {}
+    for b in books:
+        n = dewey_number(b)
+        if n < 1000:
+            counts[f"{int(n // 10) * 10:03d}"] = counts.get(f"{int(n // 10) * 10:03d}", 0) + 1
+    guide = []
+    for key, name in DEWEY_CLASSES.items():
+        divisions = [(f"{d:03d}", DEWEY_DIVISIONS[f"{d:03d}"], counts.get(f"{d:03d}", 0))
+                     for d in range(int(key), int(key) + 100, 10)]
+        guide.append((key, name, divisions, sum(c for _, _, c in divisions)))
+    return guide
+
+
 def grouped(books):
     """Shelves for the Book Notes page: one per Dewey class. Books I'm reading stay in
     their section and get a ribbon bookmark instead."""
@@ -200,10 +292,40 @@ def grouped(books):
     return shelves
 
 
+def finishes(books):
+    """One entry per time a book was finished (a re-read counts again): the book with `finished` set to
+    that day and `again` = "", "2nd time", "3rd time", ..."""
+    out = []
+    for b in books:
+        for n, day in enumerate(b["reads"], 1):
+            again = "" if n == 1 else f"{n}{'nd' if n == 2 else 'rd' if n == 3 else 'th'} time"
+            out.append(dict(b, finished=day, again=again))
+    return out
+
+
 def reading_log(books):
-    """Finished books with a `date_finished`, newest first, grouped by year: [(2026, [book, ...]), ...]."""
-    done = sorted((b for b in books if b["finished"]), key=lambda b: (b["finished"], b["title"]), reverse=True)
+    """Every finish, newest first, grouped by year: [(2026, [book, ...]), ...]."""
+    done = sorted(finishes(books), key=lambda b: (b["finished"], b["title"]), reverse=True)
     years = {}
     for b in done:
         years.setdefault(b["finished"].year, []).append(b)
     return list(years.items())
+
+
+def reading_timeline(books, at_least=3):
+    """Finished books month by month, oldest first, for the timeline at the top of the Reading Log.
+
+    Every month from the first finished book to the latest is included (empty ones too, so the
+    gaps show). Returns None until books have been finished at least `at_least` times.
+    """
+    done = sorted(finishes(books), key=lambda b: (b["finished"], b["title"]))
+    if len(done) < at_least:
+        return None
+    month = done[0]["finished"].replace(day=1)
+    last = done[-1]["finished"].replace(day=1)
+    months = []
+    while month <= last:
+        months.append({"date": month,
+                       "books": [b for b in done if b["finished"].replace(day=1) == month]})
+        month = month.replace(year=month.year + month.month // 12, month=month.month % 12 + 1)
+    return {"months": months, "count": len(done), "since": done[0]["finished"]}

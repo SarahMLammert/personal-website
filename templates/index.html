@@ -4,9 +4,11 @@
 
 {% block content %}
 <script>
-    // start in after-hours mode if that's where the visitor left off (or the link says so)
+    // start in after-hours mode if that's where the visitor left off (or the link says so),
+    // but only once they've given the password (see "the door" in belt.js)
     try {
-        if (location.hash === '#after-hours' || (location.hash !== '#daytime' && localStorage.getItem('mode') === 'night'))
+        if (localStorage.getItem('afterHours') === 'open' &&
+            (location.hash === '#after-hours' || (location.hash !== '#daytime' && localStorage.getItem('mode') === 'night')))
             document.documentElement.classList.add('is-night');
     } catch (e) {}
 </script>
@@ -32,6 +34,17 @@
             </nav>
         </figcaption>
     </figure>
+    {# the door to After Hours: clicking the sun asks for the password the first time #}
+    <form class="ah-door" data-password="{{ after_hours_password }}" hidden>
+        <p class="ah-door-sign">After Hours</p>
+        <label class="ah-door-ask" for="ah-door-word">Members only. What's the password?</label>
+        <input class="ah-door-input" id="ah-door-word" type="password" autocomplete="off" spellcheck="false">
+        <p class="ah-door-wrong" aria-live="polite"></p>
+        <div class="ah-door-buttons">
+            <button type="submit">Come in</button>
+            <button type="button" class="ah-door-leave">Never mind</button>
+        </div>
+    </form>
 </main>
 
 {% if globe %}

@@ -50,6 +50,7 @@ author: Robert B. Cialdini                          # several authors: "A, B"
 dewey: "153"           # Dewey Decimal number, quoted; decides the shelf
 status: Reading        # Reading, Read or To Read
 date_finished:         # YYYY-MM-DD once finished; feeds the Reading Log
+reread:                # read it again? one "- YYYY-MM-DD" line per later finish
 edition: 5             # kept in the file, not shown
 volume:                # adds ", Volume N" to the title
 color: "#26344d"       # optional cover color
@@ -58,16 +59,25 @@ color: "#26344d"       # optional cover color
 
 Books are shelved like a library: one shelf per Dewey class, then by number and the first author's last
 name, each with a call-number sticker. A red ribbon bookmark marks what I'm reading now. The leather
-journal on the first shelf opens the Reading Log (finished books by year).
+journal on the first shelf opens the Reading Log: finished books by year, and once three books have
+a `date_finished`, a month-by-month timeline at the top. The navy guide lying on top of the bookcase opens
+a table of every Dewey class and division, with how many books are in each (`DEWEY_DIVISIONS` in `books.py`).
 
-Unindented lines with indented points under them become section headings.
+Write the notes as an Obsidian outline: `#` headings for parts and chapters, and `- ` points under
+them (Tab to nest a point, Shift+Tab to bring it back). Numbered points like `1)` keep their numbers,
+and *italics*, **bold** and ==highlights== show on the site.
 
 ## Working on it locally
 
 ```
-pip install -r requirements.txt
+python3 -m venv .venv                         # once: a private Python for this project
+source .venv/bin/activate                     # each new Terminal window
+python -m pip install -r requirements-dev.txt # once: Flask, Pillow and the checkers
+
 python app.py          # preview at http://127.0.0.1:5000
 python freeze.py       # build the static site into build/ and check every link
+ruff check .           # check the Python
+djlint templates --lint  # check the templates
 ```
 
-`make_photos.py` also needs Pillow (`pip install pillow`).
+The checkers' settings live in `pyproject.toml`.

@@ -151,25 +151,29 @@
         print.style.transformOrigin = `${gx - box.left}px ${gy - box.top}px`;
         document.documentElement.classList.add('is-zooming');
         root.classList.add('is-zooming');
-        // The big copy rides along on top of the room, starting at the object's exact size and place. The same
-        // timing keeps the two glued together, and it takes over early: at this magnification the room's drawing
-        // lands several pixels off, which would show as a jump if the swap waited until the end.
+        // The big copy rides along on top of the room, starting at the object's exact size and place, and grows
+        // to fill the screen; it covers the object from the first frame, so the swap can't show.
+        // The room itself only zooms part of the way (at most ROOM_ZOOM), then fades under the big copy's
+        // background: drawing the whole illustration at the globe's full 17x froze the zoom for a second.
+        const ROOM_ZOOM = 3;
         const glide = { duration: 1000, easing: 'cubic-bezier(.5, 0, .7, 1)' };
         zoomMoves = [
-            print.animate([{ transform: 'translate(0px, 0px) scale(1)' }, { transform: `translate(${dx}px, ${dy}px) scale(${scale})` }], { ...glide, fill: 'forwards' }),
+            print.animate([{ transform: 'translate(0px, 0px) scale(1)' }, { transform: `translate(${dx}px, ${dy}px) scale(${Math.min(scale, ROOM_ZOOM)})` }], { ...glide, fill: 'forwards' }),
             world.querySelector('.zoom-art').animate([{ transformOrigin: pivot, transform: `translate(${-dx}px, ${-dy}px) scale(${1 / scale})` }, { transformOrigin: pivot, transform: 'translate(0px, 0px) scale(1)' }], glide),
         ];
         const now = document.timeline.currentTime;
         zoomMoves.forEach(a => { a.startTime = now; });
         world.classList.add('is-gliding');
         turnBigGlobe(world, now);
+        setTimeout(() => world.classList.add('is-on'), 650);               // the background fades in over the room
+        zoomMoves[0].finished.then(() => { print.style.visibility = 'hidden'; }, () => {});   // covered: stop drawing it
         // once the room has finished zooming in, the big copy takes over
         let started = false;
         const next = () => {
             if (started) return;
             started = true;
             [
-                [0, () => world.classList.add('is-on')],                   // its background fades in over the room
+                [0, () => world.classList.add('is-on')],                   // (already on; in case the timer was late)
                 [300, () => world.classList.add('is-turning')],            // spin / come forward / slide out
                 [1700, () => world.classList.add('is-diving')],            // and we dive in
                 [2600, () => { window.location.href = href; }],
@@ -187,6 +191,7 @@
         document.documentElement.classList.remove('is-zooming');
         const print = root.closest('.print');
         print.style.transformOrigin = '';
+        print.style.visibility = '';
         zoomMoves.forEach(a => a.cancel());
         zoomMoves = [];
         worlds.forEach(w => w.classList.remove('is-gliding', 'is-on', 'is-turning', 'is-diving'));
@@ -236,14 +241,54 @@
         try { localStorage.setItem('mode', night ? 'night' : 'day'); } catch (e) {}
         if (history.replaceState) history.replaceState(null, '', night ? '#after-hours' : location.pathname);
     }
+
+    // ---- the door: a password before After Hours (just for fun; remembered once given) ----
+    const door = document.querySelector('.ah-door');
+    const doorInput = door.querySelector('.ah-door-input');
+    const doorWrong = door.querySelector('.ah-door-wrong');
+    const sun = svg.querySelector('.celestial.sun');
+    const isOpen = () => { try { return localStorage.getItem('afterHours') === 'open'; } catch (e) { return false; } };
+    function openDoor() {
+        hide();
+        doorWrong.textContent = '';
+        doorInput.value = '';
+        door.hidden = false;
+        doorInput.focus();
+    }
+    function closeDoor() {
+        door.hidden = true;
+        door.classList.remove('is-wrong');
+        if (sun) sun.focus();
+    }
+    door.addEventListener('submit', e => {
+        e.preventDefault();
+        if (doorInput.value.trim().toLowerCase() === door.dataset.password.toLowerCase()) {
+            try { localStorage.setItem('afterHours', 'open'); } catch (err) {}
+            door.hidden = true;
+            setMode(true);
+            return;
+        }
+        doorWrong.textContent = "That's not it.";
+        doorInput.value = '';
+        door.classList.remove('is-wrong');
+        void door.offsetWidth;                                     // restart the shake
+        door.classList.add('is-wrong');
+        doorInput.focus();
+    });
+    door.querySelector('.ah-door-leave').addEventListener('click', closeDoor);
+    door.addEventListener('keydown', e => { if (e.key === 'Escape') closeDoor(); });
+    function goNight() { if (isOpen()) setMode(true); else openDoor(); }
+
     svg.querySelectorAll('.celestial').forEach(c => {
-        c.addEventListener('click', () => setMode(!isNight()));
+        const toggle = () => (isNight() ? setMode(false) : goNight());
+        c.addEventListener('click', toggle);
         c.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setMode(!isNight()); }
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
         });
     });
+    if (location.hash === '#after-hours' && !isNight()) openDoor();
     window.addEventListener('hashchange', () => {
-        if (location.hash === '#after-hours') setMode(true);
+        if (location.hash === '#after-hours') goNight();
         else if (location.hash === '#daytime') setMode(false);
     });
 

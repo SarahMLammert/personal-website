@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}The Dewey Decimal System · Book Notes{% endblock %}
+{% block description %}How Sarah May Hui Yu Lammert&rsquo;s book notes are shelved: the ten Dewey Decimal classes and their divisions.{% endblock %}
+
+{# after hours, like the rest of Book Notes. Opened from the guide lying on top of the bookcase. #}
+{% block body_class %}night-room{% endblock %}
+{% block theme_color %}#1d1a30{% endblock %}
+
+{% block content %}
+<main class="guide-page">
+    <a class="crumb" href="{{ url_for('books') }}">Back to the shelf</a>
+
+    <header class="page-head">
+        <h1 class="page-title">The Dewey Decimal System</h1>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="page-sub">How the shelves are arranged</p>
+    </header>
+
+    <div class="guide">
+        <p class="guide-intro">Every book gets a number for its subject. The first digit is the main class, one shelf each;
+            the next two narrow it down, and anything after the decimal point is more specific still. Within a shelf,
+            books go in number order, then by the author&rsquo;s last name. The numbers on the right are how many of my books are there.</p>
+        <div class="guide-classes">
+            {% for key, name, divisions, count in guide %}
+            <section class="guide-class{% if not count %} guide-class--empty{% endif %}">
+                <h2><span class="guide-num">{{ key }}</span> {{ name }}
+                    {% if count %}<a class="guide-count" href="{{ url_for('books') }}#shelf-{{ key }}">{{ count }} {{ 'book' if count == 1 else 'books' }}</a>{% endif %}</h2>
+                <table class="guide-table">
+                    {% for dkey, dname, dcount in divisions %}
+                    <tr{% if dcount %} class="has-books"{% endif %}><th scope="row">{{ dkey }}</th><td>{{ dname }}</td><td class="guide-n">{{ dcount or '' }}</td></tr>
+                    {% endfor %}
+                </table>
+            </section>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}

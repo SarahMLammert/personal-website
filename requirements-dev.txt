@@ -1,0 +1,5 @@
+# Tools for working on the site locally (the live site only needs requirements.txt).
+-r requirements.txt
+pillow    # make_photos.py
+ruff      # Python checker
+djlint    # template checker

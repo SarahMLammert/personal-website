@@ -36,6 +36,26 @@
         </section>
         {% endif %}
 
+        {% if timeline %}
+        {# month by month: each finished book is a little spine on that month's pile (appears from 3 books on) #}
+        <section class="log-timeline">
+            <h2 class="log-now-label">Month by month <span class="tl-total">{{ timeline.count }} books since {{ timeline.since.strftime('%B %Y') }}</span></h2>
+            <ol class="tl-months">
+                {% for m in timeline.months %}
+                <li class="tl-month">
+                    <ul class="tl-pile">
+                        {% for b in m.books %}
+                        <li><a class="tl-book" href="{{ url_for('book', slug=b.slug) }}" data-label="{{ b.title }}{% if b.again %} ({{ b.again }}){% endif %}"
+                               style="--cover: {{ b.color }}; --w: {{ 64 + (b.slug|length * 7) % 32 }}%"><span class="sr-only">{{ b.title }}{% if b.again %}, {{ b.again }}{% endif %}, finished {{ b.finished.strftime('%B') }} {{ b.finished.day }}</span></a></li>
+                        {% endfor %}
+                    </ul>
+                    <span class="tl-label">{{ m.date.strftime('%b') }}<small>{{ m.date.year if loop.first or m.date.month == 1 else '&nbsp;'|safe }}</small></span>
+                </li>
+                {% endfor %}
+            </ol>
+        </section>
+        {% endif %}
+
         {% for year, items in years %}
         <section class="log-year">
             <h2 class="log-year-label">{{ year }} <span>{{ items|length }} {{ 'book' if items|length == 1 else 'books' }}</span></h2>
@@ -45,7 +65,7 @@
                     <time class="log-date" datetime="{{ b.finished.isoformat() }}">{{ b.finished.strftime('%b') }} {{ b.finished.day }}</time>
                     <span class="log-chip" style="--cover: {{ b.color }}" aria-hidden="true"></span>
                     <span class="log-book">
-                        <a class="log-title" href="{{ url_for('book', slug=b.slug) }}">{{ b.title }}</a>
+                        <a class="log-title" href="{{ url_for('book', slug=b.slug) }}">{{ b.title }}</a>{% if b.again %} <span class="log-again">{{ b.again }}</span>{% endif %}
                         {% if b.author %}<span class="log-author">{{ b.author }}</span>{% endif %}
                     </span>
                 </li>

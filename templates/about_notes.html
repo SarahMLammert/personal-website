@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}{{ vision.title }} · Book Notes{% endblock %}
+{% block description %}Why Sarah May Hui Yu Lammert keeps these book notes.{% endblock %}
+
+{# after hours, like the rest of Book Notes. Opened from the small book on top of the Dewey guide. #}
+{% block body_class %}night-room{% endblock %}
+{% block theme_color %}#1d1a30{% endblock %}
+
+{% block content %}
+<main class="guide-page guide-page--notes">
+    <a class="crumb" href="{{ url_for('books') }}">Back to the shelf</a>
+
+    <header class="page-head">
+        <h1 class="page-title">{{ vision.title }}</h1>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="page-sub">Why I keep them</p>
+    </header>
+
+    <div class="guide guide--notes">
+        {% for p in paragraphs %}<p>{{ p }}</p>{% endfor %}
+    </div>
+</main>
+{% endblock %}
