@@ -55,23 +55,31 @@
     function spinGlobe(rate) {
         if (globeLand && globeLand.getAnimations) globeLand.getAnimations().forEach(a => a.updatePlaybackRate(rate));
     }
-    // The big copy starts exactly where the little globe has got to and keeps its pace while it takes over
-    // (otherwise you see two sets of land at once), then carries on round to the Americas.
+    // The big copy starts exactly where the little globe has got to, at the same speed, then speeds up
+    // smoothly and slows to a stop with the Americas facing us. (It used to keep pace for 1.3 s and then
+    // whip most of a turn in one second, which looked like a jolt.)
     let bigGlobeTurn = null;
     function turnBigGlobe(world, now) {
         const land = world.querySelector('.zoom-land');
         if (!land || !globeLand) return;
         const spin = globeLand.getAnimations()[0];
         const speed = (spin ? spin.playbackRate : 1) * 100 / 14;     // land units per second (one turn = 100 units in 14 s)
-        const KEEP_PACE = 1300, TURN = 1350;                         // the room's zoom + the big copy's first moment, then the turn
-        let x = new DOMMatrix(getComputedStyle(globeLand).transform).m41;
-        const travelled = speed * KEEP_PACE / 1000;
-        if (x - travelled < AMERICAS) x += 100;  // already past them: one full turn back looks identical, and keeps it spinning forwards
-        bigGlobeTurn = land.animate([
-            { transform: `translateX(${x}px)`, easing: 'linear' },
-            { transform: `translateX(${x - travelled}px)`, offset: KEEP_PACE / (KEEP_PACE + TURN), easing: 'cubic-bezier(.3, .4, .3, 1)' },
-            { transform: `translateX(${AMERICAS}px)` },
-        ], { duration: KEEP_PACE + TURN, fill: 'forwards' });
+        const DURATION = 2650;                                       // done just before the dive starts
+        const x = new DOMMatrix(getComputedStyle(globeLand).transform).m41;
+        const pace = speed * DURATION / 1000;                        // how far it would go at its own speed
+        // distance forwards to the Americas (one full turn looks identical, so add turns as needed); at least
+        // 3/4 of its own pace, so it never slows down before speeding up
+        let d = (((x - AMERICAS) % 100) + 100) % 100;
+        while (d < 0.75 * pace) d += 100;
+        const start = AMERICAS + d;              // same look as x (whole turns apart), so it ends exactly on the Americas
+        // a smooth curve that starts at the globe's own speed and ends at rest (cubic Hermite), sampled as keyframes
+        const frames = [];
+        for (let i = 0; i <= 40; i++) {
+            const u = i / 40;
+            const moved = (u ** 3 - 2 * u ** 2 + u) * pace + (3 * u ** 2 - 2 * u ** 3) * d;
+            frames.push({ transform: `translateX(${(start - moved).toFixed(3)}px)` });
+        }
+        bigGlobeTurn = land.animate(frames, { duration: DURATION, fill: 'forwards' });
         bigGlobeTurn.startTime = now;            // start this very frame, in step with the little globe
     }
 
