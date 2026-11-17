@@ -5,8 +5,7 @@ dewey: "158"
 status: In Progress
 date_finished:
 ---
-A great example of what the book preaches is the title. Once you see it, you will never miss it again.
-
+A great example of what the book preaches is the title. Once you see it, you will never miss it again. How to Win Friends & Influence practices thinking about the wants and desires of the readers.
 # How to get most out of reading this book?
 1) Have "*a deep, driving desire to learn, a vigorous determination to increase your ability to deal with people*" (Chant to yourself "My popularity, my happiness, and my sense of worth depend to no small extent upon my skill in dealing with people").
 2) The first pass should be read quickly. The second time, go through it thoroughly.
@@ -47,17 +46,17 @@ A great example of what the book preaches is the title. Once you see it, you wil
 		- We need to be reminded that "tomorrow you may want to persuade somebody to do something. Before you speak, pause and ask yourself: 'How can I make this person want to do it?'" I think the most important piece of this is that we need to take time to understand. We need to listen. We need to be patient. In the world today, this is easier said than done. Everything seems to hinge on success being immediate, but successes are rarely overnight.
 		- Henry Ford said, "*If there is any one secret of success, it lies in the ability to get the other person's point of view and see things from that person's angle as well as from your own*." First, you have to understand the other person. Then, you have to translate it to the situation. This is the same as academic writing. In an academic writing class I took at Harvard Extension School, we discussed at length that what students often miss is a summary or paraphrase of what an author said. What is important is that the author's perspective sets up the argument. You need to have a reasonable understanding of the topic before you can make a claim about it.
 		- I think the idea that "the world is full of people who are grabbing and self-seeking, so the rare individual who unselfishly tries to serve others has an enormous advantage" is not necessarily wrong. However, I push back on the idea that we can't align our self-interest with improving others' lives and, therefore, the greater good. I think we can align, and we can learn to align, our own interests with the greater good because success often depends on the help we receive.
-		- The idea that "the best way to motivate someone to do something for you is to show how it would benefit them, as well" is important because it aligns your own self-interest with helping others.
+		- The idea that "the best way to motivate someone to do something for you is to show how it would benefit them, as well" is important because it aligns your own self-interest with helping others. The two are not mutually exclusive.
 		- This is the best case of show, don't tell: "When we have a brilliant idea, instead of making others think it is ours, why not let them cook and stir the idea themselves?" In most cases, this is true. Yet this is often paired with not taking ownership later, which can lead to not getting credit.
 	- Notes
 		- What is important about this is that we are using our own agency to care and using the human nature of greed to our advantage. Think about how people suggest applying to jobs now: figure out a company's wants and needs, and find a solution.
-		- If I renamed the entire book, I'd call it *How to Care About Others*: using our innate greed and individualism to care about our relationships.
-# Six Ways to Make People Like You
+		- If I renamed the entire book, I'd call it *How to Care About Others*: using our innate greed and individualism to grow and prioritize our relationships.
+# Part Two: Six Ways to Make People Like You
 ## Chapter 1: Do This and You'll Be Welcome Anywhere
 - Principle 1: Become genuinely interested in other people.
 	- "You can make more friends in two months by becoming genuinely interested in people than you can in two years by trying to get people interested in you"
-	- Alfred Adler said "It is the individual who is not interested in his fellow men who has the greatest difficulties in life and provides the greatest injury to others. It is from among ushc individuals that all human failures spring."
-	- "I have discovered from personal experience that one can win the attention and time nad cooperation of even the most sought-after people by becoming genuinely interested in them."
+	- Alfred Adler said "It is the individual who is not interested in his fellow men who has the greatest difficulties in life and provides the greatest injury to others. It is from among such individuals that all human failures spring."
+	- "I have discovered from personal experience that one can win the attention and time and cooperation of even the most sought-after people by becoming genuinely interested in them."
 	- "All of us, whether we be workers in a factory, clerks in an office, or even a queen upon her throne: All of us like people who admire us."
 	- "If we want to make friends, let's put ourselves out to do things for other-things that require time, energy, selflessness, and thoughtfulness."
 	- "If we want to make friends, let's greet people with animation and enthusiasm."
@@ -67,3 +66,18 @@ A great example of what the book preaches is the title. Once you see it, you wil
 	- "Actions speak louder than words, and a smile says, 'I like you. You make me happy. I am glad to see you.'"
 	- "You must have a good time meeting people if you expect them to have a good time meeting you."
 	- William James says "Action seems to follow feeling, but really action and feeling go together; and by regulating the action, which is under the more direct control of the will, we can indirectly regulate the feeling, which is not. Thus the sovereign voluntary path to cheerfulness, if our cheerfulness be lost, is to sit up cheerfully and to act and speak as if cheerfulness were already there."
+## Chapter 3: If You Don't Do This, You Are Headed for Trouble
+- Principle 3: Remember that a person's name is to that person the sweetest and most important sound in any language.
+	- "Jim Farley discovered early in life that the average person is more interested in his or her own name than in all the others on earth put together. Remember that name and call it easily, and you have paid a subtle and very effective compliment. But forget it or misspell it-and you have placed yourself at a sharp disadvantage."
+	- "We should be aware of the *magic* contained in a name and realize that this single item is wholly owned by the person with whom we are dealing...and nobody else. The name sets the individual apart.; it makes him or her unique among all others. The information we are imparting or the request we are making takes on a special importance when we approach the situation with the name of the individual."
+## Chapter 4: An Easy Way to Become a Good Conversationalist
+- Principle 4: Be a good listener. Encourage others to talk about themselves.
+	- "But I had listened intently. I had listened because I was genuinely interested. And he felt it. Naturally that pleased him. That kind of listening is one of the highest compliments we can pay anyone."
+	- "But in reality what he wanted was a feeling of importance. He got this feeling of importance at first by kicking and complaining. But as soon as he got hsi feeling of importance from a representative of the company, his imagined grievances vanished into thin air."
+	- "So if you aspire to be a good conversationalist, be an attentive listener. To be interesting, be interested. Ask questions that other persons will enjoy answering. Encourage them to talk about themselves and their accomplishments."
+	- "Remember that the people you are talking to are a hundred times more interested in themselves and their wants and problems than they are in you and your problems."
+## Chapter 5: How to Interest People
+- Principle 5: Talk in terms of the other person's interests.
+	- "For Roosevelt knew, as all leaders know, that the royal road to a person's heart is to talk about the things he or she treasures most"
+	- "The most fascinating conversationalist that you know doesn't try to impress you with their knowledge of birding in Cornwall or bore you with the finer details of his or her daughter's upcoming nuptials even though they are undoubtedly well-versed in these topics. You enjoy their company because they talk in terms of *your* interests and opinions, and who isn't pleased by that?"
+	- "If you also use this, it will pay off for both parties. The other person will relish talking to you, but you as well will receive a reward: the enlargement of *your* life each time you speak to someone."

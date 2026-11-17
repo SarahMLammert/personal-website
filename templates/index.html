@@ -18,7 +18,7 @@
         <span class="tack tack--left" aria-hidden="true"></span>
         <span class="tack tack--right" aria-hidden="true"></span>
         <div class="print-art" data-belt>
-            {{ scene(day, night, day_extras, night_extras, globe, bookcase, photo_wall) }}
+            {{ scene(day, night, day_extras, night_extras, globe, bookcase, photo_wall, muncher, guestbook, specials) }}
             <div class="plate-tag" hidden><strong></strong></div>
         </div>
         <figcaption class="print-caption">
@@ -26,9 +26,9 @@
             <h1 class="print-title" tabindex="0">Sarah<span class="middle-names"><span> May Hui Yu</span></span> Lammert</h1>
             <p class="print-hint print-hint--day">Click on the plates on the conveyor belt</p>
             <p class="print-hint print-hint--night">Click on the drinks at the bar</p>
-            {# the day plates that open something (Projects, GitHub, LinkedIn), as plain links too #}
+            {# Projects, GitHub, LinkedIn (PRINT_LINKS in content.py) #}
             <nav class="print-links" aria-label="Links">
-                {% for p in day if p.href %}
+                {% for p in print_links %}
                 <a href="{{ p.href }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}>{{ p.title }}</a>
                 {% endfor %}
             </nav>

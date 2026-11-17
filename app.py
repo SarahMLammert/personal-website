@@ -12,13 +12,17 @@ from content import (
     DAY_EXTRAS,
     GITHUB,
     GLOBE,
+    GUESTBOOK,
+    MUNCHER,
     NIGHT_EXTRAS,
     NOTES_VISION,
     PHOTO_CAPTIONS,
     PHOTO_WALL,
     PLATES,
+    PRINT_LINKS,
     PROJECTS,
     SITE_URL,
+    SPECIALS,
 )
 
 app = Flask(__name__)
@@ -63,6 +67,13 @@ def photo_wall():
                 all=[photo_url(n) for n in photo_names()])
 
 
+def with_hrefs(links):
+    """Links from content.py, each with the address it opens and whether it leaves the site."""
+    return [dict(link, href=url_for(link["endpoint"]) if "endpoint" in link else link["url"],
+                 external="url" in link)
+            for link in links]
+
+
 @app.route("/")
 def home():
     plates = belt_plates()
@@ -71,15 +82,14 @@ def home():
                            night=[p for p in plates if p.get("side") == "night"],
                            day_extras=DAY_EXTRAS, night_extras=NIGHT_EXTRAS, globe=GLOBE,
                            bookcase=dict(BOOKCASE, href=url_for(BOOKCASE["endpoint"])),
-                           photo_wall=photo_wall(), after_hours_password=AFTER_HOURS_PASSWORD)
+                           photo_wall=photo_wall(), muncher=MUNCHER, guestbook=GUESTBOOK,
+                           specials=dict(SPECIALS, href=url_for(SPECIALS["endpoint"])), print_links=with_hrefs(PRINT_LINKS),
+                           after_hours_password=AFTER_HOURS_PASSWORD)
 
 
 @app.route("/about")
 def about():
-    links = [dict(link, href=url_for(link["endpoint"]) if "endpoint" in link else link["url"],
-                  external="url" in link)
-             for link in ABOUT["links"]]
-    return render_template("about.html", about=ABOUT, links=links)
+    return render_template("about.html", about=ABOUT, links=with_hrefs(ABOUT["links"]))
 
 
 @app.route("/photos")

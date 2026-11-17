@@ -23,10 +23,6 @@ SITE_URL = "https://www.sarahlammert.com"
 PLATES = [
     # day
     {"side": "day", "title": "Projects", "endpoint": "projects", "sushi": "spicy", "plate": "blue"},
-    {"side": "day", "title": "GitHub",
-     "url": "https://github.com/SarahMLammert", "sushi": "salmon", "plate": "black"},
-    {"side": "day", "title": "LinkedIn",
-     "url": "https://www.linkedin.com/in/sarahmlammert/", "sushi": "ebi", "plate": "pink"},
     # night
     # Photos is also the framed photo on the wall (PHOTO_WALL). This drink is temporary:
     # take it off the bar once more drinks are added.
@@ -39,6 +35,10 @@ PLATES = [
 
 # Plates and drinks that are just for fun (no link). "description" is read out by screen readers.
 DAY_EXTRAS = [
+    # was the GitHub plate (GitHub is now the squirrel eating sushi, MUNCHER); a placeholder for a future link
+    {"title": "Salmon", "description": "Just a snack", "sushi": "salmon", "plate": "black"},
+    # was the LinkedIn plate (LinkedIn is now the guest book on the counter, GUESTBOOK); a placeholder too
+    {"title": "Ebi", "description": "Just a snack", "sushi": "ebi", "plate": "pink"},
     {"title": "An acorn", "description": "Not on the menu", "sushi": "acorn", "plate": "yellow"},
     {"title": "Toro", "description": "Just a snack", "sushi": "toro", "plate": "red"},
     {"title": "Unagi", "description": "Just a snack", "sushi": "unagi", "plate": "green"},
@@ -120,6 +120,23 @@ PHOTO_CAPTIONS = {
 # ---------------------------------------------------------------------------
 GITHUB = "https://github.com/SarahMLammert"
 
+# The squirrel at the right end of the counter, eating a piece of sushi, opens GitHub (daytime only).
+MUNCHER = {"title": "GitHub", "url": GITHUB}
+
+# The "Specials" chalkboard beside the chef opens the Projects page (daytime only).
+SPECIALS = {"title": "Projects", "endpoint": "projects"}
+
+# The guest book on the host stand by the door opens LinkedIn (daytime only).
+LINKEDIN = "https://www.linkedin.com/in/sarahmlammert/"
+GUESTBOOK = {"title": "LinkedIn", "url": LINKEDIN}
+
+# The buttons under the homepage picture, in order (shown on both sides).
+PRINT_LINKS = [
+    {"title": "Projects", "endpoint": "projects"},
+    {"title": "GitHub", "url": GITHUB},
+    {"title": "LinkedIn", "url": LINKEDIN},
+]
+
 PROJECTS = [
     {
         "title": "This Website",
@@ -151,8 +168,14 @@ PROJECTS = [
                      "my professional work, and after hours, the personal side opens up. It was also a chance "
                      "to put in something else I love, boba, and the dream of owning a boba shop that turns "
                      "into a night club."},
+            {"label": "Password door",
+             "title": "Members only after hours",
+             "text": "I wanted to split the professional and personal sides even more, so now you need a "
+                     "password to get into the night club. It isn't meant to be real security, just a fun "
+                     "door at the club, like a speakeasy."},
         ],
         "features": ["Squirrel sushi bar illustration", "Plates on a moving belt", "After-hours boba bar",
+                     "Password to get in after hours",
                      "Photo gallery and viewer", "Bookshelf of book notes", "Project story flows"],
         "tools": ["Python", "Flask", "Jinja", "JavaScript", "SVG", "CSS", "Obsidian", "GitHub Pages"],
         # what each tool does here; click a tool on the project page to read its sentence
@@ -180,7 +203,7 @@ PROJECTS = [
     {
         "title": "College Sports Atlas",
         "kicker": "Interactive data maps",
-        "summary": "Where college athletes come from, and where coaches go.",
+        "summary": "The high school to pro pipeline.",
         # How the project grew, step by step (shown as a flow on the page).
         "story": [
             {"label": "Dot map",

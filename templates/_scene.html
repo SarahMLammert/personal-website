@@ -180,9 +180,9 @@
 </g>
 {% endmacro %}
 
-{% macro scene(day, night, day_extras=[], night_extras=[], globe=None, bookcase=None, photo_wall=None) %}
-<svg class="scene" viewBox="0 0 1600 1000" role="img" aria-labelledby="scene-title">
-  <title id="scene-title">Squirrels at a sushi bar. By day, plates on the conveyor belt lead to the professional side of the site; after hours, drinks on the bar lead to the personal side.</title>
+{% macro scene(day, night, day_extras=[], night_extras=[], globe=None, bookcase=None, photo_wall=None, muncher=None, guestbook=None, specials=None) %}
+{# described with aria-label, not an SVG <title>: browsers show a <title> as a tooltip when you hover the picture #}
+<svg class="scene" viewBox="0 0 1600 1000" role="img" aria-label="Squirrels at a sushi bar.">
   <defs>
     <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbefd9"/><stop offset="1" stop-color="#f1dcbb"/></linearGradient>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe7df"/><stop offset="1" stop-color="#f3f1df"/></linearGradient>
@@ -410,6 +410,43 @@
     </g>
   </g>
 
+  {# the host stand by the door, with the guest book open on top: click it for LinkedIn (GUESTBOOK in
+     content.py). It stands behind the counter, which hides its base. #}
+  {% if guestbook %}
+  <g class="day-only">
+  <a class="scene-link guestbook-link" href="{{ guestbook.url }}" target="_blank" rel="noopener"
+     data-title="{{ guestbook.title }}" data-external="1" aria-label="{{ guestbook.title }} (opens in a new tab)">
+  <g class="guestbook pick-art guestbook-art" transform="translate(1014 452) scale(1.2)">
+    {# the stand: a wooden column, a little narrower at the bottom, with an acorn on the front #}
+    <path d="M -30 0 L -34 -92 L 34 -92 L 30 0 Z" fill="#a8743f" stroke="#4f4038" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M -22 0 L -25 -80 L 25 -80 L 22 0 Z" fill="#b98550"/>
+    <g transform="translate(0 -50)" stroke="#4f4038" stroke-width="2">
+      <ellipse cx="0" cy="3" rx="8" ry="9" fill="#d6a468"/>
+      <path d="M -10 -2 Q 0 -12 10 -2 Z" fill="#7e5530" stroke-linejoin="round"/>
+      <path d="M 0 -9 L 1 -13" stroke-linecap="round"/>
+    </g>
+    {# the sloped top #}
+    <path d="M -46 -90 L 46 -90 L 40 -106 L -40 -106 Z" fill="#8a5a33" stroke="#4f4038" stroke-width="3" stroke-linejoin="round"/>
+    {# the guest book, open on the slope: blue cloth cover, pages, a few names, a red ribbon #}
+    <path d="M -42 -94 L -37 -118 L 37 -118 L 42 -94 Z" fill="#2f6aa3" stroke="#4f4038" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M -38 -97 L -34 -114 Q -17 -117 0 -113 L 0 -96 Q -18 -99 -38 -97 Z" fill="#fbf6ea" stroke="#d9cdb8" stroke-width="1.2"/>
+    <path d="M 38 -97 L 34 -114 Q 17 -117 0 -113 L 0 -96 Q 18 -99 38 -97 Z" fill="#f6efe1" stroke="#d9cdb8" stroke-width="1.2"/>
+    <g fill="none" stroke="#5e4c3f" stroke-width="1.3" stroke-linecap="round" opacity=".75">
+      <path d="M -30 -109 q 3 -3 6 0 t 6 0 t 6 0"/><path d="M -31 -103 q 3 -3 6 0 t 6 0 t 6 0 t 5 0"/>
+      <path d="M 7 -109 q 3 -3 6 0 t 6 0"/>
+    </g>
+    <path d="M 2 -113 L 2 -84 L 4.5 -86.5 L 7 -84 L 7 -113 Z" fill="#c8473a"/>
+    {# a brush pen resting on the ledge #}
+    <g transform="translate(30 -98) rotate(-80)">
+      <rect x="-2.5" y="-16" width="5" height="26" rx="2" fill="#2b2a33" stroke="#4f4038" stroke-width="1.2"/>
+      <rect x="-2.5" y="-16" width="5" height="5" rx="1.5" fill="#e3b04b"/>
+    </g>
+  </g>
+  <rect class="plate-hit" x="955" y="300" width="118" height="150" rx="14"/>
+  </a>
+  </g>
+  {% endif %}
+
   {# ---- diners across the belt, facing us ---- #}
   <g class="day-only">
     <g class="diner diner--far" transform="translate(470 500) scale(.78)">{{ sq.front(kind='gray', outfit='scientist', tailshape='curl', tailside=-1) }}</g>
@@ -443,6 +480,39 @@
 
   {# plates that are behind the chef right now #}
   <g class="day-only" id="plates-back"></g>
+
+  {# the specials board beside the chef: click it for the Projects page (SPECIALS in content.py) #}
+  {% if specials %}
+  <g class="day-only">
+  <a class="scene-link specials-link" href="{{ specials.href }}" data-title="{{ specials.title }}" aria-label="{{ specials.title }}">
+  <g class="specials pick-art specials-art" transform="translate(538 644)">
+    <ellipse cx="0" cy="2" rx="58" ry="6" fill="#7a5233" opacity=".25"/>
+    {# legs of the A-frame #}
+    <path d="M -44 -34 L -52 0 M 44 -34 L 52 0" stroke="#7e5530" stroke-width="7" stroke-linecap="round"/>
+    {# wooden frame and the chalkboard #}
+    <rect x="-54" y="-132" width="108" height="102" rx="7" fill="#a8743f" stroke="#4f4038" stroke-width="3"/>
+    <rect x="-46" y="-124" width="92" height="86" rx="3" fill="#2f3b36"/>
+    <path d="M -40 -118 L 38 -118" stroke="#ffffff" stroke-width="1" opacity=".08"/>
+    {# chalk writing: a title, a little nigiri doodle and a few lines of dishes #}
+    <g fill="none" stroke="#f3ead8" stroke-linecap="round" stroke-linejoin="round">
+      <text x="0" y="-98" text-anchor="middle" fill="#f3ead8" stroke="none"
+            font-family="'Cormorant Garamond', Georgia, serif" font-style="italic" font-weight="500" font-size="22">Specials</text>
+      <path d="M -30 -91 Q 0 -87 30 -91" stroke-width="1.5" opacity=".8"/>
+      <g transform="translate(-22 -66)" stroke-width="1.6">
+        <path d="M -13 4 Q -13 -3 0 -3 Q 13 -3 13 4 Q 0 8 -13 4 Z" opacity=".9"/>
+        <path d="M -14 -1 Q -4 -12 14 -3" stroke="#f2a58a"/>
+        <path d="M -6 -7 L -4 -2 M 2 -8 L 3 -3" stroke="#f2a58a" stroke-width="1.1"/>
+      </g>
+      <path d="M -2 -72 L 34 -72 M -2 -62 L 26 -62" stroke-width="1.6" opacity=".7"/>
+      <path d="M -34 -50 L 6 -50 M 14 -50 L 34 -50" stroke-width="1.6" opacity=".7"/>
+    </g>
+    {# a stub of chalk on the ledge #}
+    <rect x="22" y="-36" width="12" height="4" rx="2" fill="#f3ead8"/>
+  </g>
+  <rect class="plate-hit" x="478" y="505" width="120" height="145" rx="14"/>
+  </a>
+  </g>
+  {% endif %}
 
   {# the chef: click him for the About page #}
   <g class="day-only">
@@ -562,7 +632,10 @@
   <g class="diner" transform="translate(610 908) scale(.86)">{{ sq.back(kind='ground', tailside=-1, outfit='painter') }}</g>
   <g class="diner" transform="translate(890 908) scale(.86)">{{ sq.back(kind='fox', tailside=1, outfit='builder', tailshape='sweep') }}</g>
   <g class="diner" transform="translate(1170 908) scale(.86)">{{ sq.back(kind='gray', tailside=-1, tailshape='plume', outfit='detective') }}</g>
-  <g class="muncher" transform="translate(1440 908) scale(.86)">
+  {# the squirrel eating a piece of sushi: click it for GitHub (MUNCHER in content.py) #}
+  {% if muncher %}<a class="scene-link muncher-link" href="{{ muncher.url }}" target="_blank" rel="noopener"
+     data-title="{{ muncher.title }}" data-external="1" aria-label="{{ muncher.title }} (opens in a new tab)">{% endif %}
+  <g class="muncher pick-art muncher-art" transform="translate(1440 908) scale(.86)">
     {% call sq.front(kind='ground', look='happy', cheeks=true, outfit='doctor', tailside=-1, tailshape='curl') %}
       <g transform="translate(0 -92)">
         <ellipse cx="0" cy="2" rx="20" ry="9" fill="#f8f3e8"/>
@@ -572,6 +645,8 @@
       <ellipse cx="17" cy="-80" rx="11" ry="9" fill="#c9b398" stroke="#4f4038" stroke-width="3"/>
     {% endcall %}
   </g>
+  {% if muncher %}<rect class="plate-hit" x="1360" y="730" width="170" height="185" rx="20"/>
+  </a>{% endif %}
   </g>
   <g class="night-only">
   {% set outfits = [('gray', 'tux', 1, 'curl'), ('ground', 'gown', -1, 'short'), ('fox', 'suit', 1, 'sweep'), ('gray', 'tux', -1, 'plume')] %}
