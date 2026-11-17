@@ -410,7 +410,7 @@
   <g class="day-only">
   <a class="scene-link guestbook-link" href="{{ guestbook.url }}" target="_blank" rel="noopener"
      data-title="{{ guestbook.title }}" data-external="1" aria-label="{{ guestbook.title }} (opens in a new tab)">
-  <g class="guestbook pick-art guestbook-art" transform="translate(1014 452) scale(1.2)">
+  <g transform="translate(1014 452) scale(1.2)"><g class="guestbook pick-art guestbook-art">
     {# the stand: a wooden column, a little narrower at the bottom, with an acorn on the front #}
     <path d="M -30 0 L -34 -92 L 34 -92 L 30 0 Z" fill="#a8743f" stroke="#4f4038" stroke-width="3" stroke-linejoin="round"/>
     <path d="M -22 0 L -25 -80 L 25 -80 L 22 0 Z" fill="#b98550"/>
@@ -435,7 +435,7 @@
       <rect x="-2.5" y="-16" width="5" height="26" rx="2" fill="#2b2a33" stroke="#4f4038" stroke-width="1.2"/>
       <rect x="-2.5" y="-16" width="5" height="5" rx="1.5" fill="#e3b04b"/>
     </g>
-  </g>
+  </g></g>
   <rect class="plate-hit" x="955" y="300" width="118" height="150" rx="14"/>
   </a>
   </g>
@@ -479,7 +479,7 @@
   {% if specials %}
   <g class="day-only">
   <a class="scene-link specials-link" href="{{ specials.href }}" data-title="{{ specials.title }}" aria-label="{{ specials.title }}">
-  <g class="specials pick-art specials-art" transform="translate(538 644)">
+  <g transform="translate(538 644)"><g class="specials pick-art specials-art">
     <ellipse cx="0" cy="2" rx="58" ry="6" fill="#7a5233" opacity=".25"/>
     {# legs of the A-frame #}
     <path d="M -44 -34 L -52 0 M 44 -34 L 52 0" stroke="#7e5530" stroke-width="7" stroke-linecap="round"/>
@@ -502,7 +502,7 @@
     </g>
     {# a stub of chalk on the ledge #}
     <rect x="22" y="-36" width="12" height="4" rx="2" fill="#f3ead8"/>
-  </g>
+  </g></g>
   <rect class="plate-hit" x="478" y="505" width="120" height="145" rx="14"/>
   </a>
   </g>
@@ -512,7 +512,7 @@
   <g class="day-only">
   <a class="scene-link chef-link" href="{{ url_for('about') }}" data-title="About"
      aria-label="About">
-  <g class="chef pick-art chef-art" transform="translate(800 652) scale(1.12)">
+  <g transform="translate(800 652) scale(1.12)"><g class="chef pick-art chef-art">
     {% call sq.front(kind='fox', outfit='chef', tailside=-1) %}
       <g class="chef-roll">
         <rect x="-26" y="-100" width="52" height="22" rx="10" fill="#1f2a22"/>
@@ -520,7 +520,7 @@
         <ellipse cx="-25" cy="-88" rx="10" ry="8" fill="#d7894f" stroke="#4f4038" stroke-width="3"/><ellipse cx="25" cy="-88" rx="10" ry="8" fill="#d7894f" stroke="#5e4c3f" stroke-width="3"/>
       </g>
     {% endcall %}
-  </g>
+  </g></g>
   <rect class="plate-hit" x="720" y="400" width="160" height="190" rx="20"/>
   </a>
   </g>
@@ -629,7 +629,7 @@
   {# the squirrel eating a piece of sushi: click it for GitHub (MUNCHER in content.py) #}
   {% if muncher %}<a class="scene-link muncher-link" href="{{ muncher.url }}" target="_blank" rel="noopener"
      data-title="{{ muncher.title }}" data-external="1" aria-label="{{ muncher.title }} (opens in a new tab)">{% endif %}
-  <g class="muncher pick-art muncher-art" transform="translate(1440 908) scale(.86)">
+  <g transform="translate(1440 908) scale(.86)"><g class="muncher pick-art muncher-art">
     {% call sq.front(kind='ground', look='happy', cheeks=true, outfit='doctor', tailside=-1, tailshape='curl') %}
       <g transform="translate(0 -92)">
         <ellipse cx="0" cy="2" rx="20" ry="9" fill="#f8f3e8"/>
@@ -638,7 +638,7 @@
       <ellipse cx="-17" cy="-80" rx="11" ry="9" fill="#c9b398" stroke="#4f4038" stroke-width="3"/>
       <ellipse cx="17" cy="-80" rx="11" ry="9" fill="#c9b398" stroke="#4f4038" stroke-width="3"/>
     {% endcall %}
-  </g>
+  </g></g>
   {% if muncher %}<rect class="plate-hit" x="1360" y="730" width="170" height="185" rx="20"/>
   </a>{% endif %}
   </g>
