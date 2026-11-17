@@ -48,7 +48,7 @@
         requestAnimationFrame(tick);
     }
 
-    // ---- the desk globe --------------------------------------------------
+    // ---- the desk globe (riding on a plate) -------------------------------
     const globeLand = root.querySelector('.globe-land');
     const AMERICAS = -64;                        // how far the land has to slide for the Americas to face us
     // Speed up without changing its place (changing animation-duration in CSS makes the land jump).
@@ -138,6 +138,7 @@
         if (!world || reduceMotion.matches) { window.location.href = href; return; }
         if (zooming) return;
         zooming = true;
+        held = el;                               // the belt stops while we zoom (the globe rides on a plate)
         tag.hidden = true;                       // keep the object 'picked up' so it doesn't shrink mid-zoom
         // measure it in its final 'picked up' pose, not halfway through growing into it
         const art = el.querySelector('.pick-art');

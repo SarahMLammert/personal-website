@@ -20,8 +20,14 @@ SITE_URL = "https://www.sarahlammert.com"
 # plate: red, blue, yellow, green, black, pink
 # drink: taro, matcha, mango, brownsugar, strawberry
 # ---------------------------------------------------------------------------
+# Day: a little globe riding on a plate (see PLATES). Click it and the room zooms in, it spins to the
+# Americas, then the atlas opens. (It used to stand on the windowsill; moved to the belt Nov 17.)
+GLOBE = {"title": "College Sports Atlas",
+         "url": "https://sarahmlammert.github.io/college-sports-atlas/index.html"}
+
 PLATES = [
-    # day
+    # day ("zoom": "globe" = this plate carries the globe instead of sushi, and zooms into it)
+    dict(GLOBE, side="day", zoom="globe", plate="yellow"),
     # night
     # Photos is also the framed photo on the wall (PHOTO_WALL). This drink is temporary:
     # take it off the bar once more drinks are added.
@@ -49,10 +55,6 @@ NIGHT_EXTRAS = [
 ]
 
 # Things in the scene that open a page. Clicking one zooms the room into it ("worlds inside worlds").
-# Day: the little globe on the windowsill. It spins to the Americas, then opens the atlas.
-GLOBE = {"title": "College Sports Atlas",
-         "url": "https://sarahmlammert.github.io/college-sports-atlas/index.html"}
-
 # After hours: the tall bookcase against the back wall on the right. The Book Notes book slides off the
 # shelf, then Book Notes opens.
 BOOKCASE = {"title": "Book Notes", "endpoint": "books"}

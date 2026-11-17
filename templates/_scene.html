@@ -18,9 +18,28 @@
   <ellipse cx="0" cy="0" rx="48" ry="17" fill="{{ RIMS.get(p.plate, RIMS.red) }}"/>
   <ellipse cx="0" cy="-1.5" rx="38" ry="12" fill="#fbf7ef"/>
   <path d="M -30 -8 C -18 -12 -2 -13 10 -12" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
+  {% if p.zoom == 'globe' %}
+  {# a little desk globe, dotted like the recruiting map, slowly spinning; its ball lines up with the big copy #}
+  <g class="plate-globe" transform="translate(0 -4)">
+    <ellipse cx="0" cy="-1" rx="22" ry="5" fill="#7e5530"/>
+    <path d="M -6 -6 L -3 -18 L 3 -18 L 6 -6 Z" fill="#a8743f"/>
+    <path d="M -28 -40 A 30 30 0 0 0 26 -22" stroke="#c8a46a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <clipPath id="globe-clip"><circle cx="0" cy="-46" r="25"/></clipPath>
+    <circle class="globe-ball zoom-from" cx="0" cy="-46" r="25" fill="#7fb8c9"/>
+    <g clip-path="url(#globe-clip)">
+      <g class="globe-land">
+        {{ globe_land() }}
+      </g>
+    </g>
+    <circle cx="0" cy="-46" r="25" fill="none" stroke="#3f6f7e" stroke-width="2.5"/>
+    <path d="M -14 -60 A 18 18 0 0 1 -2 -66" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".6"/>
+  </g>
+  {% else %}
   {{ sushi(p.sushi or 'salmon', x=-42, y=-52, w=84, h=56) }}
+  {% endif %}
 </g>
-<ellipse class="plate-hit" cx="0" cy="-16" rx="58" ry="44"/>
+{% if p.zoom == 'globe' %}<ellipse class="plate-hit" cx="0" cy="-30" rx="58" ry="52"/>
+{% else %}<ellipse class="plate-hit" cx="0" cy="-16" rx="58" ry="44"/>{% endif %}
 {% endmacro %}
 
 {% set DRINKS = {'taro': ('#b89ad1', '#d6c2e8'), 'matcha': ('#8fb86a', '#c3dca6'), 'mango': ('#f2b04a', '#f8d28d'),
@@ -251,31 +270,6 @@
       <path d="M -18 -30 L 18 -30 L 14 0 L -14 0 Z" fill="{{ RED }}"/>
       <path d="M 0 -30 C -4 -50 -24 -60 -30 -50 C -24 -44 -10 -40 0 -30 M 0 -30 C 4 -56 22 -66 30 -56 C 22 -48 10 -42 0 -30 M 0 -30 C 0 -54 4 -70 10 -74 C 12 -62 8 -46 0 -30" fill="#6f9f63"/>
     </g>
-    {% if globe %}
-    {# a little desk globe, dotted like the recruiting map, slowly spinning #}
-    <g class="day-only">
-      <a class="scene-link globe" href="{{ globe.url }}" data-zoom="globe"
-         data-title="{{ globe.title }}" data-external="1"
-         aria-label="{{ globe.title }}" transform="translate(288 358)">
-        <g class="pick-art globe-art">
-          <rect class="globe-frame" x="-160" y="-80" width="320" height="84"/>
-          <ellipse cx="0" cy="-1" rx="24" ry="5" fill="#7e5530"/>
-          <path d="M -6 -6 L -3 -18 L 3 -18 L 6 -6 Z" fill="#a8743f"/>
-          <path d="M -28 -40 A 30 30 0 0 0 26 -22" stroke="#c8a46a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-          <clipPath id="globe-clip"><circle cx="0" cy="-46" r="25"/></clipPath>
-          <circle class="globe-ball zoom-from" cx="0" cy="-46" r="25" fill="#7fb8c9"/>
-          <g clip-path="url(#globe-clip)">
-            <g class="globe-land">
-              {{ globe_land() }}
-            </g>
-          </g>
-          <circle cx="0" cy="-46" r="25" fill="none" stroke="#3f6f7e" stroke-width="2.5"/>
-          <path d="M -14 -60 A 18 18 0 0 1 -2 -66" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".6"/>
-        </g>
-        <ellipse class="plate-hit" cx="0" cy="-38" rx="34" ry="40"/>
-      </a>
-    </g>
-    {% endif %}
   </g>
 
   {% if bookcase %}
@@ -568,7 +562,7 @@
   <g id="plates" class="plates day-only">
     {% for p in day %}
     {% if p.href %}
-    <a class="belt-plate" href="{{ p.href }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}
+    <a class="belt-plate" href="{{ p.href }}"{% if p.external %} target="_blank" rel="noopener"{% endif %}{% if p.zoom %} data-zoom="{{ p.zoom }}"{% endif %}
        data-title="{{ p.title }}"{% if p.external %} data-external="1"{% endif %}
        aria-label="{{ p.title }}{% if p.external %} (opens in a new tab){% endif %}">{{ plate(p) }}</a>
     {% else %}
