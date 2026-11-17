@@ -22,7 +22,6 @@ SITE_URL = "https://www.sarahlammert.com"
 # ---------------------------------------------------------------------------
 PLATES = [
     # day
-    {"side": "day", "title": "Projects", "endpoint": "projects", "sushi": "spicy", "plate": "blue"},
     # night
     # Photos is also the framed photo on the wall (PHOTO_WALL). This drink is temporary:
     # take it off the bar once more drinks are added.
@@ -35,6 +34,8 @@ PLATES = [
 
 # Plates and drinks that are just for fun (no link). "description" is read out by screen readers.
 DAY_EXTRAS = [
+    # was the Projects plate (Projects is now the Specials board beside the chef); a placeholder for a project
+    {"title": "Spicy roll", "description": "Just a snack", "sushi": "spicy", "plate": "blue"},
     # was the GitHub plate (GitHub is now the squirrel eating sushi, MUNCHER); a placeholder for a future link
     {"title": "Salmon", "description": "Just a snack", "sushi": "salmon", "plate": "black"},
     # was the LinkedIn plate (LinkedIn is now the guest book on the counter, GUESTBOOK); a placeholder too
