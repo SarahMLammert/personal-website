@@ -42,7 +42,16 @@ def slugify(text):
 def inline_html(text):
     """A line of Obsidian/Markdown as safe HTML: **bold**, *italic*, ==highlight== and links show as
     formatting; anything else that would look like raw syntax ([[links]], embeds) is tidied away."""
-    text = str(escape(text.strip()))
+    # Markdown backslash escapes (Obsidian writes [y] as \[y\]): keep the character itself, and set it aside so
+    # an escaped * or [ isn't read as formatting below
+    kept = []
+
+    def keep(m):
+        kept.append(m.group(1))
+        return f"\x00{len(kept) - 1}\x00"
+
+    text = re.sub(r"\\([\\`*_{}\[\]()#+\-.!|~=<>])", keep, text.strip())
+    text = str(escape(text))
     text = re.sub(r"!\[\[[^\]]*\]\]", "", text)                                   # embeds
     text = re.sub(r"\[\[([^\]|]*\|)?([^\]]*)\]\]", r"\2", text)                    # [[link|label]] -> label
     text = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)",                            # [label](https://...)
@@ -52,6 +61,7 @@ def inline_html(text):
     text = re.sub(r"(?<![\w*])\*(?=\S)(.+?)(?<=\S)\*(?![\w*])", r"<em>\1</em>", text)  # *italic*
     text = re.sub(r"(?<![\w_])_(?=\S)(.+?)(?<=\S)_(?![\w_])", r"<em>\1</em>", text)    # _italic_
     text = re.sub(r"==(.+?)==", r"<mark>\1</mark>", text)                          # highlight
+    text = re.sub(r"\x00(\d+)\x00", lambda m: str(escape(kept[int(m.group(1))])), text)
     return Markup(text.strip())
 
 
@@ -329,3 +339,4 @@ def reading_timeline(books, at_least=3):
                        "books": [b for b in done if b["finished"].replace(day=1) == month]})
         month = month.replace(year=month.year + month.month // 12, month=month.month % 12 + 1)
     return {"months": months, "count": len(done), "since": done[0]["finished"]}
+

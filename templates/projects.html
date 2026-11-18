@@ -8,7 +8,6 @@
     <header class="page-head">
         <h1 class="page-title">Projects</h1>
         <span class="rule" aria-hidden="true"></span>
-        <p class="page-sub">Data, maps and analysis</p>
     </header>
 
     <ul class="project-list">
@@ -21,6 +20,7 @@
                 <p class="project-kicker">{{ p.kicker }}</p>
                 <h2 class="project-row-title"><a href="{{ url_for('project', slug=p.slug) }}">{{ p.title }}</a></h2>
                 <p class="project-row-summary">{{ p.summary }}</p>
+                {% if p.inspiration %}<p class="project-row-inspiration"><span>Inspiration:</span> {{ p.inspiration }}</p>{% endif %}
                 <p class="tools">{{ p.tools|join(' · ') }}</p>
             </div>
             <a class="btn project-row-btn" href="{{ url_for('project', slug=p.slug) }}" aria-label="Read about the decisions behind {{ p.title }}">Read about the decisions</a>

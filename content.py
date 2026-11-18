@@ -145,6 +145,7 @@ PROJECTS = [
         "title": "This Website",
         "kicker": "Design and front end",
         "summary": "A personal site run by squirrels at a sushi bar.",
+        "inspiration": "A cool and fun way to display information",   # shown under the summary on the Projects list, after "Inspiration:"; blank = hidden
         "story": [
             {"label": "Personal page and squirrel photos",
              "title": "Start with what I like",
@@ -165,20 +166,30 @@ PROJECTS = [
              "text": "I have Pok\u00e9mon art prints of little scenes, like a barbecue and bath time in the "
                      "sink, and I wanted my homepage to feel like one of them. So the sushi bar became an "
                      "illustrated scene, with squirrels like the ones in my photos sitting around the belt."},
-            {"label": "After hours",
-             "title": "Separate the professional from the personal",
-             "text": "I added a night scene so the site could have two sides: by day, the sushi bar shows "
-                     "my professional work, and after hours, the personal side opens up. It was also a chance "
-                     "to put in something else I love, boba, and the dream of owning a boba shop that turns "
-                     "into a night club."},
-            {"label": "Password door",
-             "title": "Members only after hours",
-             "text": "I wanted to split the professional and personal sides even more, so now you need a "
-                     "password to get into the night club. It isn't meant to be real security, just a fun "
-                     "door at the club, like a speakeasy."},
         ],
-        "features": ["Squirrel sushi bar illustration", "Plates on a moving belt", "After-hours boba bar",
-                     "Password to get in after hours",
+        # the night side, locked on the project page behind the After Hours password (same one as the homepage)
+        "secret": {
+            "title": "After Hours",
+            "teaser": "There's another side to this sushi bar. Members only.",
+            "image": "images/projects/website-night.jpg",
+            "image_alt": "The homepage after hours: the sushi bar turned into a boba night club, with a neon sign, "
+                         "a disco ball, a DJ squirrel and dancing squirrels",
+            "story": [
+                {"label": "After hours",
+                 "title": "Separate the professional from the personal",
+                 "text": "I added a night scene so the site could have two sides: by day, the sushi bar shows "
+                         "my professional work, and after hours, the personal side opens up. It was also a chance "
+                         "to put in something else I love, boba, and the dream of owning a boba shop that turns "
+                         "into a night club."},
+                {"label": "Password door",
+                 "title": "Members only after hours",
+                 "text": "I wanted to split the professional and personal sides even more, so now you need a "
+                         "password to get into the night club. It isn't meant to be real security, just a fun "
+                         "door at the club, like a speakeasy."},
+            ],
+            "features": ["After-hours boba bar", "Password to get in after hours"],
+        },
+        "features": ["Squirrel sushi bar illustration", "Plates on a moving belt",
                      "Photo gallery and viewer", "Bookshelf of book notes", "Project story flows"],
         "tools": ["Python", "Flask", "Jinja", "JavaScript", "SVG", "CSS", "Obsidian", "GitHub Pages"],
         # what each tool does here; click a tool on the project page to read its sentence
@@ -207,6 +218,7 @@ PROJECTS = [
         "title": "College Sports Atlas",
         "kicker": "Interactive data maps",
         "summary": "The high school to pro pipeline.",
+        "inspiration": "Ivy varsity athletes hometown map",   # shown under the summary on the Projects list, after "Inspiration:"; blank = hidden
         # How the project grew, step by step (shown as a flow on the page).
         "story": [
             {"label": "Dot map",

@@ -37,6 +37,39 @@
                 {% endfor %}
             </ol>
             {% endif %}
+
+            {% if p.secret %}
+            {# the night side, behind the same password as the homepage's After Hours door (just for fun:
+               it's in the page source). Unlocking here or on the homepage opens both. #}
+            <section class="secret" data-password="{{ after_hours_password }}" aria-labelledby="secret-title">
+                <div class="secret-door">
+                    <p class="secret-sign" id="secret-title">{{ p.secret.title }}</p>
+                    <p class="secret-teaser">{{ p.secret.teaser }}</p>
+                    <form class="secret-form">
+                        <label class="sr-only" for="secret-word">Password</label>
+                        <input class="secret-input" id="secret-word" type="password" placeholder="Password" autocomplete="off" spellcheck="false">
+                        <button type="submit">Come in</button>
+                    </form>
+                    <p class="secret-wrong" aria-live="polite"></p>
+                </div>
+                <div class="secret-room" hidden>
+                    <h2 class="side-label flow-label" tabindex="-1">{{ p.secret.title }}</h2>
+                    <img class="secret-img" src="{{ url_for('static', filename=p.secret.image) }}" alt="{{ p.secret.image_alt }}" loading="lazy">
+                    {% set before = p.story|length if p.story else 0 %}
+                    <ol class="flow">
+                        {% for step in p.secret.story %}
+                        <li class="flow-step" style="--i: {{ loop.index0 }}">
+                            <span class="flow-marker" aria-hidden="true">{{ before + loop.index }}</span>
+                            <p class="flow-kicker">{{ step.label }}</p>
+                            <h3 class="flow-title">{{ step.title }}</h3>
+                            <p class="flow-text">{{ step.text }}</p>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                    {% if p.secret.features %}<ul class="chips secret-chips">{% for f in p.secret.features %}<li>{{ f }}</li>{% endfor %}</ul>{% endif %}
+                </div>
+            </section>
+            {% endif %}
         </div>
 
         <aside class="project-side">
@@ -74,6 +107,33 @@
         if (!('IntersectionObserver' in window)) { flows.forEach(f => f.classList.add('in')); return; }
         const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.1 });
         flows.forEach(f => io.observe(f));
+    })();
+
+    // After Hours on the project page: the same password (and the same remembered "unlocked") as the homepage
+    (function () {
+        const secret = document.querySelector('.secret');
+        if (!secret) return;
+        const door = secret.querySelector('.secret-door');
+        const room = secret.querySelector('.secret-room');
+        const input = secret.querySelector('.secret-input');
+        const wrong = secret.querySelector('.secret-wrong');
+        const open = () => { door.hidden = true; room.hidden = false; };
+        try { if (localStorage.getItem('afterHours') === 'open') open(); } catch (e) {}
+        secret.querySelector('.secret-form').addEventListener('submit', e => {
+            e.preventDefault();
+            if (input.value.trim().toLowerCase() === secret.dataset.password.toLowerCase()) {
+                try { localStorage.setItem('afterHours', 'open'); } catch (err) {}
+                open();
+                room.querySelector('.side-label').focus();
+                return;
+            }
+            wrong.textContent = "That's not it.";
+            input.value = '';
+            door.classList.remove('is-wrong');
+            void door.offsetWidth;                                 // restart the shake
+            door.classList.add('is-wrong');
+            input.focus();
+        });
     })();
 
     // "Built with": click a tool to show its sentence underneath; click it again to hide it

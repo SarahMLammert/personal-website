@@ -117,7 +117,7 @@ def project(slug):
     found = next((p for p in project_list() if p["slug"] == slug), None)
     if not found:
         abort(404)
-    return render_template("project.html", p=found)
+    return render_template("project.html", p=found, after_hours_password=AFTER_HOURS_PASSWORD)
 
 
 @app.route("/books")
