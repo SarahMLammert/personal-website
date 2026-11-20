@@ -11,6 +11,74 @@
 
 {# The belt's centre line. belt.js moves plates along this path. #}
 {% set BELT = "M 330 520 L 1270 520 A 120 80 0 0 1 1270 680 L 330 680 A 120 80 0 0 1 330 520 Z" %}
+{# the counter and belt are flattened around y = 600 (keep in step with BELT_SQUASH in belt.js) #}
+{% set SQUASH = "translate(0 600) scale(1 0.82) translate(0 -600)" %}
+
+{# a little folded table card naming a daytime link, in the menu tags' cream paper and wood outline.
+   (x, y) is the middle of its bottom edge. Hidden on small screens, where it would be too small to read. #}
+{% macro plaque(x, y, text) %}
+{% set w = 26 + text|length * 11 %}
+<g class="plaque" transform="translate({{ x }} {{ y }})" aria-hidden="true">
+  <ellipse cx="2" cy="1" rx="{{ w / 2 + 4 }}" ry="4" fill="#5a3d26" opacity=".22"/>
+  <path d="M {{ -w / 2 }} 0 L {{ -w / 2 + 5 }} -34 L {{ w / 2 - 5 }} -34 L {{ w / 2 }} 0 Z" fill="#f4e2c4" stroke="#a8743f" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M {{ -w / 2 + 6 }} -30 L {{ w / 2 - 6 }} -30" stroke="#e2c79f" stroke-width="1.5"/>
+  <text x="0" y="-9" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-style="italic" font-weight="600" font-size="24" fill="#4f4038">{{ text }}</text>
+</g>
+{% endmacro %}
+
+{# a stack of empty plates (colours bottom to top) left on the counter by a diner; (x, y) = bottom middle #}
+{# the belt itself (day: grey slats; night: a wooden bar top), drawn twice: back run and front run #}
+{% macro belt_layers() %}
+  <g class="day-only">
+  {# the belt's side, showing below its front edge: its thickness #}
+  <path d="{{ BELT }}" fill="none" stroke="#5b656c" stroke-width="64" stroke-linejoin="round" transform="translate(0 9)"/>
+  <path d="{{ BELT }}" fill="none" stroke="#6c7880" stroke-width="64" stroke-linejoin="round"/>
+  <path d="{{ BELT }}" fill="none" stroke="#d3dadd" stroke-width="60" stroke-linejoin="round"/>
+  <path d="{{ BELT }}" fill="none" stroke="url(#belt-depth)" stroke-width="56" stroke-linejoin="round"/>
+  <path class="belt-slats" d="{{ BELT }}" fill="none" stroke="#919ca3" stroke-width="54" stroke-dasharray="3 17" stroke-linejoin="round"/>
+  </g>
+  <g class="night-only">
+    <path d="{{ BELT }}" fill="none" stroke="#c8a46a" stroke-width="66" stroke-linejoin="round"/>
+    <path d="{{ BELT }}" fill="none" stroke="#5b3a26" stroke-width="61" stroke-linejoin="round"/>
+    <path d="{{ BELT }}" fill="none" stroke="#7a5034" stroke-width="40" stroke-linejoin="round" opacity=".5"/>
+  </g>
+{% endmacro %}
+
+{# a bowl of miso soup with a ceramic spoon in it and chopsticks on a rest beside it; (x, y) = bowl's foot #}
+{% macro soup_bowl(x, y, s=0.9) %}
+<g class="soup" transform="translate({{ x }} {{ y }}) scale({{ s }})" aria-hidden="true">
+  <ellipse cx="3" cy="4" rx="34" ry="8" fill="#3a2a1e" opacity=".2"/>
+  {# chopsticks on a little rest, in front of the bowl #}
+  <path d="M -40 10 L 44 2 M -38 15 L 46 8" stroke="#8a5a33" stroke-width="3.5" stroke-linecap="round"/>
+  <rect x="26" y="1" width="12" height="9" rx="4" fill="#f4e2c4" stroke="#c9b79a" stroke-width="1.5"/>
+  {# the bowl: red lacquer, with miso, tofu and green onion #}
+  <path d="M -27 -16 Q -26 6 0 7 Q 26 6 27 -16 Z" fill="#b8392d" stroke="#7a2a22" stroke-width="2"/>
+  <ellipse cx="0" cy="-16" rx="27" ry="8" fill="#7a2a22"/>
+  <ellipse cx="0" cy="-15.5" rx="23" ry="6" fill="#d9a35c"/>
+  <rect x="-12" y="-19" width="6" height="5" rx="1" fill="#f8f3e8"/><rect x="4" y="-17" width="6" height="5" rx="1" fill="#f8f3e8"/>
+  <circle cx="-2" cy="-18" r="1.8" fill="#6f9f63"/><circle cx="12" cy="-14" r="1.8" fill="#6f9f63"/><circle cx="-16" cy="-14" r="1.8" fill="#6f9f63"/>
+  {# a white ceramic soup spoon resting in it #}
+  <path d="M 4 -16 C 10 -22 20 -22 24 -18 L 40 -36 C 42 -38 45 -36 43 -34 L 27 -15 C 22 -10 8 -10 4 -16 Z" fill="#fbf7ef" stroke="#c9b79a" stroke-width="1.5" stroke-linejoin="round"/>
+  {# steam #}
+  <path class="steam" d="M -8 -26 c -6 -8 6 -14 0 -22 M 6 -28 c -6 -8 6 -14 0 -22" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".75"/>
+</g>
+{% endmacro %}
+
+{% macro plate_stack(x, y, colors, s=0.7) %}
+<g class="plate-stack" transform="translate({{ x }} {{ y }}) scale({{ s }})" aria-hidden="true">
+  <ellipse cx="4" cy="6" rx="50" ry="15" fill="#3a2a1e" opacity=".2"/>
+  {% for c in colors %}
+  {% set cy = -loop.index0 * 9 %}
+  <ellipse cx="0" cy="{{ cy + 4 }}" rx="48" ry="16" fill="{{ RIMS.get(c, RIMS.red) }}"/>
+  <ellipse cx="0" cy="{{ cy + 4 }}" rx="48" ry="16" fill="#000" opacity=".2"/>
+  <ellipse cx="0" cy="{{ cy }}" rx="48" ry="16" fill="{{ RIMS.get(c, RIMS.red) }}"/>
+  {% if loop.last %}
+  <ellipse cx="0" cy="{{ cy - 1.5 }}" rx="38" ry="11" fill="#fbf7ef"/>
+  <path d="M -30 {{ cy - 7 }} C -18 {{ cy - 11 }} -2 {{ cy - 12 }} 10 {{ cy - 11 }}" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
+  {% endif %}
+  {% endfor %}
+</g>
+{% endmacro %}
 
 {% macro plate(p) %}
 <g class="pick-art plate-art">
@@ -36,6 +104,16 @@
   </g>
   {% else %}
   {{ sushi(p.sushi or 'salmon', x=-42, y=-52, w=84, h=56) }}
+  {% endif %}
+  {% if p.tag %}
+  {# a little folded place card on the plate's front rim, like a name card at a wedding (hidden on small screens) #}
+  {% set cw = 14 + p.tag|length * 5.6 %}
+  <g class="plaque" transform="translate(22 10)" aria-hidden="true">
+    <ellipse cx="1" cy="1" rx="{{ cw / 2 + 2 }}" ry="2.5" fill="#3a2a1e" opacity=".2"/>
+    <path d="M {{ -cw / 2 }} 0 L {{ -cw / 2 + 2 }} -16 L {{ cw / 2 - 2 }} -16 L {{ cw / 2 }} 0 Z" fill="#f4e2c4" stroke="#a8743f" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M {{ -cw / 2 + 3 }} -14 L {{ cw / 2 - 3 }} -14" stroke="#e2c79f" stroke-width="1"/>
+    <text x="0" y="-4" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-style="italic" font-weight="600" font-size="12" fill="#4f4038">{{ p.tag }}</text>
+  </g>
   {% endif %}
 </g>
 {% if p.zoom == 'globe' %}<ellipse class="plate-hit" cx="0" cy="-30" rx="58" ry="52"/>
@@ -203,6 +281,12 @@
 {# described with aria-label, not an SVG <title>: browsers show a <title> as a tooltip when you hover the picture #}
 <svg class="scene" viewBox="0 0 1600 1000" role="img" aria-label="Squirrels at a sushi bar.">
   <defs>
+    {# the belt's surface: a little lighter at the back, darker at the front, for depth #}
+    <clipPath id="belt-back-half"><rect x="0" y="0" width="1600" height="600"/></clipPath>
+    <clipPath id="belt-front-half"><rect x="0" y="600" width="1600" height="400"/></clipPath>
+    <linearGradient id="belt-depth" gradientUnits="userSpaceOnUse" x1="0" y1="488" x2="0" y2="712">
+      <stop offset="0" stop-color="#bcc5ca"/><stop offset="1" stop-color="#97a2a8"/>
+    </linearGradient>
     <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbefd9"/><stop offset="1" stop-color="#f1dcbb"/></linearGradient>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe7df"/><stop offset="1" stop-color="#f3f1df"/></linearGradient>
     <linearGradient id="kitchen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c4030"/><stop offset="1" stop-color="#7a5a42"/></linearGradient>
@@ -413,14 +497,13 @@
   <g class="day-only">
   <a class="scene-link guestbook-link" href="{{ guestbook.url }}" target="_blank" rel="noopener"
      data-title="{{ guestbook.title }}" data-external="1" aria-label="{{ guestbook.title }} (opens in a new tab)">
-  <g transform="translate(1014 452) scale(1.2)"><g class="guestbook pick-art guestbook-art">
-    {# the stand: a wooden column, a little narrower at the bottom, with an acorn on the front #}
+  <g transform="translate(1014 466) scale(1.2)"><g class="guestbook pick-art guestbook-art">
+    {# the stand: a wooden column, a little narrower at the bottom, with a name plate on the front #}
     <path d="M -30 0 L -34 -92 L 34 -92 L 30 0 Z" fill="#a8743f" stroke="#4f4038" stroke-width="3" stroke-linejoin="round"/>
     <path d="M -22 0 L -25 -80 L 25 -80 L 22 0 Z" fill="#b98550"/>
-    <g transform="translate(0 -50)" stroke="#4f4038" stroke-width="2">
-      <ellipse cx="0" cy="3" rx="8" ry="9" fill="#d6a468"/>
-      <path d="M -10 -2 Q 0 -12 10 -2 Z" fill="#7e5530" stroke-linejoin="round"/>
-      <path d="M 0 -9 L 1 -13" stroke-linecap="round"/>
+    <g transform="translate(0 -54)">
+      <rect x="-33" y="-11" width="66" height="22" rx="3" fill="#f4e2c4" stroke="#7e5530" stroke-width="2"/>
+      <text x="0" y="5" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-style="italic" font-weight="600" font-size="14" fill="#4f4038">LinkedIn</text>
     </g>
     {# the sloped top #}
     <path d="M -46 -90 L 46 -90 L 40 -106 L -40 -106 Z" fill="#8a5a33" stroke="#4f4038" stroke-width="3" stroke-linejoin="round"/>
@@ -439,7 +522,7 @@
       <rect x="-2.5" y="-16" width="5" height="5" rx="1.5" fill="#e3b04b"/>
     </g>
   </g></g>
-  <rect class="plate-hit" x="955" y="300" width="118" height="150" rx="14"/>
+  <rect class="plate-hit" x="955" y="314" width="118" height="150" rx="14"/>
   </a>
   </g>
   {% endif %}
@@ -454,31 +537,38 @@
     <g class="dancer" transform="translate(1300 500) scale(.78)"><g class="dance" style="animation-delay: -.45s">{{ sq.front(kind='fox', outfit='bowtie', look='happy', tailshape='curl') }}</g></g>
   </g>
 
-  {# ---- the counter and belt ---- #}
+  {# ---- the counter and belt ----
+     Drawn flattened (SQUASH) as if seen from a lower angle: the belt reads as receding instead of a round
+     top-down track. belt.js applies the same flattening (BELT_SQUASH) to the plates' positions. The belt is
+     drawn in two pieces: its back run here, behind the inner counter and the chef, and its front run further
+     down, in front of them. #}
+  <g transform="{{ SQUASH }}">
   <path d="{{ BELT }}" fill="none" stroke="{{ WOOD }}" stroke-width="170" stroke-linejoin="round"/>
   <path d="{{ BELT }}" fill="none" stroke="#e7bd84" stroke-width="166" stroke-linejoin="round" opacity=".35"/>
   <ellipse cx="800" cy="842" rx="720" ry="26" fill="#3a2a1e" opacity=".22"/>
   <path class="counter-front" d="M 125 600 A 205 165 0 0 0 330 765 L 1270 765 A 205 165 0 0 0 1475 600 L 1475 668 A 205 165 0 0 1 1270 833 L 330 833 A 205 165 0 0 1 125 668 Z" fill="{{ WOOD_D }}"/>
   <path d="M 125 668 A 205 165 0 0 0 330 833 L 1270 833 A 205 165 0 0 0 1475 668" fill="none" stroke="{{ WOOD_DD }}" stroke-width="6"/>
   <path d="M 140 640 A 205 165 0 0 0 330 798 L 1270 798 A 205 165 0 0 0 1460 640" fill="none" stroke="{{ WOOD_DD }}" stroke-width="3" opacity=".4"/>
-  <path d="M 330 549 L 1270 549 A 91 51 0 0 1 1270 651 L 330 651 A 91 51 0 0 1 330 549 Z" fill="#c99358"/>
-  <g class="day-only">
-  <path d="{{ BELT }}" fill="none" stroke="#6c7880" stroke-width="64" stroke-linejoin="round"/>
-  <path d="{{ BELT }}" fill="none" stroke="#d3dadd" stroke-width="60" stroke-linejoin="round"/>
-  <path d="{{ BELT }}" fill="none" stroke="#a7b1b7" stroke-width="56" stroke-linejoin="round"/>
-  <path class="belt-slats" d="{{ BELT }}" fill="none" stroke="#919ca3" stroke-width="54" stroke-dasharray="3 17" stroke-linejoin="round"/>
-  </g>
-  <g class="night-only">
-    <path d="{{ BELT }}" fill="none" stroke="#c8a46a" stroke-width="66" stroke-linejoin="round"/>
-    <path d="{{ BELT }}" fill="none" stroke="#5b3a26" stroke-width="61" stroke-linejoin="round"/>
-    <path d="{{ BELT }}" fill="none" stroke="#7a5034" stroke-width="40" stroke-linejoin="round" opacity=".5"/>
+  <g clip-path="url(#belt-back-half)">{{ belt_layers() }}</g>
+  {# the gap between the belt and the inner counter #}
+  <path d="M 330 553 L 1270 553 A 87 47 0 0 1 1270 647 L 330 647 A 87 47 0 0 1 330 553 Z" fill="#7d5c40"/>
+  {# the inner counter: a raised oval island inside the belt, with its front side showing #}
+  <path d="M 250 591 A 80 35 0 0 0 330 626 L 1270 626 A 80 35 0 0 0 1350 591 L 1350 606 A 80 35 0 0 1 1270 641 L 330 641 A 80 35 0 0 1 250 606 Z" fill="#a8743f" stroke="#7e5530" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M 330 556 L 1270 556 A 80 35 0 0 1 1270 626 L 330 626 A 80 35 0 0 1 330 556 Z" fill="#d9a96e" stroke="#a8743f" stroke-width="2.5"/>
+  <path d="M 336 562 L 1264 562" stroke="#e8c08a" stroke-width="3" stroke-linecap="round"/>
   </g>
   <path id="belt-line" d="{{ BELT }}" fill="none" stroke="none"/>
+
+  {# empty plates on the back of the counter, by the two diners facing us (behind the passing plates) #}
+  <g class="day-only">
+    {{ plate_stack(398, 482, ['red', 'green', 'blue']) }}
+    {{ plate_stack(1210, 482, ['pink', 'yellow']) }}
+  </g>
 
   {# plates that are behind the chef right now #}
   <g class="day-only" id="plates-back"></g>
 
-  {# the specials board beside the chef: click it for the Projects page (SPECIALS in content.py) #}
+  {# the chalkboard beside the chef, with "Projects" written on it: click it for the Projects page (SPECIALS in content.py) #}
   {% if specials %}
   <g class="day-only">
   <a class="scene-link specials-link" href="{{ specials.href }}" data-title="{{ specials.title }}" aria-label="{{ specials.title }}">
@@ -493,7 +583,7 @@
     {# chalk writing: a title, a little nigiri doodle and a few lines of dishes #}
     <g fill="none" stroke="#f3ead8" stroke-linecap="round" stroke-linejoin="round">
       <text x="0" y="-98" text-anchor="middle" fill="#f3ead8" stroke="none"
-            font-family="'Cormorant Garamond', Georgia, serif" font-style="italic" font-weight="500" font-size="22">Specials</text>
+            font-family="'Cormorant Garamond', Georgia, serif" font-style="italic" font-weight="500" font-size="22">Projects</text>
       <path d="M -30 -91 Q 0 -87 30 -91" stroke-width="1.5" opacity=".8"/>
       <g transform="translate(-22 -66)" stroke-width="1.6">
         <path d="M -13 4 Q -13 -3 0 -3 Q 13 -3 13 4 Q 0 8 -13 4 Z" opacity=".9"/>
@@ -515,7 +605,7 @@
   <g class="day-only">
   <a class="scene-link chef-link" href="{{ url_for('about') }}" data-title="About"
      aria-label="About">
-  <g transform="translate(800 652) scale(1.12)"><g class="chef pick-art chef-art">
+  <g transform="translate(800 640) scale(1.12)"><g class="chef pick-art chef-art">
     {% call sq.front(kind='fox', outfit='chef', tailside=-1) %}
       <g class="chef-roll">
         <rect x="-26" y="-100" width="52" height="22" rx="10" fill="#1f2a22"/>
@@ -524,10 +614,10 @@
       </g>
     {% endcall %}
   </g></g>
-  <rect class="plate-hit" x="720" y="400" width="160" height="190" rx="20"/>
+  <rect class="plate-hit" x="720" y="388" width="160" height="190" rx="20"/>
   </a>
   </g>
-  <g class="bartender night-only" transform="translate(800 652) scale(1.12)">
+  <g class="bartender night-only" transform="translate(800 640) scale(1.12)">
     <g class="sway">
     {% call sq.front(kind='fox', outfit='bartender', tailside=-1) %}
       <g transform="translate(62 -6)"><g class="shaker">
@@ -541,8 +631,16 @@
     {% endcall %}
     </g>
   </g>
-  <rect x="700" y="582" width="200" height="56" rx="8" fill="{{ WOOD_D }}"/>
+  {# the chef's table: deep enough to hide the chef's (and bartender's) lower half, so they stand behind it #}
+  <rect x="700" y="582" width="200" height="62" rx="8" fill="{{ WOOD_D }}"/>
   <rect x="700" y="582" width="200" height="14" rx="6" fill="{{ WOOD }}"/>
+  {# a little sign hanging off the front of the chef's table: About #}
+  <g class="day-only plaque" aria-hidden="true">
+    <circle cx="768" cy="602" r="2.5" fill="#4f4038"/><circle cx="832" cy="602" r="2.5" fill="#4f4038"/>
+    <path d="M 768 602 L 758 612 M 832 602 L 842 612" stroke="#7e5530" stroke-width="2" stroke-linecap="round"/>
+    <rect x="754" y="610" width="92" height="30" rx="4" fill="#f4e2c4" stroke="#a8743f" stroke-width="2.5"/>
+    <text x="800" y="632" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-style="italic" font-weight="600" font-size="22" fill="#4f4038">About</text>
+  </g>
   <g class="day-only">
   <rect x="728" y="570" width="144" height="16" rx="4" fill="#ecd3a8" stroke="#c9a46f" stroke-width="2"/>
   <path d="M 744 574 C 760 566 786 566 796 574 Z" fill="#ee8a5c"/>
@@ -557,6 +655,9 @@
     <rect x="{{ x - 8 }}" y="{{ 586 - h * 0.55 }}" width="16" height="10" fill="#f4e2c4" opacity=".9"/>
     {% endfor %}
   </g>
+
+  {# the belt's front run, in front of the inner counter and the chef's table #}
+  <g transform="{{ SQUASH }}" clip-path="url(#belt-front-half)">{{ belt_layers() }}</g>
 
   {# plates in front of the chef #}
   <g class="day-only" id="plates-front"></g>
@@ -577,12 +678,12 @@
     {% endfor %}
   </g>
 
-  {# the drinks on the bar, after hours #}
+  {# the drinks on the bar, after hours (y 694 before the counter was flattened: 600 + 94 × 0.82 = 677) #}
   <g class="drinks night-only">
     {% set items = night + night_extras %}
     {% for d in items %}
     {% set x = 470 + loop.index0 * (660 / ((items|length - 1) or 1)) %}
-    <g transform="translate({{ x }} 694) scale(1.18)">
+    <g transform="translate({{ x }} 677) scale(1.18)">
     {% if d.href %}
     <a class="bar-drink" href="{{ d.href }}"{% if d.external %} target="_blank" rel="noopener"{% endif %}
        data-title="{{ d.title }}"{% if d.external %} data-external="1"{% endif %}
@@ -594,8 +695,15 @@
     {% endfor %}
   </g>
 
-  {# things on the front ledge #}
+  {# things on the front ledge (moved up 28 with the flattened counter: 756 -> 728) #}
+  <g transform="translate(0 -28)">
   <g class="day-only">
+  {# plates the diners have finished, and bowls of miso soup #}
+  {{ plate_stack(236, 742, ['blue', 'red', 'black', 'yellow']) }}
+  {{ plate_stack(1262, 754, ['green', 'pink', 'yellow']) }}
+  {{ plate_stack(470, 756, ['pink']) }}
+  {{ soup_bowl(760, 756) }}
+  {{ soup_bowl(1000, 758) }}
   {{ cup(560, 756) }}{{ cup(1132, 756) }}
   <g transform="translate(868 752)">
     <ellipse cx="0" cy="0" rx="22" ry="8" fill="#f6efe2" stroke="#c9b79a" stroke-width="2"/><ellipse cx="0" cy="0" rx="14" ry="4.5" fill="#4a2c1e"/>
@@ -616,6 +724,7 @@
       <path class="flame" d="M 0 -36 C 6 -28 4 -24 0 -22 C -4 -24 -6 -28 0 -36 Z" fill="#ffc35a"/>
     </g>
   </g>
+  </g>
 
   {# ---- the gardener at the end of the counter (day) and a dancer (night) ---- #}
   {{ stool(74, 760, 0.8, '#5a8f6e') }}
@@ -623,16 +732,16 @@
   <g class="dancer night-only" transform="translate(74 762) scale(.8)"><g class="dance" style="animation-delay: -.2s">{{ sq.front(kind='ground', outfit='gown', look='happy', tailside=-1) }}</g></g>
 
   {# ---- the front row, on stools, with their backs to us ---- #}
-  {% for x, cushion in [(330, '#c8473a'), (610, '#4a6fa5'), (890, '#d9a441'), (1170, '#5a8f6e'), (1440, '#c8473a')] %}{{ stool(x, 906, 0.9, cushion) }}{% endfor %}
+  {% for x, cushion in [(330, '#c8473a'), (610, '#4a6fa5'), (890, '#d9a441'), (1170, '#5a8f6e'), (1440, '#c8473a')] %}{{ stool(x, 876, 0.9, cushion) }}{% endfor %}
   <g class="day-only">
-  <g class="diner diner--reach" transform="translate(330 908) scale(.86)">{{ sq.back(kind='gray', reach=true, tailside=1, outfit='firefighter', tailshape='curl') }}</g>
-  <g class="diner" transform="translate(610 908) scale(.86)">{{ sq.back(kind='ground', tailside=-1, outfit='painter') }}</g>
-  <g class="diner" transform="translate(890 908) scale(.86)">{{ sq.back(kind='fox', tailside=1, outfit='builder', tailshape='sweep') }}</g>
-  <g class="diner" transform="translate(1170 908) scale(.86)">{{ sq.back(kind='gray', tailside=-1, tailshape='plume', outfit='detective') }}</g>
+  <g class="diner diner--reach" transform="translate(330 878) scale(.86)">{{ sq.back(kind='gray', reach=true, tailside=1, outfit='firefighter', tailshape='curl') }}</g>
+  <g class="diner" transform="translate(610 878) scale(.86)">{{ sq.back(kind='ground', tailside=-1, outfit='painter') }}</g>
+  <g class="diner" transform="translate(890 878) scale(.86)">{{ sq.back(kind='fox', tailside=1, outfit='builder', tailshape='sweep') }}</g>
+  <g class="diner" transform="translate(1170 878) scale(.86)">{{ sq.back(kind='gray', tailside=-1, tailshape='plume', outfit='detective') }}</g>
   {# the squirrel eating a piece of sushi: click it for GitHub (MUNCHER in content.py) #}
   {% if muncher %}<a class="scene-link muncher-link" href="{{ muncher.url }}" target="_blank" rel="noopener"
      data-title="{{ muncher.title }}" data-external="1" aria-label="{{ muncher.title }} (opens in a new tab)">{% endif %}
-  <g transform="translate(1440 908) scale(.86)"><g class="muncher pick-art muncher-art">
+  <g transform="translate(1440 878) scale(.86)"><g class="muncher pick-art muncher-art">
     {% call sq.front(kind='ground', look='happy', cheeks=true, outfit='doctor', tailside=-1, tailshape='curl') %}
       <g transform="translate(0 -92)">
         <ellipse cx="0" cy="2" rx="20" ry="9" fill="#f8f3e8"/>
@@ -640,17 +749,25 @@
       </g>
       <ellipse cx="-17" cy="-80" rx="11" ry="9" fill="#c9b398" stroke="#4f4038" stroke-width="3"/>
       <ellipse cx="17" cy="-80" rx="11" ry="9" fill="#c9b398" stroke="#4f4038" stroke-width="3"/>
+      {% if muncher %}
+      {# a "hello, my name is" tag on the coat (hidden on small screens) #}
+      <g class="plaque" transform="translate(0 -26) rotate(-4)" aria-hidden="true">
+        <rect x="-32" y="-15" width="64" height="31" rx="5" fill="#fbf7ef" stroke="#4f4038" stroke-width="2.5"/>
+        <path d="M -30.75 -9 Q -30.75 -13.75 -26 -13.75 L 26 -13.75 Q 30.75 -13.75 30.75 -9 L 30.75 -6 L -30.75 -6 Z" fill="#c8473a"/>
+        <text x="0" y="11" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-style="italic" font-weight="600" font-size="17" fill="#4f4038">{{ muncher.title }}</text>
+      </g>
+      {% endif %}
     {% endcall %}
   </g></g>
-  {% if muncher %}<rect class="plate-hit" x="1360" y="730" width="170" height="185" rx="20"/>
+  {% if muncher %}<rect class="plate-hit" x="1360" y="700" width="170" height="185" rx="20"/>
   </a>{% endif %}
   </g>
   <g class="night-only">
   {% set outfits = [('gray', 'tux', 1, 'curl'), ('ground', 'gown', -1, 'short'), ('fox', 'suit', 1, 'sweep'), ('gray', 'tux', -1, 'plume')] %}
   {% for kind, outfit, side, tail in outfits %}
-  <g class="dancer" transform="translate({{ [330, 610, 890, 1170][loop.index0] }} 908) scale(.86)"><g class="dance" style="animation-delay: {{ loop.index0 * -0.3 }}s">{{ sq.back(kind=kind, tailside=side, outfit=outfit, tailshape=tail) }}</g></g>
+  <g class="dancer" transform="translate({{ [330, 610, 890, 1170][loop.index0] }} 878) scale(.86)"><g class="dance" style="animation-delay: {{ loop.index0 * -0.3 }}s">{{ sq.back(kind=kind, tailside=side, outfit=outfit, tailshape=tail) }}</g></g>
   {% endfor %}
-  <g class="dancer muncher" transform="translate(1440 908) scale(.86)"><g class="dance" style="animation-delay: -.6s">
+  <g class="dancer muncher" transform="translate(1440 878) scale(.86)"><g class="dance" style="animation-delay: -.6s">
     {% call sq.front(kind='ground', look='happy', cheeks=true, outfit='pearls', tailside=-1, tailshape='curl') %}
       {# sipping a boba #}
       <g transform="translate(0 -64) scale(.55)">

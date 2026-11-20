@@ -1733,3 +1733,8 @@ body.night-room {
     .secret-sign { font-size: 1.8rem; }
     .secret-room { padding: 22px 18px 26px; }
 }
+
+
+/* name cards on the daytime links (chef, Specials board, host stand, GitHub squirrel, globe flag): too small to read on phones */
+.plaque { pointer-events: none; }
+@media (max-width: 700px) { .plaque { display: none; } }

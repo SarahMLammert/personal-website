@@ -27,7 +27,7 @@ GLOBE = {"title": "College Sports Atlas",
 
 PLATES = [
     # day ("zoom": "globe" = this plate carries the globe instead of sushi, and zooms into it)
-    dict(GLOBE, side="day", zoom="globe", plate="yellow"),
+    dict(GLOBE, side="day", zoom="globe", plate="yellow", tag="Atlas"),   # "tag" = the place card on the plate
     # night
     # Photos is also the framed photo on the wall (PHOTO_WALL). This drink is temporary:
     # take it off the bar once more drinks are added.
@@ -126,7 +126,7 @@ GITHUB = "https://github.com/SarahMLammert"
 # The squirrel at the right end of the counter, eating a piece of sushi, opens GitHub (daytime only).
 MUNCHER = {"title": "GitHub", "url": GITHUB}
 
-# The "Specials" chalkboard beside the chef opens the Projects page (daytime only).
+# The chalkboard beside the chef ("Projects" in chalk; it used to say "Specials") opens the Projects page (daytime only).
 SPECIALS = {"title": "Projects", "endpoint": "projects"}
 
 # The guest book on the host stand by the door opens LinkedIn (daytime only).

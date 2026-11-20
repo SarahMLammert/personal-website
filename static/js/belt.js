@@ -10,7 +10,7 @@
     const html = document.documentElement;
     const svg = root.querySelector('svg');
     const line = svg.querySelector('#belt-line');
-    const slats = svg.querySelector('.belt-slats');
+    const slats = svg.querySelectorAll('.belt-slats');   // the belt's back and front runs
     const back = svg.querySelector('#plates-back');
     const front = svg.querySelector('#plates-front');
     const plates = Array.from(svg.querySelectorAll('.belt-plate'));
@@ -21,7 +21,8 @@
 
     const length = line.getTotalLength();
     const gap = length / plates.length;
-    const TOP = 520, BOTTOM = 680;    // the belt's back and front straights
+    const TOP = 520, BOTTOM = 680;    // the belt's back and front straights (before flattening)
+    const BELT_SQUASH = 0.82;         // the belt is drawn flattened around y = 600 (SQUASH in _scene.html)
     let offset = 0, held = null, last = null, zooming = false;
 
     const isNight = () => html.classList.contains('is-night');
@@ -31,12 +32,13 @@
         plates.forEach((p, i) => {
             const pt = line.getPointAtLength((offset + i * gap) % length);
             const depth = (pt.y - TOP) / (BOTTOM - TOP);           // 0 at the back, 1 at the front
-            const scale = 0.98 + 0.3 * depth;
-            p.setAttribute('transform', `translate(${pt.x.toFixed(1)} ${pt.y.toFixed(1)}) scale(${scale.toFixed(3)})`);
+            const scale = 0.92 + 0.38 * depth;                     // smaller at the back, bigger at the front
+            const y = 600 + (pt.y - 600) * BELT_SQUASH;
+            p.setAttribute('transform', `translate(${pt.x.toFixed(1)} ${y.toFixed(1)}) scale(${scale.toFixed(3)})`);
             const group = pt.y < 600 ? back : front;                // pass behind or in front of the chef
             if (p.parentNode !== group && p !== held) group.appendChild(p);
         });
-        slats.setAttribute('stroke-dashoffset', (-offset).toFixed(1));
+        slats.forEach(sl => sl.setAttribute('stroke-dashoffset', (-offset).toFixed(1)));
     }
 
     function tick(t) {
