@@ -35,7 +35,7 @@ PLATES = [
     # Book Notes is also the bookcase against the back wall (BOOKCASE). This drink is temporary:
     # take it off the bar once more drinks are added.
     {"side": "night", "title": "Book Notes", "endpoint": "books", "drink": "matcha"},
-    {"side": "night", "title": "Writing", "drink": "mango"},
+    {"side": "night", "title": "Music", "drink": "mango"},
 ]
 
 # Plates and drinks that are just for fun (no link). "description" is read out by screen readers.
@@ -74,8 +74,8 @@ AFTER_HOURS_PASSWORD = "boba"
 # DRAFT, written from what's already on the site. Rewrite it in your own words!
 # ---------------------------------------------------------------------------
 ABOUT = {
-    "title": "About",
-    "sub": "Nice to meet you",
+    "title": "Welcome to my website!",
+    "sub": "Thank you for checking it out!",
     "hello": "Hi, I\u2019m Sarah.",
     "paragraphs": [
         "I\u2019m passionate about programming, data, and systems design.",

@@ -381,6 +381,7 @@ html:not(.is-night) .night-only * { animation-play-state: paused; }
     line-height: 1.05;
 }
 
+.page-title, .page-sub { text-wrap: balance; }   /* when a heading wraps, split it into even lines (no lone last word) */
 .page-sub {
     margin: 14px 0 0;
     font-size: 12px;

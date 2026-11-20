@@ -1,0 +1,534 @@
+Everyone my book notes quote or say more than a passing word about, including the authors. One entry per person: the name (the Wikipedia article title), Bio, Born, Died, Wiki Link, and the books that mention them.
+
+- Dale Carnegie
+	- Bio: Dale Carnegie was an American writer and teacher of courses in self-improvement, salesmanship, corporate training, public speaking, and interpersonal skills.
+	- Born: November 24, 1888
+	- Died: November 1, 1955
+	- Wiki Link: https://en.wikipedia.org/wiki/Dale_Carnegie
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- John D. Rockefeller
+	- Bio: John Davison Rockefeller Sr. was an American businessman and philanthropist. He was one of the wealthiest Americans of all time and one of the richest people in history. Rockefeller was born into a large family in Upstate New York who moved several times before eventually settling in Cleveland, Ohio.
+	- Born: July 8, 1839
+	- Died: May 23, 1937
+	- Wiki Link: https://en.wikipedia.org/wiki/John_D._Rockefeller
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- William James
+	- Bio: William James was an American philosopher and psychologist. The first educator to offer a psychology course in the United States, he is considered to be one of the leading thinkers of the late 19th century, one of the most influential philosophers and is often dubbed the "father of American psychology".
+	- Born: January 11, 1842
+	- Died: August 26, 1910
+	- Wiki Link: https://en.wikipedia.org/wiki/William_James
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- John Grier Hibben
+	- Bio: John Grier Hibben was a Presbyterian minister, a philosopher, and educator. He served as president of Princeton University from 1912–1932, succeeding Woodrow Wilson and implementing many of the reforms started by Wilson.
+	- Born: April 19, 1861
+	- Died: May 16, 1933
+	- Wiki Link: https://en.wikipedia.org/wiki/John_Grier_Hibben
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Herbert Spencer
+	- Bio: Herbert Spencer was an English polymath active as a philosopher, psychologist, biologist, sociologist, and anthropologist. Spencer originated the expression "survival of the fittest", which he coined in Principles of Biology after reading Charles Darwin's 1859 book On the Origin of Species.
+	- Born: April 27, 1820
+	- Died: December 8, 1903
+	- Wiki Link: https://en.wikipedia.org/wiki/Herbert_Spencer
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- George Bernard Shaw
+	- Bio: George Bernard Shaw was an Irish playwright, critic, polemicist and political activist. His influence on Western theatre, culture and politics extended from the 1880s to his death and beyond. He wrote more than sixty plays, including major works such as Man and Superman, Pygmalion and Saint Joan.
+	- Born: July 26, 1856
+	- Died: November 2, 1950
+	- Wiki Link: https://en.wikipedia.org/wiki/George_Bernard_Shaw
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Francis Crowley
+	- Bio: Francis "Two Gun" Crowley was an American murderer. His crime spree lasted nearly three months, ending in a two-hour shootout with the New York City Police Department on May 7, 1931 that was witnessed by 15,000 bystanders and received national attention.
+	- Born: October 31, 1912
+	- Died: January 21, 1932
+	- Wiki Link: https://en.wikipedia.org/wiki/Francis_Crowley
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Edward P. Mulrooney
+	- Bio: Edward Pierce Mulrooney was the New York City Police Commissioner from 1930 to 1933. He then went on to become chairman of the State Alcoholic Beverage Control Board.
+	- Born: July 24, 1874
+	- Died: April 29, 1960
+	- Wiki Link: https://en.wikipedia.org/wiki/Edward_P._Mulrooney
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Al Capone
+	- Bio: Alphonse Gabriel Capone, sometimes known by the nickname "Scarface", was an American gangster and businessman who attained notoriety during the Prohibition era as the co-founder and boss of the Chicago Outfit from 1925 to 1931. His seven-year reign as a crime boss ended when he was imprisoned at the age of 33.
+	- Born: January 17, 1899
+	- Died: January 25, 1947
+	- Wiki Link: https://en.wikipedia.org/wiki/Al_Capone
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Dutch Schultz
+	- Bio: Arthur Simon Flegenheimer, known as Dutch Schultz, was an American mobster based in New York City in the 1920s and 1930s. He made his fortune in organized crime-related activities, including bootlegging and the numbers racket.
+	- Born: August 6, 1901
+	- Died: October 24, 1935
+	- Wiki Link: https://en.wikipedia.org/wiki/Dutch_Schultz
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Lewis E. Lawes
+	- Bio: Lewis Edward Lawes was a prison warden and a proponent of prison reform. During his 21-year tenure at Sing Sing Correctional Facility, he supervised the executions of 303 prisoners.
+	- Born: September 13, 1883
+	- Died: April 23, 1947
+	- Wiki Link: https://en.wikipedia.org/wiki/Lewis_E._Lawes
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- John Wanamaker
+	- Bio: John Wanamaker was an American merchant and religious, civic and political figure, considered by some to be a proponent of advertising and a "pioneer in marketing". He served as United States Postmaster General in the Benjamin Harrison administration from 1889 to 1893.
+	- Born: July 11, 1838
+	- Died: December 12, 1922
+	- Wiki Link: https://en.wikipedia.org/wiki/John_Wanamaker
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- B. F. Skinner
+	- Bio: Burrhus Frederic Skinner was an American psychologist, behaviorist, inventor, and social philosopher, best known for operant conditioning, radical behaviorism, and the operant conditioning chamber (the "Skinner box"). He taught at Harvard from 1948, as the Edgar Pierce Professor of Psychology from 1958 to 1974, and wrote the utopian novel Walden Two.
+	- Born: March 20, 1904
+	- Died: August 18, 1990
+	- Wiki Link: https://en.wikipedia.org/wiki/B._F._Skinner
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Hans Selye
+	- Bio: Hans Selye was a Hungarian-Canadian endocrinologist who popularized the word "stress" for the body's response to pressure. He described the general adaptation syndrome (alarm, resistance, exhaustion), coined "eustress" and "distress," wrote the bestseller The Stress of Life (1956), and founded the International Institute of Stress in 1975.
+	- Born: January 26, 1907
+	- Died: October 16, 1982
+	- Wiki Link: https://en.wikipedia.org/wiki/Hans_Selye
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Theodore Roosevelt
+	- Bio: Theodore Roosevelt Jr. was the 26th president of the United States (1901–1909), taking office after William McKinley's assassination, after serving as vice president and governor of New York. A Republican, he pushed his "Square Deal" of trust-busting and consumer protection, championed conservation, began the Panama Canal, led the Rough Riders in the Spanish–American War, and won the 1906 Nobel Peace Prize.
+	- Born: October 27, 1858
+	- Died: January 6, 1919
+	- Wiki Link: https://en.wikipedia.org/wiki/Theodore_Roosevelt
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- William Howard Taft
+	- Bio: William Howard Taft was the 27th president of the United States (1909–1913) and later the 10th chief justice of the United States (1921–1930), the only person to have held both offices. A Republican from Cincinnati, he had earlier been governor-general of the Philippines and secretary of war under Theodore Roosevelt.
+	- Born: September 15, 1857
+	- Died: March 8, 1930
+	- Wiki Link: https://en.wikipedia.org/wiki/William_Howard_Taft
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Albert B. Fall
+	- Bio: Albert Bacon Fall was a Republican U.S. senator from New Mexico (1912–1921) and secretary of the interior under President Warren G. Harding (1921–1923). He is best known for the Teapot Dome scandal: in 1929 he was convicted of bribery and conspiracy, the only person convicted in the affair, and served a year in prison.
+	- Born: November 26, 1861
+	- Died: November 30, 1944
+	- Wiki Link: https://en.wikipedia.org/wiki/Albert_B._Fall
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Warren G. Harding
+	- Bio: Warren Gamaliel Harding was the 29th president of the United States (1921–1923), a Republican from Ohio who had served as a U.S. senator. He promised a "return to normalcy" after World War I and hosted the Washington Naval Conference; he died of a heart attack in office, after which scandals in his administration, including Teapot Dome, came to light.
+	- Born: November 2, 1865
+	- Died: August 2, 1923
+	- Wiki Link: https://en.wikipedia.org/wiki/Warren_G._Harding
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Edward L. Doheny
+	- Bio: Edward Laurence Doheny was an American oil tycoon, prospector, and philanthropist whose 1892 well in the Los Angeles City Oil Field set off Southern California's oil boom; he also drilled Mexico's first well, at Tampico, in 1901. In the Teapot Dome scandal he was accused of offering a $100,000 bribe to Interior Secretary Albert Fall, but he was acquitted, while Fall was convicted of accepting it.
+	- Born: August 10, 1856
+	- Died: September 8, 1935
+	- Wiki Link: https://en.wikipedia.org/wiki/Edward_L._Doheny
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Herbert Hoover
+	- Bio: Herbert Clark Hoover was the 31st president of the United States (1929–1933), a Republican and former mining engineer. He became known for humanitarian relief during and after World War I and served as secretary of commerce under Harding and Coolidge; his presidency was dominated by the Great Depression, and he lost reelection to Franklin D. Roosevelt in 1932.
+	- Born: August 10, 1874
+	- Died: October 20, 1964
+	- Wiki Link: https://en.wikipedia.org/wiki/Herbert_Hoover
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Abraham Lincoln
+	- Bio: Abraham Lincoln was the 16th president of the United States (1861–1865), a Republican who had been a lawyer, Illinois legislator, and U.S. representative. He led the Union through the Civil War, issued the Emancipation Proclamation in 1863, delivered the Gettysburg Address, and pushed for the Thirteenth Amendment abolishing slavery; he was assassinated in April 1865.
+	- Born: February 12, 1809
+	- Died: April 15, 1865
+	- Wiki Link: https://en.wikipedia.org/wiki/Abraham_Lincoln
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- John Wilkes Booth
+	- Bio: John Wilkes Booth was an American stage actor and Confederate sympathizer who assassinated President Abraham Lincoln at Ford's Theatre in Washington, D.C., on April 14, 1865. He fled, and twelve days later was shot and killed by a Union soldier during a standoff at a barn in Virginia.
+	- Born: May 10, 1838
+	- Died: April 26, 1865
+	- Wiki Link: https://en.wikipedia.org/wiki/John_Wilkes_Booth
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Rosa Bonheur
+	- Bio: Marie-Rosalie "Rosa" Bonheur was a French painter and sculptor of animals, best known for Ploughing in the Nivernais and The Horse Fair. She was the first woman artist to receive the French Legion of Honour.
+	- Born: March 16, 1822
+	- Died: May 25, 1899
+	- Wiki Link: https://en.wikipedia.org/wiki/Rosa_Bonheur
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Edwin Stanton
+	- Bio: Edwin McMasters Stanton was U.S. attorney general under James Buchanan and secretary of war under Abraham Lincoln and Andrew Johnson (1862–1868), running the War Department through the Civil War and organizing the manhunt for John Wilkes Booth. His clash with Johnson over Reconstruction led to Johnson's impeachment; Ulysses S. Grant later nominated him to the Supreme Court, but he died days after being confirmed.
+	- Born: December 19, 1814
+	- Died: December 24, 1869
+	- Wiki Link: https://en.wikipedia.org/wiki/Edwin_Stanton
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- George B. McClellan
+	- Bio: George Brinton McClellan was a Union general who formed and first commanded the Army of the Potomac and briefly served as general-in-chief of the U.S. Army (1861–1862). After the inconclusive Battle of Antietam in 1862, Lincoln removed him, partly for failing to pursue Lee; he ran against Lincoln as the Democratic nominee in 1864, lost, and later served as governor of New Jersey (1878–1881).
+	- Born: December 3, 1826
+	- Died: October 29, 1885
+	- Wiki Link: https://en.wikipedia.org/wiki/George_B._McClellan
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- John Pope
+	- Bio: John Pope was a Union general who captured Island No. 10 on the Mississippi River in 1862 and was then brought east to lead the new Army of Virginia. Confederate forces under Stonewall Jackson and James Longstreet defeated him at the Second Battle of Bull Run that August, and he was relieved of command; he later commanded U.S. forces in the Dakota War and the Indian Wars until retiring in 1886.
+	- Born: March 16, 1822
+	- Died: September 23, 1892
+	- Wiki Link: https://en.wikipedia.org/wiki/John_Pope_(general)
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Ambrose Burnside
+	- Bio: Ambrose Everts Burnside was a Union general who succeeded McClellan as commander of the Army of the Potomac (1862–1863) and led it to a costly defeat at Fredericksburg. He later served as governor of Rhode Island and as a U.S. senator, was the first president of the National Rifle Association, and his distinctive whiskers gave us the word "sideburns."
+	- Born: May 23, 1824
+	- Died: September 13, 1881
+	- Wiki Link: https://en.wikipedia.org/wiki/Ambrose_Burnside
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Joseph Hooker
+	- Bio: Joseph "Fighting Joe" Hooker was a Union general who commanded the Army of the Potomac from January to June 1863. His plan failed at Chancellorsville, where Lee divided his army and routed a Union corps; Hooker later fought at Lookout Mountain and Chattanooga and in the Atlanta campaign, and retired from the army in 1868.
+	- Born: November 13, 1814
+	- Died: October 31, 1879
+	- Wiki Link: https://en.wikipedia.org/wiki/Joseph_Hooker
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- George Meade
+	- Bio: George Gordon Meade was a U.S. Army officer and engineer who commanded the Army of the Potomac from June 1863 to the end of the Civil War. Days after taking command he defeated Robert E. Lee's Army of Northern Virginia at the Battle of Gettysburg (July 1–3, 1863).
+	- Born: December 31, 1815
+	- Died: November 6, 1872
+	- Wiki Link: https://en.wikipedia.org/wiki/George_Meade
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Robert E. Lee
+	- Bio: Robert Edward Lee was the Confederate general who commanded the Army of Northern Virginia from 1862 and became general in chief of the Confederate armies in 1865. He led it at battles including Antietam, Fredericksburg, Chancellorsville, and Gettysburg, surrendered at Appomattox Court House on April 9, 1865, and afterward served as president of Washington College (now Washington and Lee University).
+	- Born: January 19, 1807
+	- Died: October 12, 1870
+	- Wiki Link: https://en.wikipedia.org/wiki/Robert_E._Lee
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Julius Caesar
+	- Bio: Gaius Julius Caesar was a Roman general, statesman, and author who conquered Gaul in the Gallic Wars (58–51 BC), crossed the Rubicon in 49 BC to start a civil war, defeated Pompey, and was named dictator for life. He was assassinated by senators led by Brutus and Cassius on the Ides of March; he introduced the Julian calendar, and his name became the title "Caesar," the root of "Kaiser" and "Tsar."
+	- Born: July 12 or 13, 100 BC
+	- Died: March 15, 44 BC
+	- Wiki Link: https://en.wikipedia.org/wiki/Julius_Caesar
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Queen Victoria
+	- Bio: Alexandrina Victoria was Queen of the United Kingdom from 1837 to 1901 and Empress of India from 1876; her reign of about 63 years gave the Victorian era its name. She married her cousin Prince Albert in 1840, and their nine children married into royal families across Europe, earning her the nickname "the grandmother of Europe."
+	- Born: May 24, 1819
+	- Died: January 22, 1901
+	- Wiki Link: https://en.wikipedia.org/wiki/Queen_Victoria
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Thomas Edison
+	- Bio: Thomas Alva Edison was an American inventor and businessman behind the phonograph, a practical incandescent light bulb, electric power distribution, and an early motion picture camera. His Menlo Park lab is considered the first industrial research laboratory; he held 1,093 U.S. patents, and his companies led to the formation of General Electric.
+	- Born: February 11, 1847
+	- Died: October 18, 1931
+	- Wiki Link: https://en.wikipedia.org/wiki/Thomas_Edison
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Guglielmo Marconi
+	- Bio: Guglielmo Marconi was an Italian electrical engineer and inventor, largely credited as the inventor of radio for his practical wireless telegraph system. He reported receiving the first transatlantic radio signal in 1901 and shared the 1909 Nobel Prize in Physics with Ferdinand Braun.
+	- Born: April 25, 1874
+	- Died: July 20, 1937
+	- Wiki Link: https://en.wikipedia.org/wiki/Guglielmo_Marconi
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Franklin D. Roosevelt
+	- Bio: Franklin Delano Roosevelt was the 32nd president of the United States (1933–1945), a Democrat and former governor of New York. He answered the Great Depression with the New Deal, led the country through World War II, spoke to the nation in his radio "fireside chats," and is the only president elected to more than two terms; he was paralyzed by a 1921 illness diagnosed as polio.
+	- Born: January 30, 1882
+	- Died: April 12, 1945
+	- Wiki Link: https://en.wikipedia.org/wiki/Franklin_D._Roosevelt
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- James Farley
+	- Bio: James Aloysius "Jim" Farley ran Franklin D. Roosevelt's presidential campaigns in 1932 and 1936, chaired the Democratic National Committee (1932–1940), and served as U.S. postmaster general (1933–1940). He later chaired the Coca-Cola Export Corporation from 1940 to 1973.
+	- Born: May 30, 1888
+	- Died: June 9, 1976
+	- Wiki Link: https://en.wikipedia.org/wiki/James_Farley
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Owen D. Young
+	- Bio: Owen D. Young was an American industrialist, lawyer, and diplomat who founded the Radio Corporation of America (RCA) in 1919 and chaired it until 1929, and chaired General Electric from 1922 to 1939. He devised the 1929 Young Plan for Germany's World War I reparations and was Time magazine's Man of the Year for 1929.
+	- Born: October 27, 1874
+	- Died: July 11, 1962
+	- Wiki Link: https://en.wikipedia.org/wiki/Owen_D._Young
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Clark Gable
+	- Bio: William Clark Gable was an American film actor known as the "King of Hollywood." He won the Academy Award for Best Actor for It Happened One Night (1934) and played Rhett Butler in Gone with the Wind (1939).
+	- Born: February 1, 1901
+	- Died: November 16, 1960
+	- Wiki Link: https://en.wikipedia.org/wiki/Clark_Gable
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Joan Crawford
+	- Bio: Joan Crawford, born Lucille Fay LeSueur, was an American actress whose film career ran from 1924 to 1972; she won the Academy Award for Best Actress for Mildred Pierce (1945). After the death of her husband, Pepsi-Cola president Alfred Steele, she became the first woman on Pepsi's board of directors.
+	- Born: March 23, 1904 (most sources; she claimed 1908)
+	- Died: May 10, 1977
+	- Wiki Link: https://en.wikipedia.org/wiki/Joan_Crawford
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Mary Pickford
+	- Bio: Mary Pickford, born Gladys Louise Smith, was a Canadian American actress and producer of the silent era, nicknamed "America's Sweetheart." She co-founded United Artists in 1919 and the Academy of Motion Picture Arts and Sciences in 1927, and won the Academy Award for Best Actress for Coquette (1929).
+	- Born: April 8, 1892
+	- Died: May 29, 1979
+	- Wiki Link: https://en.wikipedia.org/wiki/Mary_Pickford
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Helen Jepson
+	- Bio: Helen Jepson was an American lyric soprano who sang leading roles at the Metropolitan Opera from 1935 to 1941, including Desdemona in Otello and Marguerite in Faust. She was the first soprano to record the female lead in Gershwin's Porgy and Bess, and appeared in one film, The Goldwyn Follies (1938).
+	- Born: November 28, 1904
+	- Died: September 16, 1997
+	- Wiki Link: https://en.wikipedia.org/wiki/Helen_Jepson
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Helen Keller
+	- Bio: Helen Adams Keller was an American author, disability rights advocate, and political activist who lost her sight and hearing to an illness at 19 months old. Taught by Anne Sullivan from 1887, she became the first deafblind person to earn a Bachelor of Arts (Radcliffe College, 1904), wrote The Story of My Life (1903), and helped found the ACLU in 1920.
+	- Born: June 27, 1880
+	- Died: June 1, 1968
+	- Wiki Link: https://en.wikipedia.org/wiki/Helen_Keller
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Martin Johnson
+	- Bio: Martin Elmer Johnson was an American explorer, documentary filmmaker, and photographer who, with his wife Osa, filmed the wildlife and peoples of East and Central Africa, the South Pacific, and Borneo, giving many Americans their first look at those places. As a young man he sailed on Jack London's Snark voyage (1907–1909); he died after a plane crash in California.
+	- Born: October 9, 1884
+	- Died: January 13, 1937
+	- Wiki Link: https://en.wikipedia.org/wiki/Martin_and_Osa_Johnson
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Mark Twain
+	- Bio: Mark Twain was the pen name of Samuel Langhorne Clemens, an American writer, humorist, essayist, publisher, and lecturer best known for The Adventures of Tom Sawyer (1876) and Adventures of Huckleberry Finn (1884). He has been praised as the greatest humorist the United States has produced, and William Faulkner called him "the father of American literature."
+	- Born: November 30, 1835
+	- Died: April 21, 1910
+	- Wiki Link: https://en.wikipedia.org/wiki/Mark_Twain
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Richard Harding Davis
+	- Bio: Richard Harding Davis was an American journalist, war correspondent, and writer of fiction and drama who covered the Spanish–American War, the Second Boer War, and World War I. His books include Gallegher, and Other Stories (1891) and Soldiers of Fortune (1897), and he is considered the model for Charles Dana Gibson's "Gibson man," the counterpart of the Gibson Girl.
+	- Born: April 18, 1864
+	- Died: April 11, 1916
+	- Wiki Link: https://en.wikipedia.org/wiki/Richard_Harding_Davis
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Confucius
+	- Bio: Confucius (Kongzi, "Master Kong"; born Kong Qiu) was a Chinese philosopher and teacher of the Spring and Autumn period from the state of Lu, traditionally regarded as China's model sage. He founded Confucianism, which stresses ethics, education, family loyalty, and virtuous government; his sayings were collected by his disciples in the Analects.
+	- Born: c. 551 BC
+	- Died: c. 479 BC
+	- Wiki Link: https://en.wikipedia.org/wiki/Confucius
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Thomas Hardy
+	- Bio: Thomas Hardy was an English novelist and poet whose best-known novels include Far from the Madding Crowd (1874), Tess of the d'Urbervilles (1891), and Jude the Obscure (1895). Many of them are set in Wessex, a semi-fictional region of south-west England he based on the old Anglo-Saxon kingdom.
+	- Born: June 2, 1840
+	- Died: January 11, 1928
+	- Wiki Link: https://en.wikipedia.org/wiki/Thomas_Hardy
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Thomas Chatterton
+	- Bio: Thomas Chatterton was an English poet and forger who wrote the "Rowley poems," passing them off as the work of an invented 15th-century monk named Thomas Rowley. He died in London at 17, and later Romantic poets such as Wordsworth, Coleridge, Shelley, and Keats were inspired by him.
+	- Born: November 20, 1752
+	- Died: August 24, 1770
+	- Wiki Link: https://en.wikipedia.org/wiki/Thomas_Chatterton
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Benjamin Franklin
+	- Bio: Benjamin Franklin was an American Founding Father and polymath: a writer, printer, publisher, scientist, inventor, statesman, and diplomat. He published Poor Richard's Almanack, studied electricity and invented the lightning rod and bifocals, helped draft and signed the Declaration of Independence, signed the Constitution, and served as the first U.S. ambassador to France and the first U.S. postmaster general.
+	- Born: January 17, 1706
+	- Died: April 17, 1790
+	- Wiki Link: https://en.wikipedia.org/wiki/Benjamin_Franklin
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Thomas Carlyle
+	- Bio: Thomas Carlyle was a Scottish essayist, historian, philosopher, and translator, best known for the philosophical novel Sartor Resartus (1833–34), The French Revolution: A History (1837), and On Heroes, Hero-Worship, and the Heroic in History (1841), where he set out the "Great Man" theory of history.
+	- Born: December 4, 1795
+	- Died: February 5, 1881
+	- Wiki Link: https://en.wikipedia.org/wiki/Thomas_Carlyle
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Bob Hoover
+	- Bio: Robert Anderson "Bob" Hoover was an American World War II fighter pilot, test pilot, and air show aviator. He escaped a German prisoner-of-war camp by stealing a Focke-Wulf Fw 190 and flying it to Allied lines, was Chuck Yeager's backup pilot on the Bell X-1 program and flew chase on the first Mach 1 flight, and performed at air shows for nearly 50 years, famously pouring a cup of tea during a barrel roll.
+	- Born: January 24, 1922
+	- Died: October 25, 2016
+	- Wiki Link: https://en.wikipedia.org/wiki/Bob_Hoover
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Evangeline Booth
+	- Bio: Evangeline Cory Booth, daughter of Salvation Army founder William Booth, led The Salvation Army in the United States from 1904 to 1934 and then served as its fourth General (1934–1939), the first woman to hold the post. Born in London, she became a U.S. citizen during her years in America.
+	- Born: December 25, 1865
+	- Died: July 17, 1950
+	- Wiki Link: https://en.wikipedia.org/wiki/Evangeline_Booth
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Soapy Smith
+	- Bio: Jefferson Randolph "Soapy" Smith II was an American con artist and gangster, named for his "prize soap" swindle, who ran criminal operations in Denver, Creede, and Skagway during the Klondike Gold Rush. He was fatally shot in the Shootout on Juneau Wharf in Skagway, Alaska.
+	- Born: November 2, 1860
+	- Died: July 8, 1898
+	- Wiki Link: https://en.wikipedia.org/wiki/Soapy_Smith
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- W. Livingston Larned
+	- Bio: William Livingston Larned was an American author and poet best known for "Father Forgets" (1927), a short essay in which a father regrets scolding his young son, and for the book Illustration in Advertising.
+	- Born: 1880
+	- Died: November 21, 1960
+	- Wiki Link: https://en.wikipedia.org/wiki/W._Livingston_Larned
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Samuel Johnson
+	- Bio: Samuel Johnson was an English poet, playwright, essayist, critic, biographer, editor, and lexicographer, best known for A Dictionary of the English Language (1755) and Lives of the Most Eminent English Poets (1779–1781). His friend James Boswell wrote the famous biography Life of Samuel Johnson (1791).
+	- Born: September 18, 1709
+	- Died: December 13, 1784
+	- Wiki Link: https://en.wikipedia.org/wiki/Samuel_Johnson
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Sigmund Freud
+	- Bio: Sigmund Freud was an Austrian neurologist and the founder of psychoanalysis. He is known for his ideas about the unconscious mind, the id, ego, and superego, and the interpretation of dreams, set out in The Interpretation of Dreams (1899); he died in London after fleeing Nazi-occupied Austria.
+	- Born: May 6, 1856
+	- Died: September 23, 1939
+	- Wiki Link: https://en.wikipedia.org/wiki/Sigmund_Freud
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- John Dewey
+	- Bio: John Dewey was an American philosopher, psychologist, and educational reformer, a leading figure of pragmatism, functional psychology, and progressive education, and the author of Democracy and Education (1916). He founded the Laboratory Schools at the University of Chicago, taught at Columbia's Teachers College, and co-founded The New School.
+	- Born: October 20, 1859
+	- Died: June 1, 1952
+	- Wiki Link: https://en.wikipedia.org/wiki/John_Dewey
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Charles Dickens
+	- Bio: Charles John Huffam Dickens was an English novelist and journalist, regarded by many as the greatest novelist of the Victorian era, whose works include Oliver Twist, A Christmas Carol, David Copperfield, A Tale of Two Cities, and Great Expectations. At 12 he left school to work in a boot-blacking factory while his father was in a debtors' prison.
+	- Born: February 7, 1812
+	- Died: June 9, 1870
+	- Wiki Link: https://en.wikipedia.org/wiki/Charles_Dickens
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Amelia Earhart
+	- Bio: Amelia Mary Earhart was an American aviator and author who in 1932 became the first woman to fly solo across the Atlantic, and who helped found the Ninety-Nines, an organization for women pilots. She disappeared over the Pacific Ocean on July 2, 1937, while attempting a flight around the world with navigator Fred Noonan.
+	- Born: July 24, 1897
+	- Died: Disappeared July 2, 1937; declared dead January 5, 1939
+	- Wiki Link: https://en.wikipedia.org/wiki/Amelia_Earhart
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Christopher Wren
+	- Bio: Sir Christopher Wren was an English architect, astronomer, mathematician, and physicist whose masterpiece is St Paul's Cathedral in London, completed in 1710. He rebuilt many of the City of London's churches after the Great Fire of 1666, served as Surveyor of the King's Works, and co-founded the Royal Society, serving as its president from 1680 to 1682.
+	- Born: October 30, 1632
+	- Died: March 8, 1723
+	- Wiki Link: https://en.wikipedia.org/wiki/Christopher_Wren
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Marie Curie
+	- Bio: Marie Curie, born Maria Salomea Skłodowska in Warsaw, was a Polish and naturalized-French physicist and chemist who pioneered research on radioactivity and discovered polonium and radium with Pierre Curie. She was the first woman to win a Nobel Prize, the first person to win two, and the only person to win in two different sciences (Physics 1903, Chemistry 1911).
+	- Born: November 7, 1867
+	- Died: July 4, 1934
+	- Wiki Link: https://en.wikipedia.org/wiki/Marie_Curie
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- John Dillinger
+	- Bio: John Herbert Dillinger was an American gangster of the Great Depression whose Dillinger Gang was accused of robbing 24 banks and 4 police stations; he escaped from jail twice and became a Robin Hood–style folk figure in the press. Federal agents shot and killed him outside Chicago's Biograph Theater, and the hunt for him helped turn the Bureau of Investigation into the FBI.
+	- Born: June 22, 1903
+	- Died: July 22, 1934
+	- Wiki Link: https://en.wikipedia.org/wiki/John_Dillinger
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- George Washington
+	- Bio: George Washington was a Founding Father of the United States who commanded the Continental Army in the Revolutionary War (1775–1783), presided over the 1787 Constitutional Convention, and served as the first president (1789–1797). Often called the "Father of His Country," he set the two-term precedent by stepping down after two terms, and his 1796 Farewell Address warned against the dangers of partisanship.
+	- Born: February 22, 1732
+	- Died: December 14, 1799
+	- Wiki Link: https://en.wikipedia.org/wiki/George_Washington
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Christopher Columbus
+	- Bio: Christopher Columbus was an explorer and navigator from the Republic of Genoa who completed four transatlantic voyages for the Catholic Monarchs of Spain beginning in 1492, the first known European contact with the Caribbean and Central and South America. His voyages opened the way for European colonization of the Americas; as a colonial governor he was accused of brutality and removed from his post, and his role in the enslavement and mistreatment of Indigenous peoples has made him far less celebrated today.
+	- Born: Between August 25 and October 31, 1451
+	- Died: May 20, 1506
+	- Wiki Link: https://en.wikipedia.org/wiki/Christopher_Columbus
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Catherine the Great
+	- Bio: Catherine II, known as Catherine the Great and born Sophia Augusta Frederica of Anhalt-Zerbst, was Empress of Russia from 1762 to 1796 after seizing the throne in a coup against her husband, Peter III. She expanded the Russian Empire, including Crimea and parts of Poland-Lithuania, and championed the Russian Enlightenment, founding schools, cities, and the Hermitage collection.
+	- Born: May 2, 1729
+	- Died: November 17, 1796
+	- Wiki Link: https://en.wikipedia.org/wiki/Catherine_the_Great
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Mary Todd Lincoln
+	- Bio: Mary Todd Lincoln, born Mary Ann Todd, was First Lady of the United States from 1861 to 1865 as the wife of Abraham Lincoln, and was seated beside him at Ford's Theatre when he was assassinated. Only one of their four sons, Robert, outlived her; in 1875 a jury committed her to a private asylum, and the next year she was declared competent to manage her own affairs.
+	- Born: December 13, 1818
+	- Died: July 16, 1882
+	- Wiki Link: https://en.wikipedia.org/wiki/Mary_Todd_Lincoln
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Richard E. Byrd
+	- Bio: Richard Evelyn Byrd Jr. was a U.S. Navy officer, aviator, and polar explorer who rose to rear admiral. He claimed a 1926 flight over the North Pole (still disputed), made the first flight over the South Pole in 1929, led several Antarctic expeditions, received the Medal of Honor, and wrote the memoir Alone.
+	- Born: October 25, 1888
+	- Died: March 11, 1957
+	- Wiki Link: https://en.wikipedia.org/wiki/Richard_E._Byrd
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Victor Hugo
+	- Bio: Victor Hugo was a French poet, novelist, dramatist, and politician, a leading figure of the Romantic movement, best known for The Hunchback of Notre-Dame (1831) and Les Misérables (1862). After opposing Napoleon III's 1851 coup he spent about 19 years in exile, mostly in the Channel Islands; he later served as a senator, campaigned against the death penalty, and was buried in the Panthéon.
+	- Born: February 26, 1802
+	- Died: May 22, 1885
+	- Wiki Link: https://en.wikipedia.org/wiki/Victor_Hugo
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Ida Saxton McKinley
+	- Bio: Ida Saxton McKinley was First Lady of the United States from 1897 to 1901 as the wife of President William McKinley, and earlier First Lady of Ohio. The daughter of a Canton banker, she worked at and for a time managed the family bank; she lived with epilepsy and fragile health for most of her life, lost both of her young daughters, and saw her husband assassinated in 1901.
+	- Born: June 8, 1847
+	- Died: May 26, 1907
+	- Wiki Link: https://en.wikipedia.org/wiki/Ida_Saxton_McKinley
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- William McKinley
+	- Bio: William McKinley was the 25th president of the United States (1897–1901), a Republican who had been a congressman and governor of Ohio. He led the country through the Spanish–American War, backed protective tariffs and the gold standard, and oversaw expansion to Hawaii, Puerto Rico, Guam, and the Philippines; he was shot by an anarchist in Buffalo in September 1901 and died eight days later.
+	- Born: January 29, 1843
+	- Died: September 14, 1901
+	- Wiki Link: https://en.wikipedia.org/wiki/William_McKinley
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- John Hay
+	- Bio: John Milton Hay was Abraham Lincoln's private secretary during the Civil War and later U.S. ambassador to the United Kingdom and secretary of state (1898–1905) under William McKinley and Theodore Roosevelt. He is known for the Open Door Policy toward China, the treaties that helped pave the way for the Panama Canal, and a ten-volume biography of Lincoln written with John Nicolay.
+	- Born: October 8, 1838
+	- Died: July 1, 1905
+	- Wiki Link: https://en.wikipedia.org/wiki/John_Hay
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Charles M. Schwab
+	- Bio: Charles Michael Schwab was an American steel magnate who became president of Carnegie Steel in 1897, the first president of U.S. Steel, and later head of Bethlehem Steel, which he built into the country's second-largest steelmaker. He spent most of his fortune before the Great Depression and died deep in debt.
+	- Born: February 18, 1862
+	- Died: September 18, 1939
+	- Wiki Link: https://en.wikipedia.org/wiki/Charles_M._Schwab
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Andrew Carnegie
+	- Bio: Andrew Carnegie was a Scottish-born American industrialist and philanthropist who founded Carnegie Steel and sold it to J. P. Morgan in 1901, forming the basis of U.S. Steel. He then gave much of his fortune away, funding public libraries, Carnegie Hall, and what became Carnegie Mellon University, and argued in "The Gospel of Wealth" (1889) that the rich should use their fortunes for the public good.
+	- Born: November 25, 1835
+	- Died: August 11, 1919
+	- Wiki Link: https://en.wikipedia.org/wiki/Andrew_Carnegie
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- E. T. Bedford
+	- Bio: Edward Thomas "E. T." Bedford was an American businessman and Standard Oil executive who became a director of Standard Oil of New Jersey in 1903 and founded the Corn Products Refining Company (now Ingredion) in 1902. Early on he helped chemist Robert Chesebrough build sales for Vaseline, and he gave buildings to Westport, Connecticut, including a YMCA.
+	- Born: February 19, 1849
+	- Died: May 21, 1931
+	- Wiki Link: https://en.wikipedia.org/wiki/E._T._Bedford
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Alice Foote MacDougall
+	- Bio: Alice Foote MacDougall was an American businesswoman, a coffee wholesaler and restaurateur who built a successful coffee business and ran a chain of restaurants and coffee houses in New York City.
+	- Born: March 2, 1867
+	- Died: February 10, 1945
+	- Wiki Link: https://en.wikipedia.org/wiki/Alice_Foote_MacDougall
+	- Books:
+		- [[How to Win Friends & Influence People]]
+- Florenz Ziegfeld Jr.
+	- Bio: Florenz Edward Ziegfeld Jr. was an American Broadway impresario and producer, famous for his lavish revue series the Ziegfeld Follies (1907–1931) and for producing the musical Show Boat; he was known as the "glorifier of the American girl."
+	- Born: March 21, 1867
+	- Died: July 22, 1932
+	- Wiki Link: https://en.wikipedia.org/wiki/Florenz_Ziegfeld_Jr.
+	- Books:
+		- [[How to Win Friends & Influence People]]
