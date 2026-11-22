@@ -46,7 +46,64 @@
 
 {# Facing the viewer. look: 'open' or 'happy'. outfit: None, 'chef', 'doctor', 'scientist', 'mail', 'gardener',
    or for the night: 'bartender', 'bowtie', 'dj', 'pearls' or 'gown'. #}
-{% macro front(kind='fox', look='open', cheeks=false, outfit=None, tailside=1, tailshape=None) %}
+{# little extras worn on top of any outfit. acc is a list like ['glasses', 'scarf:#c8473a']; the colour after ':' is optional.
+   front view: glasses, sunglasses, scarf, bow, flower, beanie, necklace.  back view: scarf. #}
+{% macro accessories(acc, back=false) %}
+{% for a in acc %}
+{% set name, _, col = a.partition(':') %}
+{% if back %}
+  {% if name == 'scarf' %}
+  {% set col = col or '#c8473a' %}
+  <g stroke="{{ LINE }}" stroke-width="2" stroke-linejoin="round">
+    <path d="M -2 -88 L -12 -38 L 4 -40 L 8 -88 Z" fill="{{ col }}"/>
+    <path d="M 6 -88 L 16 -46 L 28 -52 L 14 -90 Z" fill="{{ col }}"/>
+    <path d="M -46 -106 C -20 -94 20 -94 46 -106 L 48 -90 C 20 -78 -20 -78 -48 -90 Z" fill="{{ col }}"/>
+  </g>
+  <path d="M -10 -46 l 12 -2 M 16 -52 l 10 -4 M -40 -98 C -20 -88 20 -88 40 -98" stroke="#fff" stroke-opacity=".45" stroke-width="3" fill="none"/>
+  {% endif %}
+{% else %}
+  {% if name == 'scarf' %}
+  {% set col = col or '#c8473a' %}
+  <g stroke="{{ LINE }}" stroke-width="2" stroke-linejoin="round">
+    <path d="M 14 -84 L 26 -40 L 42 -46 L 26 -88 Z" fill="{{ col }}"/>
+    <path d="M -42 -100 C -20 -84 20 -84 42 -100 L 44 -86 C 20 -70 -20 -70 -44 -86 Z" fill="{{ col }}"/>
+  </g>
+  <path d="M 24 -50 l 14 -5 M 21 -60 l 13 -5 M -36 -91 C -18 -80 18 -80 36 -91" stroke="#fff" stroke-opacity=".45" stroke-width="3" fill="none"/>
+  {% elif name == 'glasses' %}
+  {% set col = col or '#3b2f2a' %}
+  <g fill="none" stroke="{{ col }}" stroke-width="3.5" stroke-linecap="round">
+    <circle cx="-21" cy="-140" r="15" fill="#ffffff" fill-opacity=".18"/><circle cx="21" cy="-140" r="15" fill="#ffffff" fill-opacity=".18"/>
+    <path d="M -6 -142 Q 0 -147 6 -142 M -36 -143 L -50 -148 M 36 -143 L 50 -148"/>
+  </g>
+  {% elif name == 'sunglasses' %}
+  <path d="M -40 -152 L -4 -152 L -6 -136 C -8 -128 -34 -128 -38 -136 Z M 40 -152 L 4 -152 L 6 -136 C 8 -128 34 -128 38 -136 Z" fill="#1f1d24" stroke="#111015" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M -4 -150 L 4 -150 M -40 -150 L -52 -154 M 40 -150 L 52 -154" stroke="#111015" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M -32 -147 L -24 -147 M 12 -147 L 20 -147" stroke="#8fd3e0" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+  {% elif name == 'bow' %}
+  {% set col = col or '#e08aa0' %}
+  <g transform="translate(-32 -176) rotate(-14)" fill="{{ col }}" stroke="{{ LINE }}" stroke-width="2.2" stroke-linejoin="round">
+    <path d="M 0 0 C -14 -16 -30 -10 -28 0 C -30 10 -14 16 0 0 Z"/><path d="M 0 0 C 14 -16 30 -10 28 0 C 30 10 14 16 0 0 Z"/><circle r="5.5"/>
+  </g>
+  {% elif name == 'flower' %}
+  {% set col = col or '#f3b6c6' %}
+  <g transform="translate(36 -172)">{% for r in range(5) %}<ellipse cx="0" cy="-7" rx="5" ry="8" fill="{{ col }}" transform="rotate({{ r * 72 }})"/>{% endfor %}<circle r="4.5" fill="#e3b04b"/></g>
+  {% elif name == 'beanie' %}
+  {% set col = col or '#c8473a' %}
+  <path d="M -51 -162 C -52 -200 -26 -212 0 -212 C 26 -212 52 -200 51 -162 Z" fill="{{ col }}" stroke="{{ LINE }}" stroke-width="3"/>
+  {% for x in [-30, -10, 10, 30] %}<path d="M {{ x }} -170 C {{ x * 0.9 }} -186 {{ x * 0.7 }} -198 {{ x * 0.5 }} -206" stroke="#000" stroke-opacity=".12" stroke-width="3" fill="none"/>{% endfor %}
+  <path d="M -54 -160 C -30 -172 30 -172 54 -160 L 54 -148 C 30 -160 -30 -160 -54 -148 Z" fill="{{ col }}" stroke="{{ LINE }}" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M -54 -160 C -30 -172 30 -172 54 -160 L 54 -148 C 30 -160 -30 -160 -54 -148 Z" fill="#000" opacity=".15"/>
+  {% for x in range(-44, 50, 11) %}<path d="M {{ x }} {{ -164 + (x * x) / 280 }} l 0 11" stroke="#000" stroke-opacity=".18" stroke-width="2.5"/>{% endfor %}
+  <circle cx="0" cy="-214" r="13" fill="#fbf7ee" stroke="{{ LINE }}" stroke-width="2.5"/>
+  {% elif name == 'necklace' %}
+  <path d="M -24 -96 Q 0 -70 24 -96" stroke="#e3b04b" stroke-width="2.5" fill="none"/>
+  <path d="M 0 -80 C -6 -86 -12 -80 0 -70 C 12 -80 6 -86 0 -80 Z" fill="#e3b04b" stroke="#b8862a" stroke-width="1.5"/>
+  {% endif %}
+{% endif %}
+{% endfor %}
+{% endmacro %}
+
+{% macro front(kind='fox', look='open', cheeks=false, outfit=None, tailside=1, tailshape=None, acc=[]) %}
 {% set c = KINDS[kind] %}
 <g class="sq sq--{{ kind }}">
   <g class="sq-tail">{{ tail(c, tailside, tailshape or ('short' if kind == 'ground' else 'plume')) }}</g>
@@ -166,13 +223,14 @@
   <path d="M -26 -98 C -30 -72 -18 -58 -4 -58 M 26 -98 C 30 -76 26 -66 22 -60" stroke="#5d6166" stroke-width="4" fill="none" stroke-linecap="round"/>
   <circle cx="22" cy="-56" r="7" fill="#c9cdd1" stroke="#5d6166" stroke-width="3"/>
   {% endif %}
+  {{ accessories(acc) }}
   {{ caller() if caller is defined }}
 </g>
 {% endmacro %}
 
 {# Seen from behind, sitting at the counter. outfit: None, 'firefighter', 'painter', 'builder', 'detective',
    or for the night: 'tux', 'suit' or 'gown'. #}
-{% macro back(kind='fox', reach=false, tailside=1, outfit=None, tailshape=None) %}
+{% macro back(kind='fox', reach=false, tailside=1, outfit=None, tailshape=None, acc=[]) %}
 {% set c = KINDS[kind] %}
 {% set f = tailside %}
 {% set coat = {'firefighter': ('#c9a66b', '#9c7c46'), 'painter': ('#f1ece2', '#cfc5b4'), 'builder': ('#f08a2c', '#c4661a'), 'detective': ('#b89a6a', '#8c7149'), 'tux': ('#1f2028', '#0f1016'), 'suit': ('#2c3a5c', '#1c2640'), 'gown': ('#7b2d3a', '#4e1822')} %}
@@ -254,6 +312,7 @@
   {% else %}
   <path d="M -26 -170 C -10 -178 10 -178 26 -170" stroke="{{ c.back_l }}" stroke-width="5" fill="none" stroke-linecap="round" opacity=".8"/>
   {% endif %}
+  {{ accessories(acc, back=true) }}
   {% if reach %}
   <g class="sq-reach">
     <path d="M {{ -42*f }} -84 C {{ -82*f }} -104 {{ -88*f }} -150 {{ -76*f }} -186" stroke="{{ LINE }}" stroke-width="26" fill="none" stroke-linecap="round"/>

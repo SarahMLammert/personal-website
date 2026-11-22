@@ -16,7 +16,7 @@ SITE_URL = "https://www.sarahlammert.com"
 #   "url":      a link to another site (opens in a new tab), or
 #   neither:    it's coming soon (not clickable yet).
 # The day ones that open something also appear as the buttons under the name.
-# sushi: toro, salmon, tuna, ebi, unagi, spicy, maki, tempura, ikura, acorn
+# sushi: toro, salmon, tuna, ebi, unagi, spicy, maki, tempura, ikura, acorn, sashimi, ebiten, gyoza, tamago, edamame
 # plate: red, blue, yellow, green, black, pink
 # drink: taro, matcha, mango, brownsugar, strawberry
 # ---------------------------------------------------------------------------
@@ -49,6 +49,11 @@ DAY_EXTRAS = [
     {"title": "An acorn", "description": "Not on the menu", "sushi": "acorn", "plate": "yellow"},
     {"title": "Toro", "description": "Just a snack", "sushi": "toro", "plate": "red"},
     {"title": "Unagi", "description": "Just a snack", "sushi": "unagi", "plate": "green"},
+    {"title": "Sashimi", "description": "Just a snack", "sushi": "sashimi", "plate": "black"},
+    {"title": "Shrimp tempura", "description": "Just a snack", "sushi": "ebiten", "plate": "yellow"},
+    {"title": "Maki", "description": "Just a snack", "sushi": "maki", "plate": "blue"},
+    {"title": "Gyoza", "description": "Just a snack", "sushi": "gyoza", "plate": "pink"},
+    {"title": "Tamago", "description": "Just a snack", "sushi": "tamago", "plate": "green"},
 ]
 NIGHT_EXTRAS = [
     {"title": "Acorn sour", "description": "House special", "drink": "brownsugar"},

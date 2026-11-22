@@ -32,7 +32,7 @@
         plates.forEach((p, i) => {
             const pt = line.getPointAtLength((offset + i * gap) % length);
             const depth = (pt.y - TOP) / (BOTTOM - TOP);           // 0 at the back, 1 at the front
-            const scale = 0.92 + 0.38 * depth;                     // smaller at the back, bigger at the front
+            const scale = 0.82 + 0.56 * depth;                     // smaller at the back, bigger at the front (depth)
             const y = 600 + (pt.y - 600) * BELT_SQUASH;
             p.setAttribute('transform', `translate(${pt.x.toFixed(1)} ${y.toFixed(1)}) scale(${scale.toFixed(3)})`);
             const group = pt.y < 600 ? back : front;                // pass behind or in front of the chef
