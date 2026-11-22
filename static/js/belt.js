@@ -50,39 +50,126 @@
         requestAnimationFrame(tick);
     }
 
-    // ---- the desk globe (riding on a plate) -------------------------------
-    const globeLand = root.querySelector('.globe-land');
-    const AMERICAS = -64;                        // how far the land has to slide for the Americas to face us
-    // Speed up without changing its place (changing animation-duration in CSS makes the land jump).
-    function spinGlobe(rate) {
-        if (globeLand && globeLand.getAnimations) globeLand.getAnimations().forEach(a => a.updatePlaybackRate(rate));
+    // ---- the Earth: the desk globe riding on a plate, and its big copy ------
+    // The same photo as the College Sports Atlas's globe (NASA's Blue Marble, 2048x1024, latitude and longitude in a
+    // grid), wrapped the same way: seen from space, its axis leaning 23.4 degrees with the north pole to the right,
+    // turning west to east. Each pixel of a globe's canvas works out once where on the photo it looks; turning the
+    // Earth only slides that sideways, so a redraw is one quick pass (the atlas does the same).
+    const TILT = 23.4 * Math.PI / 180;
+    const ATLAS_START = 20;                      // the atlas's globe starts with 20 degrees east (Africa) facing us
+    const SPIN = 360 / 14;                       // degrees a second: one turn in 14 s
+    let earth = null;                            // { w, h, data } once the photo has loaded
+    let globeLon = -75;                          // the longitude facing us on the desk globe
+    let globeRate = 1;
+    function painter(canvas) {
+        const n = canvas.width, R = n / 2, g = canvas.getContext('2d');
+        let u0 = null, row, out, px;
+        return lon => {
+            if (!earth) return false;
+            const { w, h, data } = earth;
+            if (!u0) {
+                const c = Math.cos(TILT), s = Math.sin(TILT);
+                u0 = new Float32Array(n * n); row = new Int32Array(n * n);
+                for (let y = 0; y < n; y++) {
+                    for (let x = 0; x < n; x++) {
+                        let sx = (x + 0.5 - R) / R, sy = (R - y - 0.5) / R;
+                        const d = Math.hypot(sx, sy);
+                        if (d > 1 + 2 / R) { u0[y * n + x] = -1; continue; }
+                        if (d > 0.999) { sx *= 0.999 / d; sy *= 0.999 / d; }   // just past the edge: repeat the rim (the clip trims it)
+                        const z = Math.sqrt(1 - sx * sx - sy * sy);
+                        const ux = sx * c - sy * s, uy = sx * s + sy * c;      // undo the lean
+                        const lat = Math.asin(uy) * 180 / Math.PI, dlon = Math.atan2(ux, z) * 180 / Math.PI;
+                        u0[y * n + x] = (dlon + 180) / 360 * w;
+                        row[y * n + x] = Math.min(h - 1, Math.max(0, Math.floor((90 - lat) / 180 * h))) * w;
+                    }
+                }
+                out = g.createImageData(n, n);
+                px = new Uint32Array(out.data.buffer);
+            }
+            const shift = lon / 360 * w;
+            for (let k = 0; k < px.length; k++) {
+                const a = u0[k];
+                if (a < 0) { px[k] = 0; continue; }
+                let u = (a + shift) % w;
+                if (u < 0) u += w;
+                px[k] = data[row[k] + (u | 0)];
+            }
+            g.putImageData(out, 0, 0);
+            return true;
+        };
     }
-    // The big copy starts exactly where the little globe has got to, at the same speed, then speeds up
-    // smoothly and slows to a stop with the Americas facing us. (It used to keep pace for 1.3 s and then
-    // whip most of a turn in one second, which looked like a jolt.)
-    let bigGlobeTurn = null;
+    const deskGlobe = root.querySelector('.plate-globe');
+    const globePhoto = root.querySelector('.globe-photo');
+    const smallCanvas = document.createElement('canvas');
+    smallCanvas.width = smallCanvas.height = 100;
+    const paintSmall = painter(smallCanvas);
+    let paintBig = null, bigTurn = null, lastT = null, frame = 0;
+    if (deskGlobe) {
+        const img = new Image();
+        img.onload = () => {
+            try {
+                const c = document.createElement('canvas');
+                c.width = img.width; c.height = img.height;
+                const g = c.getContext('2d');
+                g.drawImage(img, 0, 0);
+                earth = { w: c.width, h: c.height, data: new Uint32Array(g.getImageData(0, 0, c.width, c.height).data.buffer) };
+                if (paintSmall(globeLon)) globePhoto.setAttribute('href', smallCanvas.toDataURL());
+            } catch (e) { earth = null; }          // then the globe stays plain blue sea
+        };
+        img.src = deskGlobe.dataset.earth;
+        const tick = t => {
+            const dt = lastT === null ? 0 : Math.min(0.1, (t - lastT) / 1000);
+            lastT = t;
+            if (!reduceMotion.matches) globeLon -= SPIN * globeRate * dt;
+            // the little globe: about 30 redraws a second, only while it can be seen
+            if (earth && !reduceMotion.matches && !isNight() && !document.hidden && !zooming && (frame++ & 1) === 0) {
+                if (paintSmall(globeLon)) globePhoto.setAttribute('href', smallCanvas.toDataURL());
+            }
+            // the big copy, while it turns round to Africa
+            if (bigTurn && paintBig) {
+                const u = Math.min(1, Math.max(0, (t - bigTurn.t0) / bigTurn.dur));
+                const moved = (u ** 3 - 2 * u ** 2 + u) * bigTurn.pace + (3 * u ** 2 - 2 * u ** 3) * bigTurn.d;
+                paintBig(bigTurn.from - moved);
+                if (u >= 1) bigTurn = null;
+            }
+            requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+    }
+    // Speed the desk globe up (hover) or back down.
+    function spinGlobe(rate) { globeRate = rate; }
+    // The big copy starts exactly where the little globe has got to, at the same speed, then speeds up smoothly and
+    // slows to a stop with Africa facing us, just as the atlas's globe starts (a cubic Hermite curve).
     function turnBigGlobe(world, now) {
-        const land = world.querySelector('.zoom-land');
-        if (!land || !globeLand) return;
-        const spin = globeLand.getAnimations()[0];
-        const speed = (spin ? spin.playbackRate : 1) * 100 / 14;     // land units per second (one turn = 100 units in 14 s)
-        const DURATION = 2650;                                       // done just before the dive starts
-        const x = new DOMMatrix(getComputedStyle(globeLand).transform).m41;
-        const pace = speed * DURATION / 1000;                        // how far it would go at its own speed
-        // distance forwards to the Americas (one full turn looks identical, so add turns as needed); at least
-        // 3/4 of its own pace, so it never slows down before speeding up
-        let d = (((x - AMERICAS) % 100) + 100) % 100;
-        while (d < 0.75 * pace) d += 100;
-        const start = AMERICAS + d;              // same look as x (whole turns apart), so it ends exactly on the Americas
-        // a smooth curve that starts at the globe's own speed and ends at rest (cubic Hermite), sampled as keyframes
-        const frames = [];
-        for (let i = 0; i <= 40; i++) {
-            const u = i / 40;
-            const moved = (u ** 3 - 2 * u ** 2 + u) * pace + (3 * u ** 2 - 2 * u ** 3) * d;
-            frames.push({ transform: `translateX(${(start - moved).toFixed(3)}px)` });
+        const cv = world.querySelector('.zoom-earth-cv');
+        if (!cv) return;
+        paintBig = paintBig || painter(cv);
+        const DURATION = 2650;                                       // done just before it settles into the atlas
+        const pace = SPIN * globeRate * DURATION / 1000;             // how far it would turn at its own speed
+        let d = (((globeLon - ATLAS_START) % 360) + 360) % 360;      // degrees still to turn (always forwards)
+        while (d < 0.75 * pace) d += 360;                            // never slow down before speeding up
+        paintBig(globeLon);
+        bigTurn = { t0: now, from: globeLon, d, pace, dur: DURATION };
+    }
+    // Then it settles into the atlas's ring: the atlas's globe is centred across the window, 20 px + half the room
+    // below its 151 px of header and legend down, with a radius of 220 x the atlas's scale (from its fit()).
+    // Phones get the atlas's list instead of the ring, so there it dives in (CSS).
+    function landOnAtlas(world) {
+        const art = world.querySelector('.zoom-globe'), ball = world.querySelector('.zoom-earth');
+        const w = window.innerWidth, h = window.innerHeight;
+        if (art && ball && w > 700) {
+            const a = art.getBoundingClientRect(), b = ball.getBoundingClientRect();
+            const bx = b.left + b.width / 2, by = b.top + b.height / 2;
+            const k = Math.max(0.3, Math.min(1, (w - 32) / 1180, (h - 151) / 1060));
+            const s = (220 * k) / (b.width / 2);
+            const origin = `${bx - a.left}px ${by - a.top}px`;
+            ball.style.setProperty('--s', s.toFixed(4));
+            art.animate([
+                { transformOrigin: origin, transform: 'translate(0px, 0px) scale(1)' },
+                { transformOrigin: origin, transform: `translate(${w / 2 - bx}px, ${20 + (h - 151) / 2 - by}px) scale(${s})` },
+            ], { duration: 800, easing: 'cubic-bezier(.45, 0, .2, 1)', fill: 'forwards' });
         }
-        bigGlobeTurn = land.animate(frames, { duration: DURATION, fill: 'forwards' });
-        bigGlobeTurn.startTime = now;            // start this very frame, in step with the little globe
+        world.classList.add('is-diving');
     }
 
     // ---- labels ---------------------------------------------------------
@@ -130,7 +217,7 @@
 
     // ---- worlds inside worlds --------------------------------------------
     // Clicking the globe (day), or the framed photo or bookcase (after hours), zooms the room into it.
-    // Then its big copy (.zoom-world) takes over: the globe spins to the Americas / the photo comes
+    // Then its big copy (.zoom-world) takes over: the globe turns to Africa and settles into the atlas / the photo comes
     // forward / the Book Notes book slides out, and we dive in and open the page.
     const worlds = Array.from(document.querySelectorAll('.zoom-world'));
     let zoomMoves = [];
@@ -186,7 +273,7 @@
             [
                 [0, () => world.classList.add('is-on')],                   // (already on; in case the timer was late)
                 [300, () => world.classList.add('is-turning')],            // spin / come forward / slide out
-                [1700, () => world.classList.add('is-diving')],            // and we dive in
+                [1700, () => (world.dataset.for === 'globe' ? landOnAtlas(world) : world.classList.add('is-diving'))],   // and we dive in
                 [2600, () => { window.location.href = href; }],
             ].forEach(([ms, fn]) => setTimeout(fn, ms));
         };
@@ -206,7 +293,8 @@
         zoomMoves.forEach(a => a.cancel());
         zoomMoves = [];
         worlds.forEach(w => w.classList.remove('is-gliding', 'is-on', 'is-turning', 'is-diving'));
-        if (bigGlobeTurn) bigGlobeTurn.cancel();
+        bigTurn = null;
+        document.querySelectorAll('.zoom-globe').forEach(g => g.getAnimations().forEach(a => a.cancel()));
     });
     picks.forEach(p => {
         if (!p.dataset.zoom) return;

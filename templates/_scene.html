@@ -112,20 +112,27 @@
   <ellipse cx="0" cy="-1.5" rx="38" ry="12" fill="#fbf7ef"/>
   <path d="M -30 -8 C -18 -12 -2 -13 10 -12" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
   {% if p.zoom == 'globe' %}
-  {# a little desk globe, dotted like the recruiting map, slowly spinning; its ball lines up with the big copy #}
-  <g class="plate-globe" transform="translate(0 -4)">
+  {# a little desk globe: the same photo of the Earth as the College Sports Atlas's globe (NASA's Blue Marble),
+     tilted the same way, slowly spinning (painted by belt.js); its ball lines up with the big copy #}
+  <g class="plate-globe" transform="translate(0 -4)" data-earth="{{ url_for('static', filename='images/earth.jpg') }}">
+    <defs>
+      <radialGradient id="globe-sea" cx=".36" cy=".3" r=".75"><stop offset="0" stop-color="#1f4e8c"/><stop offset=".52" stop-color="#0f2d63"/><stop offset="1" stop-color="#06132e"/></radialGradient>
+      <radialGradient id="globe-shade" cx=".5" cy=".5" r=".5" fx=".34" fy=".28">
+        <stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/>
+        <stop offset=".8" stop-color="#020617" stop-opacity=".1"/><stop offset="1" stop-color="#020617" stop-opacity=".5"/>
+      </radialGradient>
+      <clipPath id="globe-clip"><circle cx="0" cy="-46" r="25"/></clipPath>
+    </defs>
     <ellipse cx="0" cy="-1" rx="22" ry="5" fill="#7e5530"/>
     <path d="M -6 -6 L -3 -18 L 3 -18 L 6 -6 Z" fill="#a8743f"/>
     <path d="M -28 -40 A 30 30 0 0 0 26 -22" stroke="#c8a46a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-    <clipPath id="globe-clip"><circle cx="0" cy="-46" r="25"/></clipPath>
-    <circle class="globe-ball zoom-from" cx="0" cy="-46" r="25" fill="#7fb8c9"/>
-    <g clip-path="url(#globe-clip)">
-      <g class="globe-land">
-        {{ globe_land() }}
-      </g>
-    </g>
-    <circle cx="0" cy="-46" r="25" fill="none" stroke="#3f6f7e" stroke-width="2.5"/>
-    <path d="M -14 -60 A 18 18 0 0 1 -2 -66" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".6"/>
+    {# the axle, leaning 23.4 degrees with the north pole to the right, like the atlas's #}
+    <path d="M 9.6 -68.2 L 12.3 -74.4 M -9.6 -23.8 L -12.3 -17.6" stroke="#111827" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+    <circle cx="12.7" cy="-75.3" r="1.8" fill="#fff" stroke="#111827" stroke-width="1"/>
+    <circle class="globe-ball zoom-from" cx="0" cy="-46" r="25" fill="url(#globe-sea)"/>
+    <image class="globe-photo" x="-25" y="-71" width="50" height="50" clip-path="url(#globe-clip)" preserveAspectRatio="none"/>
+    <circle cx="0" cy="-46" r="25" fill="url(#globe-shade)"/>
+    <circle cx="0" cy="-46" r="25" fill="none" stroke="#111827" stroke-width="1.4" stroke-opacity=".9"/>
   </g>
   {% else %}
   {{ sushi(p.sushi or 'salmon', x=-42, y=-52, w=84, h=56) }}
@@ -171,21 +178,6 @@
   </g>
 </g>
 <ellipse class="plate-hit" cx="0" cy="-50" rx="38" ry="62"/>
-{% endmacro %}
-
-{# the land and recruiting dots on the globe (copies side by side, so it can spin forever) #}
-{% macro globe_land(copies=[0, 100]) %}
-              {% for dx in copies %}
-              <g transform="translate({{ dx - 50 }} 0)" fill="#a9cf8e">
-                <path d="M 2 -62 C 14 -66 26 -60 26 -52 C 26 -46 18 -44 16 -38 C 14 -32 6 -30 4 -36 C 2 -42 -6 -44 -4 -52 C -2 -58 -4 -60 2 -62 Z"/>
-                <path d="M 12 -30 C 18 -30 22 -24 20 -18 C 18 -14 12 -14 10 -20 Z"/>
-                <path d="M 46 -64 C 58 -66 76 -60 80 -52 C 84 -44 72 -42 66 -44 C 58 -40 60 -30 54 -28 C 48 -30 50 -40 44 -44 C 38 -48 38 -58 46 -64 Z"/>
-                <path d="M 70 -34 C 78 -34 84 -28 80 -24 C 76 -22 70 -26 70 -34 Z"/>
-                {% for x, y, col in [(8,-54,'#c8473a'), (16,-50,'#4a6fa5'), (12,-44,'#e3b04b'), (20,-56,'#5a8f6e'), (6,-46,'#c8473a'), (56,-54,'#4a6fa5'), (64,-50,'#c8473a'), (60,-46,'#e3b04b')] %}
-                <circle cx="{{ x }}" cy="{{ y }}" r="2.2" fill="{{ col }}"/>
-                {% endfor %}
-              </g>
-              {% endfor %}
 {% endmacro %}
 
 {# a tall bookcase standing on the floor; origin at its foot. big=True is the zoomed-in copy,

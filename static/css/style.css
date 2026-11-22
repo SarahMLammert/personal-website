@@ -218,8 +218,6 @@ html.is-night .print { background: #fbf6ec; }
 .globe-art { transform-origin: 50% 100%; }
 .globe-frame { fill: none; stroke: none; pointer-events: none; }
 .scene-link.is-held .globe-art { transform: translateY(-6px) scale(1.12); }
-.globe-land { animation: globe-spin 14s linear infinite; }
-@keyframes globe-spin { from { transform: translateX(0); } to { transform: translateX(-100px); } }
 
 /* the framed photo grows from where it hangs; its picture fades as it rotates (belt.js) */
 .photos-art { transform-origin: 50% 0; }
@@ -284,13 +282,31 @@ html.is-zooming, html.is-zooming body { overflow: hidden; }
 .zoom-globe, .zoom-photos { width: min(86vmin, 760px); height: auto; }
 .zoom-bookcase { height: min(88vh, 960px); width: auto; }   /* tall, so it's sized by height */
 
-/* globe: spins round to the Americas, then dives in */
-.zoom-globe { filter: drop-shadow(0 30px 40px rgba(40, 60, 70, .25)); }
-/* The dive drops the drop shadow (redrawing a blurred shadow at 7x made the last moments stutter) and washes
-   into the atlas's own background color, so the switch to the atlas is a calm fade, not a cut mid-zoom. */
-.zoom-world.is-diving .zoom-globe { transform: scale(7); transform-origin: 48% 44%; filter: none; }
-.zoom-world[data-for="globe"]::after { content: ""; position: absolute; inset: 0; background: #efe5cf; opacity: 0; pointer-events: none; }
-.zoom-world[data-for="globe"].is-diving::after { opacity: 1; transition: opacity .4s ease .45s; }
+/* globe: turns until Africa faces us (where the atlas's globe starts), then settles into the atlas's ring, at the
+   atlas's own size and place (belt.js works them out), on the atlas's own background. */
+.zoom-world[data-for="globe"]::before { background: radial-gradient(ellipse at 50% 42%, #ffffff 0%, #f4f6fb 55%, #e6ecf7 100%); }
+.zoom-globe { position: relative; aspect-ratio: 1; filter: drop-shadow(0 30px 40px rgba(17, 24, 39, .22)); }
+.zoom-globe svg { display: block; width: 100%; height: 100%; }
+.zoom-earth { position: absolute; left: 10.9375%; top: 10.9375%; width: 78.125%; height: 78.125%; border-radius: 50%; overflow: hidden;
+    --s: 1; box-shadow: 0 0 0 calc(1.5px / var(--s)) rgba(17, 24, 39, .9); transition: box-shadow .5s ease; }
+.zoom-earth-cv { display: block; width: 100%; height: 100%; }
+.zoom-earth-light, .zoom-earth-shade { position: absolute; inset: 0; border-radius: 50%; }
+.zoom-earth-light { background: radial-gradient(circle at 34% 28%, rgba(255, 255, 255, .22) 0%, rgba(255, 255, 255, 0) 42%),
+    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 62%, rgba(2, 6, 23, .45) 100%); }
+/* the atlas darkens the middle of its globe so its title reads; fade that in as we land */
+.zoom-earth-shade { background: radial-gradient(circle at 50% 54%, rgba(15, 23, 42, .55) 0%, rgba(15, 23, 42, .35) 36%, rgba(15, 23, 42, 0) 60%);
+    opacity: 0; transition: opacity .6s ease .2s; }
+.zoom-world.is-diving .zoom-globe { filter: none; }
+.zoom-world.is-diving .zoom-earth { box-shadow: 0 0 0 calc(1.5px / var(--s)) #111827, 0 0 0 calc(6px / var(--s)) #f4f6fb,
+    0 0 0 calc(7px / var(--s)) rgba(17, 24, 39, .2), 0 calc(18px / var(--s)) calc(50px / var(--s)) calc(-24px / var(--s)) rgba(17, 24, 39, .55),
+    0 0 calc(60px / var(--s)) calc(-10px / var(--s)) rgba(124, 58, 237, .24); }
+.zoom-world.is-diving .zoom-earth-shade { opacity: 1; }
+/* on phones the atlas opens on a list, not the ring, so there we still dive into the globe and wash to its background */
+.zoom-world[data-for="globe"]::after { content: ""; position: absolute; inset: 0; background: #f4f6fb; opacity: 0; pointer-events: none; }
+@media (max-width: 700px) {
+    .zoom-world.is-diving .zoom-globe { transform: scale(7); transform-origin: 50% 50%; }
+    .zoom-world[data-for="globe"].is-diving::after { opacity: 1; transition: opacity .4s ease .45s; }
+}
 
 /* framed photo: it comes forward, then we dive into it */
 .zoom-photo { transform-box: fill-box; transform-origin: 50% 50%; transition: transform 1.1s cubic-bezier(.3, 0, .2, 1); }

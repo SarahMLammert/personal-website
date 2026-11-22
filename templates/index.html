@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% from "_sushi.html" import defs %}
-{% from "_scene.html" import scene, globe_land, bookcase_art, photo_wall_art %}
+{% from "_scene.html" import scene, bookcase_art, photo_wall_art %}
 
 {% block content %}
 <script>
@@ -52,15 +52,20 @@
    room has zoomed into it (see zoomInto() in belt.js). data-fit = width of the object's .zoom-from part
    divided by the width of the big copy's viewBox, so the room lands exactly on it. #}
 
-{# the globe spins to the Americas and we dive in #}
+{# the globe turns until Africa faces us, the way the atlas's globe starts, then settles into the atlas's ring.
+   The Earth is painted on the canvas by belt.js; the circle under it is the plain sea, in case the photo can't load. #}
 <div class="zoom-world" data-for="globe" data-fit="0.78125" aria-hidden="true">
-    <svg class="zoom-art zoom-globe" viewBox="-32 -78 64 64">
-        <defs><clipPath id="zoom-globe-clip"><circle cx="0" cy="-46" r="25"/></clipPath></defs>
-        <circle class="zoom-from" cx="0" cy="-46" r="25" fill="#7fb8c9"/>
-        <g clip-path="url(#zoom-globe-clip)"><g class="zoom-land">{{ globe_land([-100, 0, 100]) }}</g></g>
-        <circle cx="0" cy="-46" r="25" fill="none" stroke="#3f6f7e" stroke-width="2.5"/>
-        <path d="M -14 -60 A 18 18 0 0 1 -2 -66" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".6"/>
-    </svg>
+    <div class="zoom-art zoom-globe">
+        <svg viewBox="-32 -78 64 64">
+            <defs><radialGradient id="zoom-sea" cx=".36" cy=".3" r=".75"><stop offset="0" stop-color="#1f4e8c"/><stop offset=".52" stop-color="#0f2d63"/><stop offset="1" stop-color="#06132e"/></radialGradient></defs>
+            <circle class="zoom-from" cx="0" cy="-46" r="25" fill="url(#zoom-sea)"/>
+        </svg>
+        <div class="zoom-earth" data-earth="{{ url_for('static', filename='images/earth.jpg') }}">
+            <canvas class="zoom-earth-cv" width="640" height="640"></canvas>
+            <div class="zoom-earth-light"></div>
+            <div class="zoom-earth-shade"></div>
+        </div>
+    </div>
 </div>
 {% endif %}
 
