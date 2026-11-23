@@ -51,7 +51,7 @@
     }
 
     // ---- the Earth: the desk globe riding on a plate, and its big copy ------
-    // The same photo as the College Sports Atlas's globe (NASA's Blue Marble, 2048x1024, latitude and longitude in a
+    // The same photo as the Sports Pipeline Atlas's globe (NASA's Blue Marble, 2048x1024, latitude and longitude in a
     // grid), wrapped the same way: seen from space, its axis leaning 23.4 degrees with the north pole to the right,
     // turning west to east. Each pixel of a globe's canvas works out once where on the photo it looks; turning the
     // Earth only slides that sideways, so a redraw is one quick pass (the atlas does the same).
@@ -180,7 +180,9 @@
         tag.querySelector('strong').textContent = p.dataset.title;
         tag.dataset.href = href || '';
         tag.dataset.external = p.dataset.external ? '1' : '';
-        tag.hidden = false;
+        // plates and drinks carry their own place cards, so with a mouse they're just picked up, no label;
+        // on phones the cards are hidden and tapping still shows the label
+        tag.hidden = p.matches('.belt-plate, .bar-drink') && !touch.matches;
         const box = svg.getBoundingClientRect();
         const r = p.querySelector('.pick-art').getBoundingClientRect();
         tag.style.left = `${r.left + r.width / 2 - box.left}px`;

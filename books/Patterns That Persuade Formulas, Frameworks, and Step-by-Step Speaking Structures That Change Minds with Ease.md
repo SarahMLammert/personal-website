@@ -1,5 +1,6 @@
 ---
-title: "Patterns That Persuade: Formulas, Frameworks, and Step-by-Step Speaking Structures That Change Minds with Ease"
+title: "Patterns That Persuade"
+subtitle: "Formulas, Frameworks, and Step-by-Step Speaking Structures That Change Minds with Ease"
 author: Peter D. Andrei
 dewey: "808"
 status: To Read

@@ -1,5 +1,6 @@
 ---
-title: "Skin in the Game: Hidden Asymmetries in Daily Life"
+title: "Skin in the Game"
+subtitle: "Hidden Asymmetries in Daily Life"
 author: Nassim Nicholas Taleb
 dewey: "302"
 status: To Read

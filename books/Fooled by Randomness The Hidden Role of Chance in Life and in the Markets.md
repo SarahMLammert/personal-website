@@ -1,5 +1,6 @@
 ---
-title: "Fooled by Randomness: The Hidden Role of Chance in Life and in the Markets"
+title: "Fooled by Randomness"
+subtitle: "The Hidden Role of Chance in Life and in the Markets"
 author: Nassim Nicholas Taleb
 dewey: "123"
 status: To Read

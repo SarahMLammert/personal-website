@@ -1,5 +1,6 @@
 ---
-title: "Influence: The Psychology of Persuasion"
+title: "Influence"
+subtitle: "The Psychology of Persuasion"
 author: Robert B. Cialdini
 dewey: "153"
 status: In Progress

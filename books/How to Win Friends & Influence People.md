@@ -1,5 +1,6 @@
 ---
-title: "How to Win Friends & Influence People: The Only Book You Need to Lead You to Success"
+title: "How to Win Friends & Influence People"
+subtitle: "The Only Book You Need to Lead You to Success"
 author: Dale Carnegie
 dewey: "158"
 status: In Progress
@@ -94,3 +95,9 @@ Part Three: How to Change Minds
 # Part Three: How to Win People to Your Way of Thinking
 ## Chapter 1: You Can't Win an Argument
 - Principle 1: The only way to get the best of an argument is to avoid it.
+	- "You can't win an argument. You can't because if you lose it, you lose it; and if you win it, you lose it. Why? Well, suppose you triumph over the other person and shoot their argument full of holes and prove that they are *non compos mentis*. Then what? You will feel fine. But what about them? You have made them feel inferior. you have hurt their pride. They will resent your triumph."
+	- "Which would you rather have: an academic, theatrical victory or a person's good will? You can seldom have both."
+	- From *Bits and Pieces* published by the Economic Press: "*Distrust your first instinctive impression*," "*Control your temper*," "*Listen First*," "*Look for areas of agreement*," "*Be honest*," "*Promise to think over your opponents' ideas and study them carefully*," "*Thank your opponents sincerely for their interest*," "*Postpone action to give both sides time to think through the problem*," "*Could my opponents be right?*"
+## Chapter 2: 
+- Principle 2: 
+

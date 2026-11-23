@@ -1,5 +1,6 @@
 ---
-title: "Say It Like a Visionary: How Power Players Use Words to Make the Future"
+title: "Say It Like a Visionary"
+subtitle: "How Power Players Use Words to Make the Future"
 author: Peter D. Andrei
 dewey: "658"
 status: To Read

@@ -1,5 +1,6 @@
 ---
-title: "Imagined Communities: Reflections on the Origin and Spread of Nationalism"
+title: "Imagined Communities"
+subtitle: "Reflections on the Origin and Spread of Nationalism"
 author: Benedict Anderson
 dewey: "320"
 status: To Read

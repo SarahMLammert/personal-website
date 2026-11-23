@@ -1,5 +1,6 @@
 ---
-title: "The Evolution of Everything: How New Ideas Emerge"
+title: "The Evolution of Everything"
+subtitle: "How New Ideas Emerge"
 author: Matt Ridley
 dewey: "303"
 status: To Read

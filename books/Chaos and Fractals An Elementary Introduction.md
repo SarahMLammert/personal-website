@@ -1,5 +1,6 @@
 ---
-title: "Chaos and Fractals: An Elementary Introduction"
+title: "Chaos and Fractals"
+subtitle: "An Elementary Introduction"
 author: David P. Feldman
 dewey: "514"
 status: To Read

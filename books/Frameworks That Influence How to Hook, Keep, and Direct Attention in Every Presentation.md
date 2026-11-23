@@ -1,5 +1,6 @@
 ---
-title: "Frameworks That Influence: How to Hook, Keep, and Direct Attention in Every Presentation"
+title: "Frameworks That Influence"
+subtitle: "How to Hook, Keep, and Direct Attention in Every Presentation"
 author: Peter D. Andrei
 dewey: "808"
 status: To Read

@@ -105,6 +105,18 @@
 </g>
 {% endmacro %}
 
+{# a little folded place card, like a name card at a wedding: on the front rim of every plate and in front of every
+   drink, in place of a hover label (hidden on small screens, where tapping still shows the label) #}
+{% macro place_card(text, x, y, s=1) %}
+{% set cw = 14 + text|length * 5.6 %}
+<g class="plaque" transform="translate({{ x }} {{ y }}) scale({{ s }})" aria-hidden="true">
+  <ellipse cx="1" cy="1" rx="{{ cw / 2 + 2 }}" ry="2.5" fill="#3a2a1e" opacity=".2"/>
+  <path d="M {{ -cw / 2 }} 0 L {{ -cw / 2 + 2 }} -16 L {{ cw / 2 - 2 }} -16 L {{ cw / 2 }} 0 Z" fill="#f4e2c4" stroke="#a8743f" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M {{ -cw / 2 + 3 }} -14 L {{ cw / 2 - 3 }} -14" stroke="#e2c79f" stroke-width="1"/>
+  <text x="0" y="-4" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-style="italic" font-weight="600" font-size="12" fill="#4f4038">{{ text }}</text>
+</g>
+{% endmacro %}
+
 {% macro plate(p) %}
 <g class="pick-art plate-art">
   <ellipse cx="5" cy="7" rx="48" ry="16" fill="#3a2a1e" opacity=".18"/>
@@ -112,7 +124,7 @@
   <ellipse cx="0" cy="-1.5" rx="38" ry="12" fill="#fbf7ef"/>
   <path d="M -30 -8 C -18 -12 -2 -13 10 -12" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
   {% if p.zoom == 'globe' %}
-  {# a little desk globe: the same photo of the Earth as the College Sports Atlas's globe (NASA's Blue Marble),
+  {# a little desk globe: the same photo of the Earth as the Sports Pipeline Atlas's globe (NASA's Blue Marble),
      tilted the same way, slowly spinning (painted by belt.js); its ball lines up with the big copy #}
   <g class="plate-globe" transform="translate(0 -4)" data-earth="{{ url_for('static', filename='images/earth.jpg') }}">
     <defs>
@@ -137,16 +149,8 @@
   {% else %}
   {{ sushi(p.sushi or 'salmon', x=-42, y=-52, w=84, h=56) }}
   {% endif %}
-  {% if p.tag %}
-  {# a little folded place card on the plate's front rim, like a name card at a wedding (hidden on small screens) #}
-  {% set cw = 14 + p.tag|length * 5.6 %}
-  <g class="plaque" transform="translate(22 10)" aria-hidden="true">
-    <ellipse cx="1" cy="1" rx="{{ cw / 2 + 2 }}" ry="2.5" fill="#3a2a1e" opacity=".2"/>
-    <path d="M {{ -cw / 2 }} 0 L {{ -cw / 2 + 2 }} -16 L {{ cw / 2 - 2 }} -16 L {{ cw / 2 }} 0 Z" fill="#f4e2c4" stroke="#a8743f" stroke-width="1.5" stroke-linejoin="round"/>
-    <path d="M {{ -cw / 2 + 3 }} -14 L {{ cw / 2 - 3 }} -14" stroke="#e2c79f" stroke-width="1"/>
-    <text x="0" y="-4" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-style="italic" font-weight="600" font-size="12" fill="#4f4038">{{ p.tag }}</text>
-  </g>
-  {% endif %}
+  {# centred on the plate's front rim, small enough to stay on the plate #}
+  {{ place_card(p.tag or p.title, 0, 10, 0.88) }}
 </g>
 {% if p.zoom == 'globe' %}<ellipse class="plate-hit" cx="0" cy="-30" rx="58" ry="52"/>
 {% else %}<ellipse class="plate-hit" cx="0" cy="-16" rx="58" ry="44"/>{% endif %}
@@ -768,7 +772,7 @@
   </g>
 
   {# ---- the gardener at the left end of the counter (day) and a dancer (night); and a friend at the right end (day) ---- #}
-  {{ stool(1520, 760, 0.8, '#d9a441') }}
+  <g class="day-only">{{ stool(1520, 760, 0.8, '#d9a441') }}</g>
   <g class="diner day-only" transform="translate(1520 762) scale(.8)">{{ sq.front(kind='fox', look='happy', cheeks=true, tailside=1, tailshape='short', acc=['sunglasses', 'scarf:#5a8f6e']) }}</g>
   {# (no dancer here after hours: it would stand in front of the bookcase) #}
   {{ stool(74, 760, 0.8, '#5a8f6e') }}
@@ -830,6 +834,16 @@
     <rect width="1600" height="1000" fill="#1a1636" opacity=".2"/>
     {% for x in [470, 1520] %}<circle cx="{{ x }}" cy="112" r="120" fill="url(#bulb)" opacity=".6"/>{% endfor %}
     <ellipse cx="800" cy="640" rx="520" ry="150" fill="url(#bulb)" opacity=".25"/>
+  </g>
+  {# the drinks' place cards, beside each cup: drawn last, so the front row's hats and the evening dimming
+     don't hide them #}
+  <g class="night-only" pointer-events="none">
+    {% set items = night + night_extras %}
+    {% for d in items %}
+    {% set x = 470 + loop.index0 * (660 / ((items|length - 1) or 1)) %}
+    {% set label = d.tag or d.title %}
+    <g transform="translate({{ x }} 677) scale(1.18)">{{ place_card(label, -(26 + (14 + label|length * 5.6) / 2), -4) }}</g>
+    {% endfor %}
   </g>
 </svg>
 {% endmacro %}

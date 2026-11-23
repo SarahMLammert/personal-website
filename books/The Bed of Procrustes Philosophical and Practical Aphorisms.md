@@ -1,5 +1,6 @@
 ---
-title: "The Bed of Procrustes: Philosophical and Practical Aphorisms"
+title: "The Bed of Procrustes"
+subtitle: "Philosophical and Practical Aphorisms"
 author: Nassim Nicholas Taleb
 dewey: "818"
 status: To Read

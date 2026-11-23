@@ -1,5 +1,6 @@
 ---
-title: "Justice: What's the Right Thing to Do?"
+title: "Justice"
+subtitle: "What's the Right Thing to Do?"
 author: Michael J. Sandel
 dewey: "172"
 status: To Read

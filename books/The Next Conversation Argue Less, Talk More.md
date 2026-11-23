@@ -1,5 +1,6 @@
 ---
-title: "The Next Conversation: Argue Less, Talk More"
+title: "The Next Conversation"
+subtitle: "Argue Less, Talk More"
 author: Jefferson Fisher
 dewey: "153"
 status: To Read

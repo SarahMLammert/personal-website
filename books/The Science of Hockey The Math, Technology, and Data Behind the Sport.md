@@ -1,5 +1,6 @@
 ---
-title: "The Science of Hockey: The Math, Technology, and Data Behind the Sport"
+title: "The Science of Hockey"
+subtitle: "The Math, Technology, and Data Behind the Sport"
 author: Kevin Snow
 dewey: "796"
 status: To Read

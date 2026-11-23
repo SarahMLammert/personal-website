@@ -1,5 +1,6 @@
 ---
-title: "Middlemarch: A Study of Provincial Life"
+title: "Middlemarch"
+subtitle: "A Study of Provincial Life"
 author: George Eliot
 dewey: "823"
 status: To Read

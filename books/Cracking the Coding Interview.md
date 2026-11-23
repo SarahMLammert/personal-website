@@ -1,5 +1,6 @@
 ---
-title: "Cracking the Coding Interview: 189 Programming Questions and Solutions"
+title: "Cracking the Coding Interview"
+subtitle: "189 Programming Questions and Solutions"
 author: Gayle Laakmann McDowell
 dewey: "005"
 status: In Progress

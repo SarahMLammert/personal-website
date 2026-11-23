@@ -1,10 +1,11 @@
 """Read the Obsidian book notes in books/ and turn them into data for the site.
 
 Each note is a Markdown file: the file name is the title, the header between
-the --- lines holds fields like `author`, `status` and an optional full `title`
-(use it for punctuation a file name can't hold, like a colon). The site shows the
-short title: the part before the first ": " (or `short_title`, if given), plus
-", Volume 2" when there's a `volume`. `edition` is kept in the file but not shown.
+the --- lines holds fields like `author`, `status`, an optional `title` (use it for
+punctuation a file name can't hold) and an optional `subtitle`. The spines show the
+title (or `short_title`, if given; an old-style "Title: Subtitle" still shows only the
+part before the ": "), plus ", Volume 2" when there's a `volume`; the full title is
+"Title: Subtitle". `edition` is kept in the file but not shown.
 `date_finished` (YYYY-MM-DD) is the day you finished the book; if you read it again, list the later
 days under `reread` (one "- YYYY-MM-DD" per line). Both feed the Reading Log.
 `dewey` is the book's Dewey Decimal number ("796", or "796.357"; keep the quotes so "005"
@@ -159,8 +160,10 @@ def load_books():
         return books
     for path in sorted(BOOKS_DIR.glob("*.md")):
         meta, notes = parse_note(path.read_text(encoding="utf-8"))
-        full_title = meta.get("title") or path.stem
-        title = meta.get("short_title") or full_title.split(": ", 1)[0]
+        main_title = meta.get("title") or path.stem
+        subtitle = meta.get("subtitle", "")
+        full_title = f"{main_title}: {subtitle}" if subtitle else main_title
+        title = meta.get("short_title") or main_title.split(": ", 1)[0]
         if meta.get("volume"):
             title += ", Volume " + meta["volume"]
         digest = int(hashlib.md5(title.encode()).hexdigest(), 16)
@@ -168,6 +171,7 @@ def load_books():
         books.append({
             "title": title,
             "full_title": full_title,
+            "subtitle": subtitle,
             "edition": meta.get("edition", ""),
             "volume": meta.get("volume", ""),
             "dewey": meta.get("dewey", ""),

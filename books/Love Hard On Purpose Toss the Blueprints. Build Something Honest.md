@@ -1,5 +1,6 @@
 ---
-title: "Love Hard On Purpose: Toss the Blueprints. Build Something Honest."
+title: "Love Hard On Purpose"
+subtitle: "Toss the Blueprints. Build Something Honest."
 author: John Kim
 dewey: "306"
 status: To Read

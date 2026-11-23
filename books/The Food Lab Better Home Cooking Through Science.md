@@ -1,5 +1,6 @@
 ---
-title: "The Food Lab: Better Home Cooking Through Science"
+title: "The Food Lab"
+subtitle: "Better Home Cooking Through Science"
 author: J. Kenji López-Alt
 dewey: "641"
 status: To Read

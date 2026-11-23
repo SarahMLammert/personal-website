@@ -22,8 +22,8 @@ SITE_URL = "https://www.sarahlammert.com"
 # ---------------------------------------------------------------------------
 # Day: a little globe riding on a plate (see PLATES). Click it and the room zooms in, it spins to the
 # Americas, then the atlas opens. (It used to stand on the windowsill; moved to the belt Nov 17.)
-GLOBE = {"title": "College Sports Atlas",
-         "url": "https://sarahmlammert.github.io/college-sports-atlas/index.html"}
+GLOBE = {"title": "Sports Pipeline Atlas",
+         "url": "https://sarahmlammert.github.io/sports-pipeline-atlas/index.html"}
 
 PLATES = [
     # day ("zoom": "globe" = this plate carries the globe instead of sushi, and zooms into it)
@@ -50,7 +50,7 @@ DAY_EXTRAS = [
     {"title": "Toro", "description": "Just a snack", "sushi": "toro", "plate": "red"},
     {"title": "Unagi", "description": "Just a snack", "sushi": "unagi", "plate": "green"},
     {"title": "Sashimi", "description": "Just a snack", "sushi": "sashimi", "plate": "black"},
-    {"title": "Shrimp tempura", "description": "Just a snack", "sushi": "ebiten", "plate": "yellow"},
+    {"title": "Shrimp tempura", "tag": "Tempura", "description": "Just a snack", "sushi": "ebiten", "plate": "yellow"},
     {"title": "Maki", "description": "Just a snack", "sushi": "maki", "plate": "blue"},
     {"title": "Gyoza", "description": "Just a snack", "sushi": "gyoza", "plate": "pink"},
     {"title": "Tamago", "description": "Just a snack", "sushi": "tamago", "plate": "green"},
@@ -220,7 +220,7 @@ PROJECTS = [
         "code": "https://github.com/SarahMLammert/personal-website",
     },
     {
-        "title": "College Sports Atlas",
+        "title": "Sports Pipeline Atlas",
         "kicker": "Interactive data maps",
         "summary": "The high school to pro pipeline.",
         "inspiration": "Ivy varsity athletes hometown map",   # shown under the summary on the Projects list, after "Inspiration:"; blank = hidden
@@ -284,9 +284,9 @@ PROJECTS = [
         },
         "credit": "Built in collaboration with Claude",   # optional line under "Built with"
         "image": "images/projects/atlas-map.jpg",
-        "image_alt": "Map of the United States covered in colored dots, one for each college football player's hometown",
-        "url": "https://sarahmlammert.github.io/college-sports-atlas/index.html",
+        "image_alt": "The Recruiting Map: a dark map of the United States glowing with colored dots, one for each college football player's hometown",
+        "url": "https://sarahmlammert.github.io/sports-pipeline-atlas/index.html",
         "cta": "Explore the atlas",
-        "code": "https://github.com/SarahMLammert/college-sports-atlas",
+        "code": "https://github.com/SarahMLammert/sports-pipeline-atlas",
     },
 ]

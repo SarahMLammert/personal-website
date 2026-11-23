@@ -1,5 +1,6 @@
 ---
-title: "Statistical Machine Learning: A Unified Framework"
+title: "Statistical Machine Learning"
+subtitle: "A Unified Framework"
 author: Richard M. Golden
 dewey: "006"
 status: To Read

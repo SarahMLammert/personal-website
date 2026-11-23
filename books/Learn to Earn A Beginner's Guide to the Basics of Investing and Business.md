@@ -1,5 +1,6 @@
 ---
-title: "Learn to Earn: A Beginner's Guide to the Basics of Investing and Business"
+title: "Learn to Earn"
+subtitle: "A Beginner's Guide to the Basics of Investing and Business"
 author: Peter Lynch, John Rothchild
 dewey: "332"
 status: To Read

@@ -1,5 +1,6 @@
 ---
-title: "Practical Social Engineering: A Primer for the Ethical Hacker"
+title: "Practical Social Engineering"
+subtitle: "A Primer for the Ethical Hacker"
 author: Joe Gray
 dewey: "005"
 status: To Read

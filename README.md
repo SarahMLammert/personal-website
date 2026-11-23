@@ -28,7 +28,7 @@ underneath. The name shows as "Sarah Lammert"; rest the pointer on it (or tap it
 "May Hui Yu" unfolds.
 
 By day, plates ride the conveyor belt (Projects, GitHub, LinkedIn), the chef opens the About page and a
-globe on the windowsill opens the College Sports Atlas. Click the sun and it turns into an after-hours bar:
+globe on the windowsill opens the Sports Pipeline Atlas. Click the sun and it turns into an after-hours bar:
 drinks on the bar, a big framed photo on the wall (it slowly cycles through every photo) and a tall
 bookcase. Click the moon to go back. Hovering over anything clickable shows its name.
 

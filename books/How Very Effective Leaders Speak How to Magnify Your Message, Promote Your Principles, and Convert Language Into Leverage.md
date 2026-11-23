@@ -1,5 +1,6 @@
 ---
-title: "How Very Effective Leaders Speak: How to Magnify Your Message, Promote Your Principles, and Convert Language Into Leverage"
+title: "How Very Effective Leaders Speak"
+subtitle: "How to Magnify Your Message, Promote Your Principles, and Convert Language Into Leverage"
 author: Peter D. Andrei
 dewey: "658"
 status: To Read

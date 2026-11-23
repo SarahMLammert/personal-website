@@ -1,5 +1,6 @@
 ---
-title: "Statistical Rethinking: A Bayesian Course with Examples in R and Stan"
+title: "Statistical Rethinking"
+subtitle: "A Bayesian Course with Examples in R and Stan"
 author: Richard McElreath
 dewey: "519"
 status: To Read
