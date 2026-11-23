@@ -24,7 +24,7 @@
     const gap = length / plates.length;
     const TOP = 520, BOTTOM = 680;    // the belt's back and front straights (before flattening)
     const BELT_SQUASH = 0.82;         // the belt is drawn flattened around y = 600 (SQUASH in _scene.html)
-    let offset = 0, held = null, last = null, zooming = false;
+    let offset = 0, held = null, last = null, zooming = false, closeup = null;
 
     const isNight = () => html.classList.contains('is-night');
 
@@ -210,8 +210,38 @@
         if (p.dataset.zoom === 'globe') spinGlobe(3.5);
     }
 
+    // Clicking a snack plate brings it up close: to the middle of the picture, about 4.5x the size of the nearest
+    // plates on the belt (whatever its depth), with the room dimmed behind it
+    const CLOSEUP = 4.5, CLOSEUP_AT = [800, 520], CLOSEUP_CARD = 0.5;
+    function closeUp(p) {
+        if (zooming || !raised) return;
+        if (held !== p) show(p);
+        if (p.parentNode !== raised) raised.appendChild(p);
+        const t = p.getAttribute('transform') || '';
+        const m = /translate\(\s*([-\d.]+)[\s,]+([-\d.]+)\s*\)/.exec(t), k = /scale\(([\d.]+)\)/.exec(t);
+        const x = m ? parseFloat(m[1]) : 800, y = m ? parseFloat(m[2]) : 600, scale = k ? parseFloat(k[1]) : 1;
+        const z = CLOSEUP / scale;                                   // in the plate's own units
+        p.style.setProperty('--closeup', z.toFixed(3));
+        p.style.setProperty('--cx', `${((CLOSEUP_AT[0] - x) / scale).toFixed(1)}px`);
+        p.style.setProperty('--cy', `${((CLOSEUP_AT[1] - y) / scale + 20 * z).toFixed(1)}px`);   // the food sits above the middle
+        // every card the same size in close-up, whatever depth the plate came from (place() puts it back)
+        const card = p.querySelector('.plaque');
+        if (card) card.setAttribute('transform', `translate(0 10) scale(${CLOSEUP_CARD})`);
+        p.classList.add('is-closeup');
+        svg.classList.add('has-closeup');
+        closeup = p;
+        tag.hidden = true;
+    }
+    function putDown() {
+        if (!closeup) return;
+        closeup.classList.remove('is-closeup');
+        svg.classList.remove('has-closeup');
+        closeup = null;
+    }
+
     function hide() {
         if (zooming) return;                     // the room sliding under the pointer mustn't drop the globe
+        putDown();
         const was = held;
         if (held) held.classList.remove('is-held');
         spinGlobe(1);
@@ -223,24 +253,37 @@
     // Moving the pointed-at plate up to #plates-held means the browser no longer tells it when the pointer leaves,
     // so put it down as soon as the pointer is over anything else (or leaves the picture)
     const offRaised = e => {
-        if (e.pointerType === 'touch' || !held || held.parentNode !== raised) return;
+        if (e.pointerType === 'touch' || closeup || !held || held.parentNode !== raised) return;
         if (e.type === 'pointerleave' || !held.contains(e.target)) hide();
     };
     svg.addEventListener('pointermove', offRaised);
     svg.addEventListener('pointerleave', offRaised);
 
     picks.forEach(p => {
-        p.addEventListener('pointerenter', e => { if (e.pointerType !== 'touch') show(p); });
-        p.addEventListener('pointerleave', e => { if (e.pointerType !== 'touch') hide(); });
+        p.addEventListener('pointerenter', e => { if (e.pointerType !== 'touch' && !closeup) show(p); });
+        p.addEventListener('pointerleave', e => { if (e.pointerType !== 'touch' && !closeup) hide(); });
         p.addEventListener('focus', () => show(p));
-        p.addEventListener('blur', () => { if (!touch.matches) hide(); });   // phones close it by tapping elsewhere
+        p.addEventListener('blur', () => { if (!touch.matches && !closeup) hide(); });   // phones close it by tapping elsewhere
         // Tapping also focuses the item, so remember whether its label was already up before this tap.
         p.addEventListener('pointerdown', () => { p.dataset.wasHeld = held === p ? '1' : ''; });
         p.addEventListener('click', e => {
             const keyboard = e.detail === 0;
-            if (touch.matches && !keyboard && !p.dataset.wasHeld) { e.preventDefault(); show(p); }
+            const first = touch.matches && !keyboard && !p.dataset.wasHeld;
             p.dataset.wasHeld = '';
+            if (first) { e.preventDefault(); show(p); return; }
+            // snack plates (no link, no globe) come up close; click again to put them down
+            if (p.matches('.belt-plate') && !p.getAttribute('href') && !p.dataset.zoom) {
+                e.stopPropagation();
+                if (closeup === p) hide(); else closeUp(p);
+            }
         });
+        if (p.matches('.belt-plate') && !p.getAttribute('href') && !p.dataset.zoom) {
+            p.addEventListener('keydown', e => {
+                if (e.key !== 'Enter' && e.key !== ' ') return;
+                e.preventDefault();
+                if (closeup === p) hide(); else closeUp(p);
+            });
+        }
     });
 
     // ---- worlds inside worlds --------------------------------------------
@@ -359,6 +402,8 @@
         else window.location.href = href;
     });
     document.addEventListener('click', e => { if (held && !e.target.closest('.belt-plate, .bar-drink, .scene-link, .plate-tag')) hide(); });
+    svg.querySelector('.closeup-dim')?.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); hide(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && closeup) hide(); });
     window.addEventListener('resize', () => { if (held) show(held); });
 
     // ---- day and night --------------------------------------------------

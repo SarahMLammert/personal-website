@@ -17,19 +17,6 @@
 {# the counter and belt are flattened around y = 600 (keep in step with BELT_SQUASH in belt.js) #}
 {% set SQUASH = "translate(0 600) scale(1 0.82) translate(0 -600)" %}
 
-{# a little folded table card naming a daytime link, in the menu tags' cream paper and wood outline.
-   (x, y) is the middle of its bottom edge. Hidden on small screens, where it would be too small to read. #}
-{% macro plaque(x, y, text) %}
-{% set w = 26 + text|length * 11 %}
-<g class="plaque" transform="translate({{ x }} {{ y }})" aria-hidden="true">
-  <ellipse cx="2" cy="1" rx="{{ w / 2 + 4 }}" ry="4" fill="#5a3d26" opacity=".22"/>
-  <path d="M {{ -w / 2 }} 0 L {{ -w / 2 + 5 }} -34 L {{ w / 2 - 5 }} -34 L {{ w / 2 }} 0 Z" fill="#f4e2c4" stroke="#a8743f" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="M {{ -w / 2 + 6 }} -30 L {{ w / 2 - 6 }} -30" stroke="#e2c79f" stroke-width="1.5"/>
-  <text x="0" y="-9" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-style="italic" font-weight="600" font-size="24" fill="#4f4038">{{ text }}</text>
-</g>
-{% endmacro %}
-
-{# a stack of empty plates (colours bottom to top) left on the counter by a diner; (x, y) = bottom middle #}
 {# the belt itself (day: grey slats; night: a wooden bar top), drawn twice: back run and front run #}
 {% macro belt_layers() %}
   <g class="day-only">
@@ -131,10 +118,12 @@
 </g>
 {% endmacro %}
 
-{# single pieces cropped out of a pair, for small plates: kind and the crop (x, y, w, h) in the sushi's 120 x 80 box #}
-{% set PIECES = {'spicy-piece': ('spicy', 14, 26, 48, 46)} %}
-{# fs = how big the food is drawn (default: as big as the plate, s). Food on the counter should match the belt's
-   food at the same depth (about 0.6 at the back, 1.4 at the front), so a small plate at the front holds a single
+{# single pieces cropped out of a pair, for small plates: name -> (kind, crop x, y, w, h in the sushi's 120 x 80 box).
+   Empty for now (the spicy roll used to need one before it became six small rolls) #}
+{% set PIECES = {} %}
+{# a stack of plates on the counter (colours bottom to top), with food on the top one or empty; (x, y) = bottom middle.
+   fs = how big the food is drawn (default: as big as the plate, s). Food on the counter should match the belt's
+   food at the same depth (0.55 at the back, 1.23 at the front), so a small plate at the front holds a single
    piece rather than a shrunken serving #}
 {% macro plate_stack(x, y, colors, s=0.7, food=None, fs=None) %}
 <g class="plate-stack" transform="translate({{ x }} {{ y }}) scale({{ s }})" aria-hidden="true">
@@ -252,31 +241,6 @@
 
 {% set DRINKS = {'taro': ('#b89ad1', '#d6c2e8'), 'matcha': ('#8fb86a', '#c3dca6'), 'mango': ('#f2b04a', '#f8d28d'),
                  'brownsugar': ('#b9794a', '#e8c9a4'), 'strawberry': ('#ee8fa6', '#f8c6d2')} %}
-{% macro boba(d) %}
-{% set col, light = DRINKS.get(d.drink, DRINKS.taro) %}
-<g class="pick-art drink-art">
-  <ellipse cx="4" cy="2" rx="34" ry="9" fill="#120c1a" opacity=".35"/>
-  <ellipse cx="0" cy="0" rx="30" ry="8" fill="#2a1d14" stroke="#c8a46a" stroke-width="1.5"/>
-  {# the cup #}
-  <path d="M -22 -78 L 22 -78 L 17 -4 C 10 0 -10 0 -17 -4 Z" fill="#f4f6fb" opacity=".35"/>
-  <path d="M -21 -62 L 21 -62 L 17 -4 C 10 0 -10 0 -17 -4 Z" fill="{{ col }}"/>
-  <path d="M -21 -62 C -8 -58 8 -58 21 -62 L 20.5 -54 C 8 -50 -8 -50 -20.5 -54 Z" fill="{{ light }}"/>
-  {% for x, y in [(-11,-10), (-2,-8), (8,-10), (-7,-18), (4,-17), (12,-19), (-13,-24), (-1,-26)] %}
-  <circle cx="{{ x }}" cy="{{ y }}" r="4.2" fill="#2b1a12"/><circle cx="{{ x - 1.2 }}" cy="{{ y - 1.4 }}" r="1.1" fill="#8a6a5a"/>
-  {% endfor %}
-  <path d="M -22 -78 L 22 -78 L 17 -4 C 10 0 -10 0 -17 -4 Z" fill="none" stroke="#e9edf5" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="M -15 -70 L -12 -14" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".5"/>
-  {# dome lid, straw and a little garnish (it's a cocktail) #}
-  <path d="M -24 -78 C -22 -100 22 -100 24 -78 Z" fill="#f4f6fb" opacity=".55" stroke="#e9edf5" stroke-width="2"/>
-  <path d="M 4 -60 L 14 -118" stroke="#e0705a" stroke-width="7" stroke-linecap="round"/>
-  <path d="M 4 -60 L 14 -118" stroke="#f3a189" stroke-width="2" stroke-linecap="round"/>
-  <g transform="translate(-14 -84)">
-    <path d="M 0 0 A 13 13 0 0 1 26 0 Z" fill="#9cc06a" stroke="#5f8c3f" stroke-width="2"/>
-    <path d="M 13 0 L 13 -11 M 13 0 L 5 -9 M 13 0 L 21 -9" stroke="#e8f2d2" stroke-width="1.5"/>
-  </g>
-</g>
-<ellipse class="plate-hit" cx="0" cy="-50" rx="38" ry="62"/>
-{% endmacro %}
 
 {# a name sticker on a tub or the boba bowl: (x, y) is its middle. Hidden on small screens like the place cards #}
 {% macro sticker(text, x, y, rot=-3) %}
@@ -942,6 +906,20 @@
   <path class="counter-front" d="M 170 600 A 220 180 0 0 0 390 780 L 1210 780 A 220 180 0 0 0 1430 600 L 1430 668 A 220 180 0 0 1 1210 848 L 390 848 A 220 180 0 0 1 170 668 Z" fill="{{ WOOD_D }}"/>
   <path d="M 170 668 A 220 180 0 0 0 390 848 L 1210 848 A 220 180 0 0 0 1430 668" fill="none" stroke="{{ WOOD_DD }}" stroke-width="6"/>
   <path d="M 185 640 A 220 180 0 0 0 390 813 L 1210 813 A 220 180 0 0 0 1415 640" fill="none" stroke="{{ WOOD_DD }}" stroke-width="3" opacity=".4"/>
+  {# after hours: a plum tablecloth with gold trim over the counter top, hanging over the front with a gold fringe #}
+  <g class="night-only">
+    <path d="{{ COUNTER }}" fill="none" stroke="#d9a94e" stroke-width="200" stroke-linejoin="round"/>
+    <path d="{{ COUNTER }}" fill="none" stroke="#6e2948" stroke-width="190" stroke-linejoin="round"/>
+    <path d="{{ COUNTER }}" fill="none" stroke="#8c3a5f" stroke-width="150" stroke-linejoin="round" opacity=".35"/>
+    <path d="M 170 600 A 220 180 0 0 0 390 780 L 1210 780 A 220 180 0 0 0 1430 600 L 1430 644 A 220 180 0 0 1 1210 824 L 390 824 A 220 180 0 0 1 170 644 Z" fill="#561f39"/>
+    {% for x in range(420, 1200, 64) %}
+    <path d="M {{ x }} 781 L {{ x }} 823" stroke="#3e1529" stroke-width="10" opacity=".35"/>
+    <path d="M {{ x + 22 }} 781 L {{ x + 22 }} 823" stroke="#7a3256" stroke-width="6" opacity=".4"/>
+    {% endfor %}
+    <path d="M 170 600 A 220 180 0 0 0 390 780 L 1210 780 A 220 180 0 0 0 1430 600" fill="none" stroke="#d9a94e" stroke-width="5"/>
+    <path d="M 170 644 A 220 180 0 0 0 390 824 L 1210 824 A 220 180 0 0 0 1430 644" fill="none" stroke="#d9a94e" stroke-width="4"/>
+    <path d="M 170 650 A 220 180 0 0 0 390 830 L 1210 830 A 220 180 0 0 0 1430 650" fill="none" stroke="#e6bc62" stroke-width="10" stroke-dasharray="2 5"/>
+  </g>
   <g clip-path="url(#belt-back-half)">{{ belt_layers() }}</g>
   {# the gap between the belt and the inner counter #}
   <path d="M 430 553 L 1170 553 A 87 47 0 0 1 1170 647 L 430 647 A 87 47 0 0 1 430 553 Z" fill="#7d5c40"/>
@@ -969,9 +947,9 @@
     {{ plate_stack(1362, 556, ['yellow'], s=0.66, food='tamago', fs=0.66) }}
     {# at the two ends of the counter #}
     {{ plate_stack(246, 610, ['red', 'blue'], s=0.7) }}
-    {{ plate_stack(214, 664, ['pink'], s=0.74, food='maki', fs=0.92) }}
+    {{ plate_stack(226, 652, ['pink'], s=0.74, food='maki', fs=0.92) }}
     {{ plate_stack(1394, 610, ['green', 'yellow'], s=0.7) }}
-    {{ plate_stack(1374, 664, ['blue'], s=0.74, food='spicy-piece', fs=0.92) }}
+    {{ plate_stack(1369, 659, ['blue'], s=0.74, food='spicy', fs=0.92) }}
     {# each diner facing us has a cup of tea #}
     <g transform="translate(210 580) scale(.62)">{{ cup(0, 0) }}</g>
     <g transform="translate(500 497) scale(.58)">{{ cup(0, 0) }}</g>
@@ -981,11 +959,17 @@
   </g>
   {# after hours: a drink for each diner facing us, and snacks (buffalo wings!) #}
   <g class="night-only">
-    {{ plate_stack(400, 486, ['red'], s=0.58, food='wings') }}
-    {{ plate_stack(1240, 488, ['blue'], s=0.56, food='edamame') }}
-    {{ plate_stack(930, 488, ['black'], s=0.58, food='wings') }}
-    {{ plate_stack(210, 550, ['green'], s=0.6, food='gyoza') }}
-    {{ mini_drink(206, 588, 0.42, 'cocktail', '#e8a0b8') }}
+    {# (same spots as the daytime plates, so everything sits on the counter top) #}
+    {{ plate_stack(426, 484, ['red'], s=0.58, food='wings', fs=0.55) }}
+    {{ plate_stack(930, 486, ['black'], s=0.58, food='wings', fs=0.55) }}
+    {{ plate_stack(1214, 484, ['blue'], s=0.58, food='edamame', fs=0.55) }}
+    {{ plate_stack(212, 556, ['green'], s=0.6, food='gyoza', fs=0.66) }}
+    {{ plate_stack(1362, 556, ['pink'], s=0.66, food='wings', fs=0.66) }}
+    {{ mini_drink(210, 590, 0.42, 'cocktail', '#e8a0b8') }}
+    {# at the two ends of the counter #}
+    {{ plate_stack(226, 652, ['yellow'], s=0.74, food='wings', fs=0.92) }}
+    {{ plate_stack(1369, 659, ['blue'], s=0.74, food='gyoza', fs=0.92) }}
+    {{ mini_drink(252, 640, 0.46, 'boba', '#f2b04a') }}
     {{ mini_drink(505, 498, 0.38, 'boba', '#c3dca6') }}
     {{ mini_drink(1125, 498, 0.38, 'highball', '#f2b04a') }}
     {{ mini_drink(1335, 498, 0.38, 'cocktail', '#9fd3e0') }}
@@ -1164,24 +1148,24 @@
   <g transform="translate(0 -23)">
   <g class="day-only">
   {# plates the diners have finished, and bowls of miso soup #}
-  {{ plate_stack(266, 742, ['blue', 'red', 'black', 'yellow'], s=0.8) }}
-  {{ plate_stack(1262, 754, ['green', 'pink', 'yellow'], s=0.8, food='maki', fs=1.23) }}
-  {{ plate_stack(470, 756, ['pink'], s=0.8, food='spicy-piece', fs=1.23) }}
-  {{ plate_stack(850, 758, ['green'], s=0.8, food='edamame', fs=1.23) }}
-  {{ plate_stack(1384, 713, ['blue', 'yellow', 'red'], s=0.78) }}
-  {{ plate_stack(660, 760, ['red'], s=0.8, food='tempura', fs=1.23) }}
+  {{ plate_stack(284, 724, ['blue', 'red', 'black', 'yellow'], s=0.8) }}
+  {{ plate_stack(1255, 747, ['green', 'pink', 'yellow'], s=0.8, food='maki', fs=1.23) }}
+  {{ plate_stack(470, 752, ['pink'], s=0.8, food='spicy', fs=1.23) }}
+  {{ plate_stack(850, 752, ['green'], s=0.8, food='edamame', fs=1.23) }}
+  {{ plate_stack(1360, 689, ['blue', 'yellow', 'red'], s=0.78) }}
+  {{ plate_stack(660, 752, ['red'], s=0.8, food='tempura', fs=1.23) }}
   {{ soup_bowl(760, 756) }}
   {{ soup_bowl(1000, 758) }}
-  {{ cup(560, 756) }}{{ cup(1098, 756) }}{{ cup(306, 756) }}{{ cup(1300, 756) }}
-  {{ plate_stack(1180, 758, ['black'], s=0.74, food='acorn', fs=1.23) }}
-  {{ plate_stack(392, 760, ['green', 'yellow'], s=0.76) }}
-  {{ plate_stack(940, 764, ['yellow', 'black'], s=0.76) }}
+  {{ cup(560, 756) }}{{ cup(1098, 756) }}{{ cup(312, 750) }}{{ cup(1293, 749) }}
+  {{ plate_stack(1180, 753, ['black'], s=0.74, food='acorn', fs=1.23) }}
+  {{ plate_stack(392, 753, ['green', 'yellow'], s=0.76) }}
+  {{ plate_stack(940, 753, ['yellow', 'black'], s=0.76) }}
   {# soy sauce dishes at the diners' places #}
-  {{ sauce_dish(344, 764) }}
-  {{ sauce_dish(522, 768) }}
-  {{ sauce_dish(712, 770) }}
-  {{ sauce_dish(1052, 770) }}
-  {{ sauce_dish(1352, 766) }}
+  {{ sauce_dish(351, 757) }}
+  {{ sauce_dish(522, 760) }}
+  {{ sauce_dish(712, 760) }}
+  {{ sauce_dish(1052, 760) }}
+  {{ sauce_dish(1321, 735) }}
   <g transform="translate(868 752)">
     <ellipse cx="0" cy="0" rx="22" ry="8" fill="#f6efe2" stroke="#c9b79a" stroke-width="2"/><ellipse cx="0" cy="0" rx="14" ry="4.5" fill="#4a2c1e"/>
     <path d="M 30 -2 L 92 -10 M 32 4 L 94 -2" stroke="#b07a46" stroke-width="4" stroke-linecap="round"/>
@@ -1189,17 +1173,16 @@
   </g>
   <g class="night-only">
     {# snacks between the seats: buffalo wings, edamame and gyoza #}
-    {{ plate_stack(470, 758, ['red'], s=0.74, food='wings') }}
-    {{ plate_stack(1030, 760, ['black'], s=0.74, food='wings') }}
-    {{ plate_stack(722, 762, ['green'], s=0.66, food='edamame') }}
-    {{ plate_stack(1300, 758, ['pink'], s=0.7, food='gyoza') }}
-    {{ plate_stack(266, 742, ['blue', 'red'], s=0.7) }}
-    {# each diner's own drink, on the side their tail isn't #}
-    {{ mini_drink(268, 760, 0.5, 'cocktail', '#e8a0b8') }}
-    {{ mini_drink(668, 762, 0.5, 'highball', '#b9794a') }}
-    {{ mini_drink(836, 762, 0.5, 'boba', '#b89ad1') }}
-    {{ mini_drink(1232, 760, 0.5, 'cocktail', '#9fd3e0') }}
-    {{ mini_drink(214, 748, 0.46, 'boba', '#f2b04a') }}
+    {{ plate_stack(470, 752, ['red'], s=0.8, food='wings', fs=1.23) }}
+    {{ plate_stack(660, 752, ['green'], s=0.8, food='edamame', fs=1.23) }}
+    {{ plate_stack(940, 752, ['black'], s=0.8, food='wings', fs=1.23) }}
+    {{ plate_stack(1180, 752, ['pink'], s=0.8, food='gyoza', fs=1.23) }}
+    {{ plate_stack(392, 753, ['blue', 'red'], s=0.76) }}
+    {# each diner's own drink #}
+    {{ mini_drink(313, 753, 0.5, 'cocktail', '#e8a0b8') }}
+    {{ mini_drink(560, 762, 0.5, 'highball', '#b9794a') }}
+    {{ mini_drink(1052, 762, 0.5, 'boba', '#b89ad1') }}
+    {{ mini_drink(1292, 752, 0.5, 'cocktail', '#9fd3e0') }}
     <g transform="translate(808 758)">
       <circle cx="0" cy="-26" r="30" fill="url(#bulb)" class="bulb"/>
       <rect x="-7" y="-22" width="14" height="22" rx="3" fill="#f6efe2"/>
@@ -1207,7 +1190,6 @@
     </g>
   </g>
   </g>
-
 
   {# ---- the gardener at the left end of the counter (day) and a dancer (night); and a friend at the right end (day), each sitting right at the end ---- #}
   {{ stool(1478, 714, 0.8, '#d9a441') }}
@@ -1268,6 +1250,8 @@
   </g>
 
   {# the plate you point at comes up here, in front of everyone, and grows so its card is easy to read (belt.js) #}
+  {# clicking a snack plate brings it up close: the room dims behind it, and clicking the dimmed room puts it down #}
+  <g class="day-only"><rect class="closeup-dim" width="1600" height="1000" fill="#2a1f18"/></g>
   <g class="day-only" id="plates-held"></g>
   <rect class="day-only" width="1600" height="1000" fill="url(#warm)" pointer-events="none"/>
   <g class="night-only" pointer-events="none">

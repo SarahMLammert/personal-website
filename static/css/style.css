@@ -142,10 +142,15 @@ html.is-night .print-hint--night { display: block; }
 
 /* plates on the belt */
 .belt-plate { cursor: pointer; outline: none; }
-.belt-plate--extra, .belt-plate--soon { cursor: default; }
 .plate-hit { fill: transparent; }
 .plate-art { transition: transform .35s cubic-bezier(.2,.8,.2,1); }
 .belt-plate.is-held .plate-art { transform: translateY(-12px) scale(var(--zoom, 1.08)); }
+/* clicked: brought to the middle of the picture, much bigger (belt.js sets --cx, --cy, --closeup) */
+.belt-plate--extra:not(.is-closeup), .belt-plate--soon:not(.is-closeup) { cursor: zoom-in; }
+.belt-plate.is-closeup { cursor: zoom-out; }
+.belt-plate.is-closeup .plate-art { transform: translate(var(--cx), var(--cy)) scale(var(--closeup)); transition-duration: .5s; }
+.closeup-dim { opacity: 0; pointer-events: none; transition: opacity .4s; }
+.has-closeup .closeup-dim { opacity: .45; pointer-events: auto; cursor: zoom-out; }
 .belt-plate:focus-visible .plate-hit { stroke: var(--gold); stroke-width: 3; stroke-dasharray: 6 5; }
 /* before the script runs, plates have nowhere to go */
 .print-art:not(.is-live) .plates { display: none; }
