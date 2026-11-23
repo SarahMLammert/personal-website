@@ -10,13 +10,14 @@ SITE_URL = "https://www.sarahlammert.com"
 # ---------------------------------------------------------------------------
 # The homepage has two modes. Click the sun or moon in the window to switch.
 #   Day ("side": "day"):     the sushi bar. Professional sections ride the belt as plates.
-#   Night ("side": "night"): after hours. Personal sections are drinks on the bar.
+#   Night ("side": "night"): after hours. Personal sections are big tubs of drinks on the bar.
 # For each one, give a "title" (shown when you hover over it) and:
 #   "endpoint": a page on this site (the name of its function in app.py), or
 #   "url":      a link to another site (opens in a new tab), or
 #   neither:    it's coming soon (not clickable yet).
 # The day ones that open something also appear as the buttons under the name.
 # sushi: toro, salmon, tuna, ebi, unagi, spicy, maki, tempura, ikura, acorn, sashimi, ebiten, gyoza, tamago, edamame
+# bowl (instead of sushi; rides on the plate): ramen, chirashi, edamame
 # plate: red, blue, yellow, green, black, pink
 # drink: taro, matcha, mango, brownsugar, strawberry
 # ---------------------------------------------------------------------------
@@ -43,9 +44,9 @@ DAY_EXTRAS = [
     # was the Projects plate (Projects is now the Specials board beside the chef); a placeholder for a project
     {"title": "Spicy roll", "description": "Just a snack", "sushi": "spicy", "plate": "blue"},
     # was the GitHub plate (GitHub is now the squirrel eating sushi, MUNCHER); a placeholder for a future link
-    {"title": "Salmon", "description": "Just a snack", "sushi": "salmon", "plate": "black"},
+    {"title": "Chirashi", "description": "Just a snack", "bowl": "chirashi", "plate": "black"},
     # was the LinkedIn plate (LinkedIn is now the guest book on the counter, GUESTBOOK); a placeholder too
-    {"title": "Ebi", "description": "Just a snack", "sushi": "ebi", "plate": "pink"},
+    {"title": "Ramen", "description": "Just a snack", "bowl": "ramen", "plate": "pink"},
     {"title": "An acorn", "description": "Not on the menu", "sushi": "acorn", "plate": "yellow"},
     {"title": "Toro", "description": "Just a snack", "sushi": "toro", "plate": "red"},
     {"title": "Unagi", "description": "Just a snack", "sushi": "unagi", "plate": "green"},
@@ -53,7 +54,7 @@ DAY_EXTRAS = [
     {"title": "Shrimp tempura", "tag": "Tempura", "description": "Just a snack", "sushi": "ebiten", "plate": "yellow"},
     {"title": "Maki", "description": "Just a snack", "sushi": "maki", "plate": "blue"},
     {"title": "Gyoza", "description": "Just a snack", "sushi": "gyoza", "plate": "pink"},
-    {"title": "Tamago", "description": "Just a snack", "sushi": "tamago", "plate": "green"},
+    {"title": "Edamame", "description": "Just a snack", "bowl": "edamame", "plate": "green"},
 ]
 NIGHT_EXTRAS = [
     {"title": "Acorn sour", "description": "House special", "drink": "brownsugar"},
@@ -196,7 +197,8 @@ PROJECTS = [
         },
         "features": ["Squirrel sushi bar illustration", "Plates on a moving belt",
                      "Photo gallery and viewer", "Bookshelf of book notes", "Project story flows"],
-        "tools": ["Python", "Flask", "Jinja", "JavaScript", "SVG", "CSS", "Obsidian", "GitHub Pages"],
+        "tools": ["Python", "Flask", "Jinja", "JavaScript", "SVG", "CSS", "Obsidian", "Ruff", "djLint",
+                  "GitHub Actions", "GitHub Pages"],
         # what each tool does here; click a tool on the project page to read its sentence
         "tool_notes": {
             "Python": "The programming language the site's code is written in.",
@@ -210,7 +212,11 @@ PROJECTS = [
             "CSS": "Styles every page: the colors, fonts and layout, plus small touches like plates lifting "
                    "when you hover over them.",
             "Obsidian": "The note-taking app I write my book notes in; each note becomes a book on the shelf.",
-            "GitHub Pages": "Hosts the site for free, and rebuilds and publishes it every time I push a change.",
+            "Ruff": "A linter that checks the Python code for mistakes and keeps its style consistent.",
+            "djLint": "A linter for the HTML templates, so they stay tidy and consistent.",
+            "GitHub Actions": "Every time I push a change, it rebuilds the site into ready-made pages and checks "
+                              "every link.",
+            "GitHub Pages": "Hosts the finished pages for free at sarahlammert.com.",
         },
         "credit": "Built in collaboration with Claude",   # optional line under "Built with"
         "image": "images/projects/website-home.jpg",
@@ -270,7 +276,8 @@ PROJECTS = [
         "stats": [("12", "sports"), ("1.5M+", "player records"), ("2016\u20132027", "seasons")],
         "features": ["Recruiting map", "Recruiting footprints", "Transfer map",
                      "Coaching moves", "Staff directory", "School influence map"],
-        "tools": ["Python", "Requests", "Beautiful Soup", "Playwright", "D3", "GitHub Pages"],
+        "tools": ["Python", "Requests", "Beautiful Soup", "lxml", "Playwright", "GeoNames", "pandas", "D3",
+                  "TopoJSON", "pytest", "Ruff", "ESLint", "GitHub Pages"],
         "tool_notes": {
             "Python": "Runs the whole data pipeline: collecting rosters, cleaning them and placing every "
                       "hometown on the map.",
@@ -278,13 +285,21 @@ PROJECTS = [
             "Beautiful Soup": "Reads the downloaded pages and pulls out each player's name and hometown.",
             "Playwright": "Opens pages in a real, hidden browser for colleges whose rosters only appear after "
                           "the page's JavaScript runs. It also tests the finished map pages.",
-            "D3": "A JavaScript library that draws the US map, places the hometown dots, and handles zooming "
-                  "and color scales.",
+            "lxml": "A fast HTML parser that Beautiful Soup uses to read thousands of roster pages quickly.",
+            "GeoNames": "Through the geonamescache library, a database of the world's towns that places hometowns "
+                        "abroad on their own town instead of the middle of their country.",
+            "pandas": "Reads the historical NBA roster files for the Pro Pipeline's past seasons.",
+            "D3": "A JavaScript library that draws the maps and the globe, places the hometown dots, and handles "
+                  "zooming and color scales.",
+            "TopoJSON": "Compact map outlines of US states and world countries that D3 draws.",
+            "pytest": "Runs the tests that check the data and the finished map pages.",
+            "Ruff": "A linter that checks the Python code for mistakes and keeps its style consistent.",
+            "ESLint": "A linter for the JavaScript in the map pages.",
             "GitHub Pages": "Hosts the atlas for free as a set of ready-made pages.",
         },
         "credit": "Built in collaboration with Claude",   # optional line under "Built with"
         "image": "images/projects/atlas-map.jpg",
-        "image_alt": "The Recruiting Map: a dark map of the United States glowing with colored dots, one for each college football player's hometown",
+        "image_alt": "The Recruiting Map: a satellite map of the United States covered in colored dots, one for each college football player's hometown",
         "url": "https://sarahmlammert.github.io/sports-pipeline-atlas/index.html",
         "cta": "Explore the atlas",
         "code": "https://github.com/SarahMLammert/sports-pipeline-atlas",

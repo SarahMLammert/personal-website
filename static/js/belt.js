@@ -13,6 +13,7 @@
     const slats = svg.querySelectorAll('.belt-slats');   // the belt's back and front runs
     const back = svg.querySelector('#plates-back');
     const front = svg.querySelector('#plates-front');
+    const raised = svg.querySelector('#plates-held');   // the plate being pointed at, on top of everything
     const plates = Array.from(svg.querySelectorAll('.belt-plate'));
     const picks = Array.from(svg.querySelectorAll('.belt-plate, .bar-drink, .scene-link'));
     const tag = root.querySelector('.plate-tag');
@@ -32,9 +33,12 @@
         plates.forEach((p, i) => {
             const pt = line.getPointAtLength((offset + i * gap) % length);
             const depth = (pt.y - TOP) / (BOTTOM - TOP);           // 0 at the back, 1 at the front
-            const scale = 0.82 + 0.56 * depth;                     // smaller at the back, bigger at the front (depth)
+            const scale = 0.55 + 0.68 * depth;                     // small at the back, big at the front (perspective)
             const y = 600 + (pt.y - 600) * BELT_SQUASH;
             p.setAttribute('transform', `translate(${pt.x.toFixed(1)} ${y.toFixed(1)}) scale(${scale.toFixed(3)})`);
+            // the place card shrinks less than its plate, so the names at the back stay readable
+            const card = p.querySelector('.plaque');
+            if (card) card.setAttribute('transform', `translate(0 10) scale(${(0.88 * Math.pow(1 / scale, 0.65)).toFixed(3)})`);
             const group = pt.y < 600 ? back : front;                // pass behind or in front of the chef
             if (p.parentNode !== group && p !== held) group.appendChild(p);
         });
@@ -180,9 +184,10 @@
         tag.querySelector('strong').textContent = p.dataset.title;
         tag.dataset.href = href || '';
         tag.dataset.external = p.dataset.external ? '1' : '';
-        // plates and drinks carry their own place cards, so with a mouse they're just picked up, no label;
+        // plates, drinks and the bookcase carry their own place cards (and the framed photo needs no label), so with a
+        // mouse they're just picked up, no label;
         // on phones the cards are hidden and tapping still shows the label
-        tag.hidden = p.matches('.belt-plate, .bar-drink') && !touch.matches;
+        tag.hidden = p.matches('.belt-plate, .bar-drink, .scene-bookcase, .photo-wall') && !touch.matches;
         const box = svg.getBoundingClientRect();
         const r = p.querySelector('.pick-art').getBoundingClientRect();
         tag.style.left = `${r.left + r.width / 2 - box.left}px`;
@@ -191,17 +196,38 @@
         const half = tag.offsetWidth / 2 + 4;
         const x = Math.min(Math.max(r.left + r.width / 2 - box.left, half), box.width - half);
         tag.style.left = `${x}px`;
+        if (p.matches('.belt-plate') && raised) {
+            // bring it to the front and zoom in on it: the further back the plate (the smaller it's drawn), the more
+            // it grows, so every card ends up about the same, readable size
+            const m = /scale\(([\d.]+)\)/.exec(p.getAttribute('transform') || '');
+            const scale = m ? parseFloat(m[1]) : 1;
+            const card = 0.88 * Math.pow(scale, 0.35);              // how big its card is drawn now (see place())
+            p.style.setProperty('--zoom', Math.max(1.15, 1.45 / card).toFixed(3));
+            // (moving an element takes its focus away, so a plate reached with the keyboard zooms where it is)
+            if (p.parentNode !== raised && document.activeElement !== p) raised.appendChild(p);
+        }
         p.classList.add('is-held');
         if (p.dataset.zoom === 'globe') spinGlobe(3.5);
     }
 
     function hide() {
         if (zooming) return;                     // the room sliding under the pointer mustn't drop the globe
+        const was = held;
         if (held) held.classList.remove('is-held');
         spinGlobe(1);
         held = null;
+        if (was && was.parentNode === raised) place();   // back onto the belt, behind or in front of the chef
         tag.hidden = true;
     }
+
+    // Moving the pointed-at plate up to #plates-held means the browser no longer tells it when the pointer leaves,
+    // so put it down as soon as the pointer is over anything else (or leaves the picture)
+    const offRaised = e => {
+        if (e.pointerType === 'touch' || !held || held.parentNode !== raised) return;
+        if (e.type === 'pointerleave' || !held.contains(e.target)) hide();
+    };
+    svg.addEventListener('pointermove', offRaised);
+    svg.addEventListener('pointerleave', offRaised);
 
     picks.forEach(p => {
         p.addEventListener('pointerenter', e => { if (e.pointerType !== 'touch') show(p); });
