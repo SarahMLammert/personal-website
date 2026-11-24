@@ -19,6 +19,23 @@
             <p class="about-hello">{{ about.hello }}</p>
             {% for para in about.paragraphs %}<p>{{ para }}</p>{% endfor %}
 
+            {% if projects %}
+            <section class="about-section">
+                <h2 class="about-projects-heading">{{ about.projects_heading or 'Recent projects' }}</h2>
+                <ul class="about-projects">
+                    {% for p in projects %}
+                    <li>
+                        <a class="about-project" href="{{ url_for('project', slug=p.slug) }}">
+                            <span class="project-thumb"><img src="{{ url_for('static', filename=p.image) }}" alt="" loading="lazy" width="1600" height="1000"></span>
+                            <span class="project-kicker">{{ p.kicker }}</span>
+                            <span class="about-project-title">{{ p.title }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endif %}
+
             {% if about.education %}
             <section class="about-section">
                 <h2 class="side-label">Education</h2>

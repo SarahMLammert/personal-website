@@ -86,6 +86,8 @@ ABOUT = {
     "paragraphs": [
         "I\u2019m passionate about programming, data, and systems design.",
     ],
+    # the line above the project cards (the cards themselves come from PROJECTS, newest first; up to three)
+    "projects_heading": "Check out what I\u2019ve been working on recently",
     # schools, newest first: "degree", "year", "notes" (shown as small tags) and "place" are all optional
     "education": [
         {"school": "Harvey Mudd College", "degree": "B.S. in Computer Science", "year": 2025,

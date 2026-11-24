@@ -89,7 +89,7 @@ def home():
 
 @app.route("/about")
 def about():
-    return render_template("about.html", about=ABOUT, links=with_hrefs(ABOUT["links"]))
+    return render_template("about.html", about=ABOUT, links=with_hrefs(ABOUT["links"]), projects=project_list()[:3])
 
 
 @app.route("/photos")

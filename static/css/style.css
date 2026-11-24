@@ -770,6 +770,16 @@ html:not(.is-night) .night-only * { animation-play-state: paused; }
 /* Education and Home: small gold labels like "Built with" on the project pages */
 .about-section { margin-top: 30px; padding-top: 22px; border-top: 1px solid rgba(160, 122, 63, .25); }
 .about-section .side-label { margin-bottom: 12px; }
+/* "Check out what I've been working on recently": a card per project (picture, kicker, title) */
+.about-projects-heading { margin: 0 0 14px; font-family: var(--serif); font-size: 24px; font-weight: 500; line-height: 1.25; }
+.about-projects { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 22px; }
+.about-project { display: block; color: inherit; text-decoration: none; }
+.about-project .project-thumb { margin-bottom: 10px; }
+.about-project .project-thumb img { height: auto; }
+.about-project .project-kicker { display: block; margin: 0 0 2px; }
+.about-project-title { display: block; font-family: var(--serif); font-size: 22px; font-weight: 600; line-height: 1.2; }
+.about-project:hover .project-thumb img, .about-project:focus-visible .project-thumb img { transform: scale(1.04); }
+.about-project:hover .about-project-title, .about-project:focus-visible .about-project-title { text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 4px; }
 .schools { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
 .about-text .school-name { margin: 0; font-family: var(--serif); font-size: 22px; font-weight: 600; line-height: 1.25; }
 .about-text .school-detail { margin: 2px 0 0; font-size: 15px; color: var(--muted); }
