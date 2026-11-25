@@ -29,7 +29,7 @@
 </head>
 
 <body class="{% block body_class %}{% endblock %}">
-    {% if request.endpoint not in ('home', 'project', 'book', 'reading_log_page', 'dewey_guide_page', 'notes_vision_page') %}
+    {% if request.endpoint not in ('home', 'project', 'book', 'reading_log_page', 'dewey_guide_page', 'notes_vision_page', 'people_page') %}
     <nav class="site-nav">
         <a href="{{ url_for('home') }}">Back</a>
     </nav>

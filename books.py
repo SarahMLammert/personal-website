@@ -179,6 +179,7 @@ def load_books():
             "finished": finished_date(meta),  # the first time you finished it
             "reads": sorted({d for d in [finished_date(meta), *reread_dates(meta)] if d}),  # every finish, oldest first
             "slug": slugify(title),
+            "file": path.stem,  # the note's file name: what [[links]] in People.md point at
             "author": meta.get("author", ""),
             "status": meta.get("status", ""),
             "group": status_group(meta.get("status")),
@@ -344,3 +345,79 @@ def reading_timeline(books, at_least=3):
         month = month.replace(year=month.year + month.month // 12, month=month.month % 12 + 1)
     return {"months": months, "count": len(done), "since": done[0]["finished"]}
 
+
+
+# ---- People: everyone the notes quote, from books/_people/People.md ----
+PEOPLE_FILE = BOOKS_DIR / "_people" / "People.md"
+SUFFIXES = {"jr", "sr", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x"}
+
+
+def person_sort_name(name):
+    """What to alphabetize a person by: their last name, skipping Jr. / Sr. / III; for "Augustine of Hippo"
+    or "George V" (no surname), the name they go by."""
+    base = name.split(" of ")[0]
+    words = [w for w in base.replace(",", " ").split() if w.rstrip(".").lower() not in SUFFIXES]
+    if not words:
+        return name
+    if len(words) < len(base.split()) and len(words) == 1:   # "George V", "Napoleon III": the name itself
+        return words[0]
+    return words[-1]
+
+
+def load_people(books, warn=None):
+    """People.md as a list of people, A to Z by last name. Each: name, slug, bio, born, died, wiki, letter and
+    books (the book dicts their [[links]] point at, matched by file name). Links that match no book are passed to
+    warn(name, link) and left out."""
+    if not PEOPLE_FILE.exists():
+        return []
+    by_file = {b["file"]: b for b in books}
+    people, person, in_books = [], None, False
+    for line in PEOPLE_FILE.read_text(encoding="utf-8").splitlines():
+        if line.startswith("- "):                                   # a new person
+            person = {"name": line[2:].strip(), "bio": "", "born": "", "died": "", "wiki": "", "books": []}
+            people.append(person)
+            in_books = False
+            continue
+        if person is None or not line.strip():
+            continue
+        item = line.strip().lstrip("-").strip()
+        depth = len(line) - len(line.lstrip("\t"))
+        if depth >= 2 and in_books:
+            for link in re.findall(r"\[\[([^\]|#]+)", item):
+                book = by_file.get(link.strip())
+                if book:
+                    if book not in person["books"]:
+                        person["books"].append(book)
+                elif warn:
+                    warn(person["name"], link.strip())
+            continue
+        key, _, value = item.partition(":")
+        key = key.strip().lower()
+        in_books = key == "books"
+        if key == "bio":
+            person["bio"] = inline_html(value)
+        elif key in ("born", "died"):
+            person[key] = value.strip()
+        elif key == "wiki link":
+            person["wiki"] = value.strip()
+    for p in people:
+        p["sort"] = person_sort_name(p["name"])
+        first = unicodedata.normalize("NFKD", p["sort"])[:1].upper()
+        p["letter"] = first if first.isalpha() else "#"
+    people.sort(key=lambda p: (unicodedata.normalize("NFKD", p["sort"]).lower(), p["name"].lower()))
+    slugs = set()
+    for p in people:                                                # unique page anchors
+        slug, n = slugify(p["name"]), 2
+        while slug in slugs:
+            slug, n = f"{slugify(p['name'])}-{n}", n + 1
+        slugs.add(slug)
+        p["slug"] = slug
+    return people
+
+
+def people_by_letter(people):
+    """[("A", [person, ...]), ...] for the People page's letter headings."""
+    letters = {}
+    for p in people:
+        letters.setdefault(p["letter"], []).append(p)
+    return list(letters.items())

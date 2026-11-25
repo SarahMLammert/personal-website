@@ -45,5 +45,14 @@
             <p class="empty">No notes yet.</p>
         {% endfor %}
     </article>
+
+    {% if people %}
+    <section class="book-people">
+        <h2>People in this book</h2>
+        <ul>
+            {% for p in people %}<li><a href="{{ url_for('people_page') }}#{{ p.slug }}">{{ p.name }}</a></li>{% endfor %}
+        </ul>
+    </section>
+    {% endif %}
 </main>
 {% endblock %}

@@ -126,6 +126,18 @@
   <ellipse cx="{{ x - 0.5 }}" cy="{{ y + 0.2 }}" rx="3.6" ry="1.6" fill="url(#g-salmon)"/>
   <path d="M{{ x - 9 }} {{ y + 4 }} L{{ x - 9 }} {{ y + 12 }}" stroke="#ffffff" stroke-opacity=".12" stroke-width="2" stroke-linecap="round"/>
   {% endfor %}
+{% elif kind == 'flask' %}
+  {# not sushi: a little glass flask of bubbling green liquid, for the Chemistry 2e Companion #}
+  <path d="M 52 10 L 68 10 L 68 13 L 66 13 L 66 32 L 85 66 Q 88 72 81 72 L 39 72 Q 32 72 35 66 L 54 32 L 54 13 L 52 13 Z" fill="#f4f6fb" opacity=".45"/>
+  <path d="M 44.5 50 L 75.5 50 L 84 66 Q 86.5 70.5 81 70.5 L 39 70.5 Q 33.5 70.5 36 66 Z" fill="#5fbf95"/>
+  <path d="M 40 66 Q 60 70 80 66 L 82 68 Q 84 70.5 81 70.5 L 39 70.5 Q 36 70.5 38 68 Z" fill="#3f9a72" opacity=".6"/>
+  <ellipse cx="60" cy="50" rx="15.5" ry="2.6" fill="#a8e3c9"/>
+  {% for cx, cy, r in [(52, 62, 2.6), (63, 58, 1.8), (70, 64, 2.2), (57, 54, 1.4), (66, 44, 1.6), (59, 36, 1.2), (62, 24, 1.4)] %}
+  <circle cx="{{ cx }}" cy="{{ cy }}" r="{{ r }}" fill="#ffffff" opacity="{{ '.8' if cy > 50 else '.6' }}"/>
+  {% endfor %}
+  <path d="M 52 10 L 68 10 L 68 13 L 66 13 L 66 32 L 85 66 Q 88 72 81 72 L 39 72 Q 32 72 35 66 L 54 32 L 54 13 L 52 13 Z" fill="none" stroke="#c3ccd8" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M 57 15 L 57 33 L 42 61" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".75"/>
+  <path d="M 73 46 l 4 0 M 76 52 l 4 0 M 79 58 l 4 0" stroke="#9aa6b5" stroke-width="1.4" stroke-linecap="round"/>
 {% elif kind == 'acorn' %}
   <ellipse cx="60" cy="50" rx="22" ry="24" fill="#c98a4b" stroke="#9a6232" stroke-width="2.5"/>
   <path d="M 50 36 C 48 50 50 62 56 70" stroke="#e2b07a" stroke-width="4" fill="none" stroke-linecap="round"/>

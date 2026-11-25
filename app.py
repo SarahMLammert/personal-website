@@ -4,7 +4,17 @@ from pathlib import Path
 
 from flask import Flask, abort, render_template, url_for
 
-from books import dewey_guide, grouped, inline_html, load_books, reading_log, reading_timeline, slugify
+from books import (
+    dewey_guide,
+    grouped,
+    inline_html,
+    load_books,
+    load_people,
+    people_by_letter,
+    reading_log,
+    reading_timeline,
+    slugify,
+)
 from content import (
     ABOUT,
     AFTER_HOURS_PASSWORD,
@@ -138,6 +148,13 @@ def dewey_guide_page():
     return render_template("dewey.html", guide=dewey_guide(load_books()))
 
 
+@app.route("/books/people")
+def people_page():
+    """The green book on top of the bookcase: everyone my notes quote, A to Z (from books/_people/People.md)."""
+    people = load_people(load_books())
+    return render_template("people.html", letters=people_by_letter(people), count=len(people))
+
+
 @app.route("/books/reading-log")
 def reading_log_page():
     """The reading log: the journal on the Book Notes shelf opens this timeline of finished books."""
@@ -149,10 +166,12 @@ def reading_log_page():
 
 @app.route("/books/<slug>")
 def book(slug):
-    found = next((b for b in load_books() if b["slug"] == slug), None)
+    all_books = load_books()
+    found = next((b for b in all_books if b["slug"] == slug), None)
     if not found:
         abort(404)
-    return render_template("book.html", book=found)
+    people = [p for p in load_people(all_books) if found in p["books"]]
+    return render_template("book.html", book=found, people=people)
 
 
 @app.errorhandler(404)

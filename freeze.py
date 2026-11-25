@@ -15,7 +15,7 @@ from urllib.parse import urlparse
 from flask import render_template
 
 from app import app, project_list
-from books import load_books
+from books import load_books, load_people
 
 ROOT = Path(__file__).parent
 BUILD = ROOT / "build"
@@ -32,6 +32,7 @@ def pages():
     yield "/books/reading-log"
     yield "/books/dewey"
     yield "/books/about-these-notes"
+    yield "/books/people"
     for b in load_books():
         yield f"/books/{b['slug']}"
 
@@ -67,6 +68,9 @@ def main():
     shutil.copy(ROOT / "static" / "favicon.ico", BUILD / "favicon.ico")
     (BUILD / ".nojekyll").touch()   # tell GitHub Pages to serve files as they are
 
+    # every [[link]] in People.md should point at a book note
+    load_people(load_books(), warn=lambda name, link: print(f"warning: People.md: {name} links to [[{link}]], "
+                                                               "which isn't a book note"))
     check_links()
     size = sum(f.stat().st_size for f in BUILD.rglob("*") if f.is_file())
     print(f"built {BUILD.name}/ ({size / 1e6:.1f} MB)")

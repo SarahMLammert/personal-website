@@ -31,6 +31,10 @@
         <a class="guide-book guide-book--notes" href="{{ url_for('notes_vision_page') }}" title="About these notes">
             <span class="guide-book-title">About These Notes</span>
         </a>
+        {# and at the other end of the top, a green book of everyone the notes quote #}
+        <a class="guide-book guide-book--people" href="{{ url_for('people_page') }}" title="People: everyone my notes quote">
+            <span class="guide-book-title">People</span><span class="guide-book-sub">A&ndash;Z</span>
+        </a>
     {% endif %}
     {% for label, number, items in groups %}
     <section class="shelf" id="shelf-{{ number or 'unshelved' }}">

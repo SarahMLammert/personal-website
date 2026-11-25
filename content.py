@@ -16,7 +16,8 @@ SITE_URL = "https://www.sarahlammert.com"
 #   "url":      a link to another site (opens in a new tab), or
 #   neither:    it's coming soon (not clickable yet).
 # The day ones that open something also appear as the buttons under the name.
-# sushi: toro, salmon, tuna, ebi, unagi, spicy, maki, tempura, ikura, acorn, sashimi, ebiten, gyoza, tamago, edamame
+# sushi: toro, salmon, tuna, ebi, unagi, spicy, maki, tempura, ikura, acorn, sashimi, ebiten, gyoza, tamago, edamame,
+#        flask (not sushi: a little flask of bubbling liquid)
 # bowl (instead of sushi; rides on the plate): ramen, chirashi, edamame
 # plate: red, blue, yellow, green, black, pink
 # drink: taro, matcha, mango, brownsugar, strawberry
@@ -32,6 +33,8 @@ PLATES = [
     # night
     # Photos is also the framed photo on the wall (PHOTO_WALL). This drink is temporary:
     # take it off the bar once more drinks are added.
+    {"side": "day", "title": "Chemistry 2e Companion", "url": "https://sarahmlammert.github.io/chemistry/",
+     "sushi": "flask", "plate": "green", "tag": "Chemistry"},   # a little flask on the belt (see PROJECTS)
     {"side": "night", "title": "Photos", "endpoint": "photos", "drink": "taro"},
     # Book Notes is also the bookcase against the back wall (BOOKCASE). This drink is temporary:
     # take it off the bar once more drinks are added.
@@ -86,7 +89,7 @@ ABOUT = {
     "paragraphs": [
         "I\u2019m passionate about programming, data, and systems design.",
     ],
-    # the line above the project cards (the cards themselves come from PROJECTS, newest first; up to three)
+    # the line above the project cards (the cards themselves are the first three in PROJECTS, in that order)
     "projects_heading": "Check out what I\u2019ve been working on recently",
     # schools, newest first: "degree", "year", "notes" (shown as small tags) and "place" are all optional
     "education": [
@@ -148,6 +151,7 @@ PRINT_LINKS = [
     {"title": "LinkedIn", "url": LINKEDIN},
 ]
 
+# In the order they appear on the Projects page; add new projects at the bottom.
 PROJECTS = [
     {
         "title": "This Website",
@@ -305,5 +309,30 @@ PROJECTS = [
         "url": "https://sarahmlammert.github.io/sports-pipeline-atlas/index.html",
         "cta": "Explore the atlas",
         "code": "https://github.com/SarahMLammert/sports-pipeline-atlas",
+    },
+    {
+        "title": "Chemistry 2e Companion",
+        "kicker": "Study tools",
+        "summary": "Key terms and the history of chemistry, alongside a free textbook.",
+        "inspiration": "",   # shown under the summary on the Projects list, after "Inspiration:"; blank = hidden
+        # "story": [...] (how it grew, step by step) can go here once it's written, like the other projects
+        "features": ["Glossary by chapter and section", "Search and filters", "How terms connect",
+                     "Timeline of chemistry", "Key moments", "Light and dark mode"],
+        "tools": ["HTML", "CSS", "JavaScript", "Markdown", "GitHub Pages"],
+        "tool_notes": {
+            "HTML": "The pages themselves: the home page, the glossary and the timeline. There's no build step.",
+            "CSS": "Styles every page, with a light and a dark mode.",
+            "JavaScript": "Reads the glossary terms and timeline events from their text files in the browser, and "
+                          "runs the search, the chapter and field filters, and the connections between terms.",
+            "Markdown": "Every glossary term and timeline event is written in plain text files, one per chapter, "
+                        "so adding to the site is just writing.",
+            "GitHub Pages": "Hosts the finished site for free.",
+        },
+        "image": "images/projects/chemistry-glossary.jpg",
+        "image_alt": "The Chemistry 2e Companion's glossary: a search box, chapter, field and status filters, and "
+                     "a card for each term",
+        "url": "https://sarahmlammert.github.io/chemistry/",
+        "cta": "Open the companion",
+        "code": "https://github.com/SarahMLammert/chemistry",
     },
 ]

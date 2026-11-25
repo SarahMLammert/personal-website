@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}People · Book Notes{% endblock %}
+{% block description %}Everyone Sarah Lammert&rsquo;s book notes quote, A to Z, with a short bio and the books they appear in.{% endblock %}
+
+{# after hours, like the rest of Book Notes. Opened from the green book lying on top of the bookcase. #}
+{% block body_class %}night-room{% endblock %}
+{% block theme_color %}#1d1a30{% endblock %}
+
+{% block content %}
+<main class="guide-page guide-page--people">
+    <a class="crumb" href="{{ url_for('books') }}">Back to the shelf</a>
+
+    <header class="page-head">
+        <h1 class="page-title">People</h1>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="page-sub">Everyone my notes quote, A to Z</p>
+    </header>
+
+    <div class="guide guide--people">
+        <p class="guide-intro">The people my book notes quote or say more than a passing word about, authors included:
+            {{ count }} so far. Each has a short bio and the books they appear in.</p>
+
+        <nav class="people-letters" aria-label="Jump to a letter">
+            {% for letter, _ in letters %}<a href="#letter-{{ letter }}">{{ letter }}</a>{% endfor %}
+        </nav>
+
+        {% for letter, people in letters %}
+        <section class="people-letter" id="letter-{{ letter }}">
+            <h2 class="people-letter-head">{{ letter }}</h2>
+            <ul class="people-cards">
+                {% for p in people %}
+                <li class="person" id="{{ p.slug }}">
+                    <h3 class="person-name">{{ p.name }}</h3>
+                    {% if p.born or p.died %}
+                    <p class="person-dates">{% if p.born and p.died %}{{ p.born }} &ndash; {{ p.died }}{% elif p.born %}Born {{ p.born }}{% else %}Died {{ p.died }}{% endif %}</p>
+                    {% endif %}
+                    {% if p.bio %}<p class="person-bio">{{ p.bio }}</p>{% endif %}
+                    {% if p.wiki %}
+                    <p class="person-credit">Adapted from the Wikipedia article
+                        <a href="{{ p.wiki }}" target="_blank" rel="noopener">&ldquo;{{ p.name }}&rdquo;</a>,
+                        <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></p>
+                    {% endif %}
+                    {% if p.books %}
+                    <div class="person-books">
+                        <span class="person-books-label">Appears in</span>
+                        <ul>
+                            {% for b in p.books %}
+                            <li><a href="{{ url_for('book', slug=b.slug) }}">{{ b.title }}</a>{% if b.author %} <span class="person-books-author">by {{ b.author }}</span>{% endif %}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+        {% endfor %}
+
+        <p class="people-source">The bios are adapted from the opening of each person&rsquo;s Wikipedia article, sometimes
+            shortened, and shared under the
+            <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">Creative Commons
+            Attribution-ShareAlike 4.0</a> license.</p>
+    </div>
+</main>
+{% endblock %}
