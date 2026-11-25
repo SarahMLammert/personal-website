@@ -973,3 +973,31 @@ Everyone my book notes quote or say more than a passing word about, including th
 	- Wiki Link: https://en.wikipedia.org/wiki/Jan_Peerce
 	- Books:
 		- [[How to Win Friends & Influence People]]
+- Martin Luther King Jr.
+	- Bio: Martin Luther King Jr. (born Michael King Jr.) was an American civil rights activist and Baptist minister who was a prominent leader of the civil rights movement from 1955 until his assassination in 1968. He advanced civil rights for people of color in the United States through the use of nonviolent resistance and civil disobedience against Jim Crow laws and other forms of legalized discrimination, which most commonly affected African Americans.
+	- Born: January 15, 1929
+	- Died: April 4, 1968
+	- Wiki Link: https://en.wikipedia.org/wiki/Martin_Luther_King_Jr.
+	- Books:
+		- [[How Highly Effective People Speak How High Performers Use Psychology to Influence With Ease]]
+- Joseph Stalin
+	- Bio: Joseph Vissarionovich Stalin (born Ioseb Besarionis dze Jughashvili) was a Soviet politician and revolutionary who led the Soviet Union from the late 1920s until his death in 1953, holding the title of General Secretary of the Communist Party of the Soviet Union from 1922 to 1934, de facto to his death, and serving as the nation's premier from 1941 to 1953. Initially part of a collective leadership within a one-party system, he ultimately consolidated personal power to become the country's de facto dictator by the 1930s.
+	- Born: December 18, 1878
+	- Died: March 5, 1953
+	- Wiki Link: https://en.wikipedia.org/wiki/Joseph_Stalin
+	- Books:
+		- [[How Highly Effective People Speak How High Performers Use Psychology to Influence With Ease]]
+- Quintilian
+	- Bio: Marcus Fabius Quintilianus was a Roman educator and rhetorician born in Hispania, widely referred to in medieval schools of rhetoric and in Renaissance writing. In English translation, he is usually referred to as Quintilian.
+	- Born: c. 35 AD
+	- Died: c. 100 AD
+	- Wiki Link: https://en.wikipedia.org/wiki/Quintilian
+	- Books:
+		- [[How Highly Effective People Speak How High Performers Use Psychology to Influence With Ease]]
+- Augustine of Hippo
+	- Bio: Augustine of Hippo, also known as Saint Augustine, was a theologian and philosopher of Berber origin and the bishop of Hippo Regius in Numidia, Roman North Africa. His writings influenced the development of Western philosophy and Western Christianity, and he is viewed as one of the most important Church Fathers of the Latin Church in the Patristic Period.
+	- Born: November 13, 354
+	- Died: August 28, 430
+	- Wiki Link: https://en.wikipedia.org/wiki/Augustine_of_Hippo
+	- Books:
+		- [[How Highly Effective People Speak How High Performers Use Psychology to Influence With Ease]]

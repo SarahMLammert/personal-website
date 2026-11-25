@@ -1251,8 +1251,10 @@
 
   {# the plate you point at comes up here, in front of everyone, and grows so its card is easy to read (belt.js) #}
   {# clicking a snack plate brings it up close: the room dims behind it, and clicking the dimmed room puts it down #}
-  <g class="day-only"><rect class="closeup-dim" width="1600" height="1000" fill="#2a1f18"/></g>
+  <g><rect class="closeup-dim" width="1600" height="1000" fill="#2a1f18"/></g>
   <g class="day-only" id="plates-held"></g>
+  {# after hours: the drink you point at comes up here, the same way #}
+  <g class="night-only" id="drinks-held"></g>
   <rect class="day-only" width="1600" height="1000" fill="url(#warm)" pointer-events="none"/>
   <g class="night-only" pointer-events="none">
     <rect width="1600" height="1000" fill="#1a1636" opacity=".2"/>

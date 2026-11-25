@@ -209,9 +209,12 @@ html.is-night .print { background: #fbf6ec; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .bar-drink { cursor: pointer; outline: none; }
-.bar-drink--extra { cursor: default; }
+.bar-drink--extra:not(.is-closeup) { cursor: zoom-in; }
+.bar-drink.is-closeup { cursor: zoom-out; }
 .drink-art { transition: transform .35s cubic-bezier(.2,.8,.2,1); }
-.bar-drink.is-held .drink-art { transform: translateY(-10px) scale(1.06); }
+.bar-drink.is-held .drink-art { transform: translateY(-10px) scale(var(--zoom, 1.06)); }
+/* clicked (drinks without a page): brought to the middle of the picture, much bigger (belt.js sets --cx, --cy, --closeup) */
+.bar-drink.is-closeup .drink-art { transform: translate(var(--cx), var(--cy)) scale(var(--closeup)); transition-duration: .5s; }
 .bar-drink:focus-visible .plate-hit { stroke: var(--gold); stroke-width: 3; stroke-dasharray: 6 5; }
 
 /* things in the scene that open a page: the globe (day), the framed photo and bookcase (after hours) */

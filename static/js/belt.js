@@ -14,6 +14,7 @@
     const back = svg.querySelector('#plates-back');
     const front = svg.querySelector('#plates-front');
     const raised = svg.querySelector('#plates-held');   // the plate being pointed at, on top of everything
+    const raisedDrinks = svg.querySelector('#drinks-held');   // after hours: the drink being pointed at
     const plates = Array.from(svg.querySelectorAll('.belt-plate'));
     const picks = Array.from(svg.querySelectorAll('.belt-plate, .bar-drink, .scene-link'));
     const tag = root.querySelector('.plate-tag');
@@ -206,26 +207,54 @@
             // (moving an element takes its focus away, so a plate reached with the keyboard zooms where it is)
             if (p.parentNode !== raised && document.activeElement !== p) raised.appendChild(p);
         }
+        if (p.matches('.bar-drink') && raisedDrinks) {
+            // after hours: the tub comes in front of the diners and grows, like the plates by day
+            p.style.setProperty('--zoom', DRINK_ZOOM);
+            if (p.parentNode === p._home || !p._home) lift(p);
+        }
         p.classList.add('is-held');
         if (p.dataset.zoom === 'globe') spinGlobe(3.5);
     }
 
+    // A drink tub sits inside a group that places it on the bar; to bring it in front of the diners it moves to
+    // #drinks-held, taking that group's transform with it, and goes home again when it's put down
+    const DRINK_ZOOM = 1.3;
+    function lift(p, force = false) {
+        if (!force && document.activeElement === p) return;  // (moving takes focus away: keyboard zooms in place)
+        p._home = p._home || p.parentNode;
+        p.setAttribute('transform', p._home.getAttribute('transform') || '');
+        raisedDrinks.appendChild(p);
+    }
+    function sendHome(p) {
+        if (!p._home || p.parentNode === p._home) return;
+        p.removeAttribute('transform');
+        p._home.appendChild(p);
+    }
+    // plates and drinks without a page of their own come up close when clicked
+    const closeable = p => p.matches('.belt-plate, .bar-drink') && !p.getAttribute('href') && !p.dataset.zoom;
+
     // Clicking a snack plate brings it up close: to the middle of the picture, about 4.5x the size of the nearest
-    // plates on the belt (whatever its depth), with the room dimmed behind it
-    const CLOSEUP = 4.5, CLOSEUP_AT = [800, 520], CLOSEUP_CARD = 0.5;
+    // plates on the belt (whatever its depth), with the room dimmed behind it. Drinks (after hours) the same way,
+    // at about 3.4x: a tub is already much bigger than a plate.
+    const CLOSEUP = 4.5, CLOSEUP_AT = [800, 520], CLOSEUP_CARD = 0.5, CLOSEUP_DRINK = 3.4;
     function closeUp(p) {
-        if (zooming || !raised) return;
+        const drink = p.matches('.bar-drink');
+        if (zooming || !(drink ? raisedDrinks : raised)) return;
         if (held !== p) show(p);
-        if (p.parentNode !== raised) raised.appendChild(p);
+        closeup = p;                                  // first, so the focus moving away doesn't put it down
+        if (drink) { if (p.parentNode !== raisedDrinks) lift(p, true); }
+        else if (p.parentNode !== raised) raised.appendChild(p);
         const t = p.getAttribute('transform') || '';
         const m = /translate\(\s*([-\d.]+)[\s,]+([-\d.]+)\s*\)/.exec(t), k = /scale\(([\d.]+)\)/.exec(t);
         const x = m ? parseFloat(m[1]) : 800, y = m ? parseFloat(m[2]) : 600, scale = k ? parseFloat(k[1]) : 1;
-        const z = CLOSEUP / scale;                                   // in the plate's own units
+        const z = (drink ? CLOSEUP_DRINK : CLOSEUP) / scale;         // in its own units
+        // the food sits above a plate's middle; a tub stands on its base, about 55 units tall
+        const rise = drink ? 55 : 20;
         p.style.setProperty('--closeup', z.toFixed(3));
         p.style.setProperty('--cx', `${((CLOSEUP_AT[0] - x) / scale).toFixed(1)}px`);
-        p.style.setProperty('--cy', `${((CLOSEUP_AT[1] - y) / scale + 20 * z).toFixed(1)}px`);   // the food sits above the middle
+        p.style.setProperty('--cy', `${((CLOSEUP_AT[1] - y) / scale + rise * z).toFixed(1)}px`);
         // every card the same size in close-up, whatever depth the plate came from (place() puts it back)
-        const card = p.querySelector('.plaque');
+        const card = drink ? null : p.querySelector('.plaque');
         if (card) card.setAttribute('transform', `translate(0 10) scale(${CLOSEUP_CARD})`);
         p.classList.add('is-closeup');
         svg.classList.add('has-closeup');
@@ -247,13 +276,14 @@
         spinGlobe(1);
         held = null;
         if (was && was.parentNode === raised) place();   // back onto the belt, behind or in front of the chef
+        if (was && was.matches('.bar-drink')) sendHome(was);   // back onto the bar
         tag.hidden = true;
     }
 
     // Moving the pointed-at plate up to #plates-held means the browser no longer tells it when the pointer leaves,
     // so put it down as soon as the pointer is over anything else (or leaves the picture)
     const offRaised = e => {
-        if (e.pointerType === 'touch' || closeup || !held || held.parentNode !== raised) return;
+        if (e.pointerType === 'touch' || closeup || !held || (held.parentNode !== raised && held.parentNode !== raisedDrinks)) return;
         if (e.type === 'pointerleave' || !held.contains(e.target)) hide();
     };
     svg.addEventListener('pointermove', offRaised);
@@ -271,13 +301,13 @@
             const first = touch.matches && !keyboard && !p.dataset.wasHeld;
             p.dataset.wasHeld = '';
             if (first) { e.preventDefault(); show(p); return; }
-            // snack plates (no link, no globe) come up close; click again to put them down
-            if (p.matches('.belt-plate') && !p.getAttribute('href') && !p.dataset.zoom) {
+            // snack plates and drinks without a page come up close; click again to put them down
+            if (closeable(p)) {
                 e.stopPropagation();
                 if (closeup === p) hide(); else closeUp(p);
             }
         });
-        if (p.matches('.belt-plate') && !p.getAttribute('href') && !p.dataset.zoom) {
+        if (closeable(p)) {
             p.addEventListener('keydown', e => {
                 if (e.key !== 'Enter' && e.key !== ' ') return;
                 e.preventDefault();
